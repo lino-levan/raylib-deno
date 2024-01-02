@@ -1,0 +1,5 @@
+{
+    "tasks": {
+        "generate": "cd bindings && deno run --allow-read --allow-write generator.ts",
+    }
+}

@@ -1,28 +1,43 @@
-import { lib, LIGHTGRAY, RAYWHITE } from "./bindings/bindings.ts";
+export * from "./bindings/bindings.ts";
 
-lib.symbols.InitWindow(
-  800,
-  450,
-  new TextEncoder().encode("raylib [core] example - basic window\0"),
-);
+import { lib } from "./bindings/bindings.ts";
 
-let x = 0;
-
-while (!lib.symbols.WindowShouldClose()) {
-  lib.symbols.BeginDrawing();
-  lib.symbols.ClearBackground(RAYWHITE);
-  lib.symbols.DrawText(
-    new TextEncoder().encode("Congrats! You created your first window!\0"),
-    lib.symbols.GetMouseX(),
-    lib.symbols.GetMouseY(),
-    20,
-    LIGHTGRAY,
-  );
-  lib.symbols.EndDrawing();
-  if (x % 1000000 === 1000) {
-    lib.symbols.TakeScreenshot(new TextEncoder().encode("test.png\0"));
-  }
-  x++;
+export function initWindow(width: number, height: number, title: string) {
+  lib.symbols.InitWindow(width, height, new TextEncoder().encode(title + "\0"));
 }
 
-lib.symbols.CloseWindow();
+export function windowShouldClose() {
+  return !!lib.symbols.WindowShouldClose();
+}
+
+export function beginDrawing() {
+  lib.symbols.BeginDrawing();
+}
+
+export function clearBackground(color: Uint8Array) {
+  lib.symbols.ClearBackground(color);
+}
+
+export function drawText(
+  text: string,
+  x: number,
+  y: number,
+  size: number,
+  color: Uint8Array,
+) {
+  lib.symbols.DrawText(
+    new TextEncoder().encode(text + "\0"),
+    x,
+    y,
+    size,
+    color,
+  );
+}
+
+export function endDrawing() {
+  lib.symbols.EndDrawing();
+}
+
+export function closeWindow() {
+  lib.symbols.CloseWindow();
+}

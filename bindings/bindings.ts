@@ -78,7 +78,7 @@ export const lib = await dlopen({
 	// Set window state: not minimized/maximized (only PLATFORM_DESKTOP)
 	RestoreWindow: { parameters: [], result: "void" },
 	// Set icon for window (single image, RGBA 32bit, only PLATFORM_DESKTOP)
-	SetWindowIcon: { parameters: ["buffer"], result: "void" },
+	SetWindowIcon: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}], result: "void" },
 	// Set icon for window (multiple images, RGBA 32bit, only PLATFORM_DESKTOP)
 	SetWindowIcons: { parameters: ["pointer", "i32"], result: "void" },
 	// Set title for window (only PLATFORM_DESKTOP and PLATFORM_WEB)
@@ -112,7 +112,7 @@ export const lib = await dlopen({
 	// Get current connected monitor
 	GetCurrentMonitor: { parameters: [], result: "i32" },
 	// Get specified monitor position
-	GetMonitorPosition: { parameters: ["i32"], result: "buffer" },
+	GetMonitorPosition: { parameters: ["i32"], result: {"struct":["f32","f32"]} },
 	// Get specified monitor width (current video mode used by monitor)
 	GetMonitorWidth: { parameters: ["i32"], result: "i32" },
 	// Get specified monitor height (current video mode used by monitor)
@@ -124,9 +124,9 @@ export const lib = await dlopen({
 	// Get specified monitor refresh rate
 	GetMonitorRefreshRate: { parameters: ["i32"], result: "i32" },
 	// Get window position XY on monitor
-	GetWindowPosition: { parameters: [], result: "buffer" },
+	GetWindowPosition: { parameters: [], result: {"struct":["f32","f32"]} },
 	// Get window scale DPI factor
-	GetWindowScaleDPI: { parameters: [], result: "buffer" },
+	GetWindowScaleDPI: { parameters: [], result: {"struct":["f32","f32"]} },
 	// Get the human-readable, UTF-8 encoded name of the specified monitor
 	GetMonitorName: { parameters: ["i32"], result: "buffer" },
 	// Set clipboard text content
@@ -156,19 +156,19 @@ export const lib = await dlopen({
 	// End canvas drawing and swap buffers (double buffering)
 	EndDrawing: { parameters: [], result: "void" },
 	// Begin 2D mode with custom camera (2D)
-	BeginMode2D: { parameters: ["buffer"], result: "void" },
+	BeginMode2D: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32"]}], result: "void" },
 	// Ends 2D mode with custom camera
 	EndMode2D: { parameters: [], result: "void" },
 	// Begin 3D mode with custom camera (3D)
-	BeginMode3D: { parameters: ["buffer"], result: "void" },
+	BeginMode3D: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32"]}], result: "void" },
 	// Ends 3D mode and returns to default 2D orthographic mode
 	EndMode3D: { parameters: [], result: "void" },
 	// Begin drawing to render texture
-	BeginTextureMode: { parameters: ["buffer"], result: "void" },
+	BeginTextureMode: { parameters: [{"struct":["u32","u32","i32","i32","i32","i32","u32","i32","i32","i32","i32"]}], result: "void" },
 	// Ends drawing to render texture
 	EndTextureMode: { parameters: [], result: "void" },
 	// Begin custom shader drawing
-	BeginShaderMode: { parameters: ["buffer"], result: "void" },
+	BeginShaderMode: { parameters: [{"struct":["u32","pointer"]}], result: "void" },
 	// End custom shader drawing (use default shader)
 	EndShaderMode: { parameters: [], result: "void" },
 	// Begin blending mode (alpha, additive, multiplied, subtract, custom)
@@ -180,47 +180,47 @@ export const lib = await dlopen({
 	// End scissor mode
 	EndScissorMode: { parameters: [], result: "void" },
 	// Begin stereo rendering (requires VR simulator)
-	BeginVrStereoMode: { parameters: ["buffer"], result: "void" },
+	BeginVrStereoMode: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32"]}], result: "void" },
 	// End stereo rendering (requires VR simulator)
 	EndVrStereoMode: { parameters: [], result: "void" },
 	// Load VR stereo config for VR simulator device parameters
-	LoadVrStereoConfig: { parameters: ["buffer"], result: "buffer" },
+	LoadVrStereoConfig: { parameters: [{"struct":["i32","i32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32"]}], result: {"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32"]} },
 	// Unload VR stereo config
-	UnloadVrStereoConfig: { parameters: ["buffer"], result: "void" },
+	UnloadVrStereoConfig: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32"]}], result: "void" },
 	// Load shader from files and bind default locations
-	LoadShader: { parameters: ["buffer", "buffer"], result: "buffer" },
+	LoadShader: { parameters: ["buffer", "buffer"], result: {"struct":["u32","pointer"]} },
 	// Load shader from code strings and bind default locations
-	LoadShaderFromMemory: { parameters: ["buffer", "buffer"], result: "buffer" },
+	LoadShaderFromMemory: { parameters: ["buffer", "buffer"], result: {"struct":["u32","pointer"]} },
 	// Check if a shader is ready
-	IsShaderReady: { parameters: ["buffer"], result: "u8" },
+	IsShaderReady: { parameters: [{"struct":["u32","pointer"]}], result: "u8" },
 	// Get shader uniform location
-	GetShaderLocation: { parameters: ["buffer", "buffer"], result: "i32" },
+	GetShaderLocation: { parameters: [{"struct":["u32","pointer"]}, "buffer"], result: "i32" },
 	// Get shader attribute location
-	GetShaderLocationAttrib: { parameters: ["buffer", "buffer"], result: "i32" },
+	GetShaderLocationAttrib: { parameters: [{"struct":["u32","pointer"]}, "buffer"], result: "i32" },
 	// Set shader uniform value
-	SetShaderValue: { parameters: ["buffer", "i32", "buffer", "i32"], result: "void" },
+	SetShaderValue: { parameters: [{"struct":["u32","pointer"]}, "i32", "buffer", "i32"], result: "void" },
 	// Set shader uniform value vector
-	SetShaderValueV: { parameters: ["buffer", "i32", "buffer", "i32", "i32"], result: "void" },
+	SetShaderValueV: { parameters: [{"struct":["u32","pointer"]}, "i32", "buffer", "i32", "i32"], result: "void" },
 	// Set shader uniform value (matrix 4x4)
-	SetShaderValueMatrix: { parameters: ["buffer", "i32", "buffer"], result: "void" },
+	SetShaderValueMatrix: { parameters: [{"struct":["u32","pointer"]}, "i32", {"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32"]}], result: "void" },
 	// Set shader uniform value for texture (sampler2d)
-	SetShaderValueTexture: { parameters: ["buffer", "i32", "buffer"], result: "void" },
+	SetShaderValueTexture: { parameters: [{"struct":["u32","pointer"]}, "i32", {"struct":["u32","i32","i32","i32","i32"]}], result: "void" },
 	// Unload shader from GPU memory (VRAM)
-	UnloadShader: { parameters: ["buffer"], result: "void" },
+	UnloadShader: { parameters: [{"struct":["u32","pointer"]}], result: "void" },
 	// Get a ray trace from mouse position
-	GetMouseRay: { parameters: ["buffer", "buffer"], result: "buffer" },
+	GetMouseRay: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32"]}], result: {"struct":["f32","f32","f32","f32","f32","f32"]} },
 	// Get camera transform matrix (view matrix)
-	GetCameraMatrix: { parameters: ["buffer"], result: "buffer" },
+	GetCameraMatrix: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32"]}], result: {"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32"]} },
 	// Get camera 2d transform matrix
-	GetCameraMatrix2D: { parameters: ["buffer"], result: "buffer" },
+	GetCameraMatrix2D: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32"]}], result: {"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32"]} },
 	// Get the screen space position for a 3d world space position
-	GetWorldToScreen: { parameters: ["buffer", "buffer"], result: "buffer" },
+	GetWorldToScreen: { parameters: [{"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32"]}], result: {"struct":["f32","f32"]} },
 	// Get the world space position for a 2d camera screen space position
-	GetScreenToWorld2D: { parameters: ["buffer", "buffer"], result: "buffer" },
+	GetScreenToWorld2D: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32","f32","f32","f32","f32"]}], result: {"struct":["f32","f32"]} },
 	// Get size position for a 3d world space position
-	GetWorldToScreenEx: { parameters: ["buffer", "buffer", "i32", "i32"], result: "buffer" },
+	GetWorldToScreenEx: { parameters: [{"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32"]}, "i32", "i32"], result: {"struct":["f32","f32"]} },
 	// Get the screen space position for a 2d camera world space position
-	GetWorldToScreen2D: { parameters: ["buffer", "buffer"], result: "buffer" },
+	GetWorldToScreen2D: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32","f32","f32","f32","f32"]}], result: {"struct":["f32","f32"]} },
 	// Set target FPS (maximum)
 	SetTargetFPS: { parameters: ["i32"], result: "void" },
 	// Get time in seconds for last frame drawn (delta time)
@@ -308,17 +308,17 @@ export const lib = await dlopen({
 	// Check if a given path is a file or a directory
 	IsPathFile: { parameters: ["buffer"], result: "u8" },
 	// Load directory filepaths
-	LoadDirectoryFiles: { parameters: ["buffer"], result: "buffer" },
+	LoadDirectoryFiles: { parameters: ["buffer"], result: {"struct":["u32","u32","pointer"]} },
 	// Load directory filepaths with extension filtering and recursive directory scan
-	LoadDirectoryFilesEx: { parameters: ["buffer", "buffer", "u8"], result: "buffer" },
+	LoadDirectoryFilesEx: { parameters: ["buffer", "buffer", "u8"], result: {"struct":["u32","u32","pointer"]} },
 	// Unload filepaths
-	UnloadDirectoryFiles: { parameters: ["buffer"], result: "void" },
+	UnloadDirectoryFiles: { parameters: [{"struct":["u32","u32","pointer"]}], result: "void" },
 	// Check if a file has been dropped into window
 	IsFileDropped: { parameters: [], result: "u8" },
 	// Load dropped filepaths
-	LoadDroppedFiles: { parameters: [], result: "buffer" },
+	LoadDroppedFiles: { parameters: [], result: {"struct":["u32","u32","pointer"]} },
 	// Unload dropped filepaths
-	UnloadDroppedFiles: { parameters: ["buffer"], result: "void" },
+	UnloadDroppedFiles: { parameters: [{"struct":["u32","u32","pointer"]}], result: "void" },
 	// Get file modification time (last write time)
 	GetFileModTime: { parameters: ["buffer"], result: "i64" },
 	// Compress data (DEFLATE algorithm), memory must be MemFree()
@@ -330,11 +330,11 @@ export const lib = await dlopen({
 	// Decode Base64 string data, memory must be MemFree()
 	DecodeDataBase64: { parameters: ["buffer", "pointer"], result: "buffer" },
 	// Load automation events list from file, NULL for empty list, capacity = MAX_AUTOMATION_EVENTS
-	LoadAutomationEventList: { parameters: ["buffer"], result: "buffer" },
+	LoadAutomationEventList: { parameters: ["buffer"], result: {"struct":["u32","u32","pointer"]} },
 	// Unload automation events list from file
 	UnloadAutomationEventList: { parameters: ["pointer"], result: "void" },
 	// Export automation events list as text file
-	ExportAutomationEventList: { parameters: ["buffer", "buffer"], result: "u8" },
+	ExportAutomationEventList: { parameters: [{"struct":["u32","u32","pointer"]}, "buffer"], result: "u8" },
 	// Set automation event list to record to
 	SetAutomationEventList: { parameters: ["pointer"], result: "void" },
 	// Set automation event internal base frame to start recording
@@ -344,7 +344,7 @@ export const lib = await dlopen({
 	// Stop recording automation events
 	StopAutomationEventRecording: { parameters: [], result: "void" },
 	// Play a recorded automation event
-	PlayAutomationEvent: { parameters: ["buffer"], result: "void" },
+	PlayAutomationEvent: { parameters: [{"struct":["u32","u32","i32","i32","i32","i32"]}], result: "void" },
 	// Check if a key has been pressed once
 	IsKeyPressed: { parameters: ["i32"], result: "u8" },
 	// Check if a key has been pressed again (Only PLATFORM_DESKTOP)
@@ -394,9 +394,9 @@ export const lib = await dlopen({
 	// Get mouse position Y
 	GetMouseY: { parameters: [], result: "i32" },
 	// Get mouse position XY
-	GetMousePosition: { parameters: [], result: "buffer" },
+	GetMousePosition: { parameters: [], result: {"struct":["f32","f32"]} },
 	// Get mouse delta between frames
-	GetMouseDelta: { parameters: [], result: "buffer" },
+	GetMouseDelta: { parameters: [], result: {"struct":["f32","f32"]} },
 	// Set mouse position XY
 	SetMousePosition: { parameters: ["i32", "i32"], result: "void" },
 	// Set mouse offset
@@ -406,7 +406,7 @@ export const lib = await dlopen({
 	// Get mouse wheel movement for X or Y, whichever is larger
 	GetMouseWheelMove: { parameters: [], result: "f32" },
 	// Get mouse wheel movement for both X and Y
-	GetMouseWheelMoveV: { parameters: [], result: "buffer" },
+	GetMouseWheelMoveV: { parameters: [], result: {"struct":["f32","f32"]} },
 	// Set mouse cursor
 	SetMouseCursor: { parameters: ["i32"], result: "void" },
 	// Get touch position X for touch point 0 (relative to screen size)
@@ -414,7 +414,7 @@ export const lib = await dlopen({
 	// Get touch position Y for touch point 0 (relative to screen size)
 	GetTouchY: { parameters: [], result: "i32" },
 	// Get touch position XY for a touch point index (relative to screen size)
-	GetTouchPosition: { parameters: ["i32"], result: "buffer" },
+	GetTouchPosition: { parameters: ["i32"], result: {"struct":["f32","f32"]} },
 	// Get touch point identifier for given index
 	GetTouchPointId: { parameters: ["i32"], result: "i32" },
 	// Get number of touch points
@@ -428,91 +428,91 @@ export const lib = await dlopen({
 	// Get gesture hold time in milliseconds
 	GetGestureHoldDuration: { parameters: [], result: "f32" },
 	// Get gesture drag vector
-	GetGestureDragVector: { parameters: [], result: "buffer" },
+	GetGestureDragVector: { parameters: [], result: {"struct":["f32","f32"]} },
 	// Get gesture drag angle
 	GetGestureDragAngle: { parameters: [], result: "f32" },
 	// Get gesture pinch delta
-	GetGesturePinchVector: { parameters: [], result: "buffer" },
+	GetGesturePinchVector: { parameters: [], result: {"struct":["f32","f32"]} },
 	// Get gesture pinch angle
 	GetGesturePinchAngle: { parameters: [], result: "f32" },
 	// Update camera position for selected mode
 	UpdateCamera: { parameters: ["pointer", "i32"], result: "void" },
 	// Update camera movement/rotation
-	UpdateCameraPro: { parameters: ["pointer", "buffer", "buffer", "f32"], result: "void" },
+	UpdateCameraPro: { parameters: ["pointer", {"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, "f32"], result: "void" },
 	// Set texture and rectangle to be used on shapes drawing
-	SetShapesTexture: { parameters: ["buffer", "buffer"], result: "void" },
+	SetShapesTexture: { parameters: [{"struct":["u32","i32","i32","i32","i32"]}, {"struct":["f32","f32","f32","f32"]}], result: "void" },
 	// Draw a pixel
 	DrawPixel: { parameters: ["i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a pixel (Vector version)
-	DrawPixelV: { parameters: ["buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawPixelV: { parameters: [{"struct":["f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a line
 	DrawLine: { parameters: ["i32", "i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a line (using gl lines)
-	DrawLineV: { parameters: ["buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawLineV: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a line (using triangles/quads)
-	DrawLineEx: { parameters: ["buffer", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawLineEx: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw lines sequence (using gl lines)
 	DrawLineStrip: { parameters: ["pointer", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw line segment cubic-bezier in-out interpolation
-	DrawLineBezier: { parameters: ["buffer", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawLineBezier: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a color-filled circle
 	DrawCircle: { parameters: ["i32", "i32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a piece of a circle
-	DrawCircleSector: { parameters: ["buffer", "f32", "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCircleSector: { parameters: [{"struct":["f32","f32"]}, "f32", "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw circle sector outline
-	DrawCircleSectorLines: { parameters: ["buffer", "f32", "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCircleSectorLines: { parameters: [{"struct":["f32","f32"]}, "f32", "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a gradient-filled circle
 	DrawCircleGradient: { parameters: ["i32", "i32", "f32", {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a color-filled circle (Vector version)
-	DrawCircleV: { parameters: ["buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCircleV: { parameters: [{"struct":["f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw circle outline
 	DrawCircleLines: { parameters: ["i32", "i32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw circle outline (Vector version)
-	DrawCircleLinesV: { parameters: ["buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCircleLinesV: { parameters: [{"struct":["f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw ellipse
 	DrawEllipse: { parameters: ["i32", "i32", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw ellipse outline
 	DrawEllipseLines: { parameters: ["i32", "i32", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw ring
-	DrawRing: { parameters: ["buffer", "f32", "f32", "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawRing: { parameters: [{"struct":["f32","f32"]}, "f32", "f32", "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw ring outline
-	DrawRingLines: { parameters: ["buffer", "f32", "f32", "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawRingLines: { parameters: [{"struct":["f32","f32"]}, "f32", "f32", "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a color-filled rectangle
 	DrawRectangle: { parameters: ["i32", "i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a color-filled rectangle (Vector version)
-	DrawRectangleV: { parameters: ["buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawRectangleV: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a color-filled rectangle
-	DrawRectangleRec: { parameters: ["buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawRectangleRec: { parameters: [{"struct":["f32","f32","f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a color-filled rectangle with pro parameters
-	DrawRectanglePro: { parameters: ["buffer", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawRectanglePro: { parameters: [{"struct":["f32","f32","f32","f32"]}, {"struct":["f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a vertical-gradient-filled rectangle
 	DrawRectangleGradientV: { parameters: ["i32", "i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a horizontal-gradient-filled rectangle
 	DrawRectangleGradientH: { parameters: ["i32", "i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a gradient-filled rectangle with custom vertex colors
-	DrawRectangleGradientEx: { parameters: ["buffer", {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawRectangleGradientEx: { parameters: [{"struct":["f32","f32","f32","f32"]}, {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw rectangle outline
 	DrawRectangleLines: { parameters: ["i32", "i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw rectangle outline with extended parameters
-	DrawRectangleLinesEx: { parameters: ["buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawRectangleLinesEx: { parameters: [{"struct":["f32","f32","f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw rectangle with rounded edges
-	DrawRectangleRounded: { parameters: ["buffer", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawRectangleRounded: { parameters: [{"struct":["f32","f32","f32","f32"]}, "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw rectangle with rounded edges outline
-	DrawRectangleRoundedLines: { parameters: ["buffer", "f32", "i32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawRectangleRoundedLines: { parameters: [{"struct":["f32","f32","f32","f32"]}, "f32", "i32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a color-filled triangle (vertex in counter-clockwise order!)
-	DrawTriangle: { parameters: ["buffer", "buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawTriangle: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw triangle outline (vertex in counter-clockwise order!)
-	DrawTriangleLines: { parameters: ["buffer", "buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawTriangleLines: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a triangle fan defined by points (first vertex is the center)
 	DrawTriangleFan: { parameters: ["pointer", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a triangle strip defined by points
 	DrawTriangleStrip: { parameters: ["pointer", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a regular polygon (Vector version)
-	DrawPoly: { parameters: ["buffer", "i32", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawPoly: { parameters: [{"struct":["f32","f32"]}, "i32", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a polygon outline of n sides
-	DrawPolyLines: { parameters: ["buffer", "i32", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawPolyLines: { parameters: [{"struct":["f32","f32"]}, "i32", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a polygon outline of n sides with extended parameters
-	DrawPolyLinesEx: { parameters: ["buffer", "i32", "f32", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawPolyLinesEx: { parameters: [{"struct":["f32","f32"]}, "i32", "f32", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw spline: Linear, minimum 2 points
 	DrawSplineLinear: { parameters: ["pointer", "i32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw spline: B-Spline, minimum 4 points
@@ -520,107 +520,107 @@ export const lib = await dlopen({
 	// Draw spline: Catmull-Rom, minimum 4 points
 	DrawSplineCatmullRom: { parameters: ["pointer", "i32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw spline segment: Linear, 2 points
-	DrawSplineSegmentLinear: { parameters: ["buffer", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawSplineSegmentLinear: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw spline segment: B-Spline, 4 points
-	DrawSplineSegmentBasis: { parameters: ["buffer", "buffer", "buffer", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawSplineSegmentBasis: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw spline segment: Catmull-Rom, 4 points
-	DrawSplineSegmentCatmullRom: { parameters: ["buffer", "buffer", "buffer", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawSplineSegmentCatmullRom: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw spline segment: Quadratic Bezier, 2 points, 1 control point
-	DrawSplineSegmentBezierQuadratic: { parameters: ["buffer", "buffer", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawSplineSegmentBezierQuadratic: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw spline segment: Cubic Bezier, 2 points, 2 control points
-	DrawSplineSegmentBezierCubic: { parameters: ["buffer", "buffer", "buffer", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawSplineSegmentBezierCubic: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Get (evaluate) spline point: Linear
-	GetSplinePointLinear: { parameters: ["buffer", "buffer", "f32"], result: "buffer" },
+	GetSplinePointLinear: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32"], result: {"struct":["f32","f32"]} },
 	// Get (evaluate) spline point: B-Spline
-	GetSplinePointBasis: { parameters: ["buffer", "buffer", "buffer", "buffer", "f32"], result: "buffer" },
+	GetSplinePointBasis: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32"], result: {"struct":["f32","f32"]} },
 	// Get (evaluate) spline point: Catmull-Rom
-	GetSplinePointCatmullRom: { parameters: ["buffer", "buffer", "buffer", "buffer", "f32"], result: "buffer" },
+	GetSplinePointCatmullRom: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32"], result: {"struct":["f32","f32"]} },
 	// Get (evaluate) spline point: Quadratic Bezier
-	GetSplinePointBezierQuad: { parameters: ["buffer", "buffer", "buffer", "f32"], result: "buffer" },
+	GetSplinePointBezierQuad: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32"], result: {"struct":["f32","f32"]} },
 	// Get (evaluate) spline point: Cubic Bezier
-	GetSplinePointBezierCubic: { parameters: ["buffer", "buffer", "buffer", "buffer", "f32"], result: "buffer" },
+	GetSplinePointBezierCubic: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32"], result: {"struct":["f32","f32"]} },
 	// Check collision between two rectangles
-	CheckCollisionRecs: { parameters: ["buffer", "buffer"], result: "u8" },
+	CheckCollisionRecs: { parameters: [{"struct":["f32","f32","f32","f32"]}, {"struct":["f32","f32","f32","f32"]}], result: "u8" },
 	// Check collision between two circles
-	CheckCollisionCircles: { parameters: ["buffer", "f32", "buffer", "f32"], result: "u8" },
+	CheckCollisionCircles: { parameters: [{"struct":["f32","f32"]}, "f32", {"struct":["f32","f32"]}, "f32"], result: "u8" },
 	// Check collision between circle and rectangle
-	CheckCollisionCircleRec: { parameters: ["buffer", "f32", "buffer"], result: "u8" },
+	CheckCollisionCircleRec: { parameters: [{"struct":["f32","f32"]}, "f32", {"struct":["f32","f32","f32","f32"]}], result: "u8" },
 	// Check if point is inside rectangle
-	CheckCollisionPointRec: { parameters: ["buffer", "buffer"], result: "u8" },
+	CheckCollisionPointRec: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32","f32","f32"]}], result: "u8" },
 	// Check if point is inside circle
-	CheckCollisionPointCircle: { parameters: ["buffer", "buffer", "f32"], result: "u8" },
+	CheckCollisionPointCircle: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32"], result: "u8" },
 	// Check if point is inside a triangle
-	CheckCollisionPointTriangle: { parameters: ["buffer", "buffer", "buffer", "buffer"], result: "u8" },
+	CheckCollisionPointTriangle: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}], result: "u8" },
 	// Check if point is within a polygon described by array of vertices
-	CheckCollisionPointPoly: { parameters: ["buffer", "pointer", "i32"], result: "u8" },
+	CheckCollisionPointPoly: { parameters: [{"struct":["f32","f32"]}, "pointer", "i32"], result: "u8" },
 	// Check the collision between two lines defined by two points each, returns collision point by reference
-	CheckCollisionLines: { parameters: ["buffer", "buffer", "buffer", "buffer", "pointer"], result: "u8" },
+	CheckCollisionLines: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "pointer"], result: "u8" },
 	// Check if point belongs to line created between two points [p1] and [p2] with defined margin in pixels [threshold]
-	CheckCollisionPointLine: { parameters: ["buffer", "buffer", "buffer", "i32"], result: "u8" },
+	CheckCollisionPointLine: { parameters: [{"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "i32"], result: "u8" },
 	// Get collision rectangle for two rectangles collision
-	GetCollisionRec: { parameters: ["buffer", "buffer"], result: "buffer" },
+	GetCollisionRec: { parameters: [{"struct":["f32","f32","f32","f32"]}, {"struct":["f32","f32","f32","f32"]}], result: {"struct":["f32","f32","f32","f32"]} },
 	// Load image from file into CPU memory (RAM)
-	LoadImage: { parameters: ["buffer"], result: "buffer" },
+	LoadImage: { parameters: ["buffer"], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Load image from RAW file data
-	LoadImageRaw: { parameters: ["buffer", "i32", "i32", "i32", "i32"], result: "buffer" },
+	LoadImageRaw: { parameters: ["buffer", "i32", "i32", "i32", "i32"], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Load image from SVG file data or string with specified size
-	LoadImageSvg: { parameters: ["buffer", "i32", "i32"], result: "buffer" },
+	LoadImageSvg: { parameters: ["buffer", "i32", "i32"], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Load image sequence from file (frames appended to image.data)
-	LoadImageAnim: { parameters: ["buffer", "pointer"], result: "buffer" },
+	LoadImageAnim: { parameters: ["buffer", "pointer"], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Load image from memory buffer, fileType refers to extension: i.e. '.png'
-	LoadImageFromMemory: { parameters: ["buffer", "buffer", "i32"], result: "buffer" },
+	LoadImageFromMemory: { parameters: ["buffer", "buffer", "i32"], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Load image from GPU texture data
-	LoadImageFromTexture: { parameters: ["buffer"], result: "buffer" },
+	LoadImageFromTexture: { parameters: [{"struct":["u32","i32","i32","i32","i32"]}], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Load image from screen buffer and (screenshot)
-	LoadImageFromScreen: { parameters: [], result: "buffer" },
+	LoadImageFromScreen: { parameters: [], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Check if an image is ready
-	IsImageReady: { parameters: ["buffer"], result: "u8" },
+	IsImageReady: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}], result: "u8" },
 	// Unload image from CPU memory (RAM)
-	UnloadImage: { parameters: ["buffer"], result: "void" },
+	UnloadImage: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}], result: "void" },
 	// Export image data to file, returns true on success
-	ExportImage: { parameters: ["buffer", "buffer"], result: "u8" },
+	ExportImage: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}, "buffer"], result: "u8" },
 	// Export image to memory buffer
-	ExportImageToMemory: { parameters: ["buffer", "buffer", "pointer"], result: "buffer" },
+	ExportImageToMemory: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}, "buffer", "pointer"], result: "buffer" },
 	// Export image as code file defining an array of bytes, returns true on success
-	ExportImageAsCode: { parameters: ["buffer", "buffer"], result: "u8" },
+	ExportImageAsCode: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}, "buffer"], result: "u8" },
 	// Generate image: plain color
-	GenImageColor: { parameters: ["i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "buffer" },
+	GenImageColor: { parameters: ["i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Generate image: linear gradient, direction in degrees [0..360], 0=Vertical gradient
-	GenImageGradientLinear: { parameters: ["i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}], result: "buffer" },
+	GenImageGradientLinear: { parameters: ["i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Generate image: radial gradient
-	GenImageGradientRadial: { parameters: ["i32", "i32", "f32", {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}], result: "buffer" },
+	GenImageGradientRadial: { parameters: ["i32", "i32", "f32", {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Generate image: square gradient
-	GenImageGradientSquare: { parameters: ["i32", "i32", "f32", {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}], result: "buffer" },
+	GenImageGradientSquare: { parameters: ["i32", "i32", "f32", {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Generate image: checked
-	GenImageChecked: { parameters: ["i32", "i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}], result: "buffer" },
+	GenImageChecked: { parameters: ["i32", "i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Generate image: white noise
-	GenImageWhiteNoise: { parameters: ["i32", "i32", "f32"], result: "buffer" },
+	GenImageWhiteNoise: { parameters: ["i32", "i32", "f32"], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Generate image: perlin noise
-	GenImagePerlinNoise: { parameters: ["i32", "i32", "i32", "i32", "f32"], result: "buffer" },
+	GenImagePerlinNoise: { parameters: ["i32", "i32", "i32", "i32", "f32"], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Generate image: cellular algorithm, bigger tileSize means bigger cells
-	GenImageCellular: { parameters: ["i32", "i32", "i32"], result: "buffer" },
+	GenImageCellular: { parameters: ["i32", "i32", "i32"], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Generate image: grayscale image from text data
-	GenImageText: { parameters: ["i32", "i32", "buffer"], result: "buffer" },
+	GenImageText: { parameters: ["i32", "i32", "buffer"], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Create an image duplicate (useful for transformations)
-	ImageCopy: { parameters: ["buffer"], result: "buffer" },
+	ImageCopy: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Create an image from another image piece
-	ImageFromImage: { parameters: ["buffer", "buffer"], result: "buffer" },
+	ImageFromImage: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}, {"struct":["f32","f32","f32","f32"]}], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Create an image from text (default font)
-	ImageText: { parameters: ["buffer", "i32", {"struct":["u8","u8","u8","u8"]}], result: "buffer" },
+	ImageText: { parameters: ["buffer", "i32", {"struct":["u8","u8","u8","u8"]}], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Create an image from text (custom sprite font)
-	ImageTextEx: { parameters: ["buffer", "buffer", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "buffer" },
+	ImageTextEx: { parameters: [{"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]}, "buffer", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Convert image data to desired format
 	ImageFormat: { parameters: ["pointer", "i32"], result: "void" },
 	// Convert image to POT (power-of-two)
 	ImageToPOT: { parameters: ["pointer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Crop an image to a defined rectangle
-	ImageCrop: { parameters: ["pointer", "buffer"], result: "void" },
+	ImageCrop: { parameters: ["pointer", {"struct":["f32","f32","f32","f32"]}], result: "void" },
 	// Crop image depending on alpha value
 	ImageAlphaCrop: { parameters: ["pointer", "f32"], result: "void" },
 	// Clear alpha channel to desired color
 	ImageAlphaClear: { parameters: ["pointer", {"struct":["u8","u8","u8","u8"]}, "f32"], result: "void" },
 	// Apply alpha mask to image
-	ImageAlphaMask: { parameters: ["pointer", "buffer"], result: "void" },
+	ImageAlphaMask: { parameters: ["pointer", {"struct":["pointer","i32","i32","i32","i32"]}], result: "void" },
 	// Premultiply alpha channel
 	ImageAlphaPremultiply: { parameters: ["pointer"], result: "void" },
 	// Apply Gaussian blur using a box blur approximation
@@ -658,97 +658,97 @@ export const lib = await dlopen({
 	// Modify image color: replace color
 	ImageColorReplace: { parameters: ["pointer", {"struct":["u8","u8","u8","u8"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Load color data from image as a Color array (RGBA - 32bit)
-	LoadImageColors: { parameters: ["buffer"], result: "pointer" },
+	LoadImageColors: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}], result: "pointer" },
 	// Load colors palette from image as a Color array (RGBA - 32bit)
-	LoadImagePalette: { parameters: ["buffer", "i32", "pointer"], result: "pointer" },
+	LoadImagePalette: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}, "i32", "pointer"], result: "pointer" },
 	// Unload color data loaded with LoadImageColors()
 	UnloadImageColors: { parameters: ["pointer"], result: "void" },
 	// Unload colors palette loaded with LoadImagePalette()
 	UnloadImagePalette: { parameters: ["pointer"], result: "void" },
 	// Get image alpha border rectangle
-	GetImageAlphaBorder: { parameters: ["buffer", "f32"], result: "buffer" },
+	GetImageAlphaBorder: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}, "f32"], result: {"struct":["f32","f32","f32","f32"]} },
 	// Get image pixel color at (x, y) position
-	GetImageColor: { parameters: ["buffer", "i32", "i32"], result: {"struct":["u8","u8","u8","u8"]} },
+	GetImageColor: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}, "i32", "i32"], result: {"struct":["u8","u8","u8","u8"]} },
 	// Clear image background with given color
 	ImageClearBackground: { parameters: ["pointer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw pixel within an image
 	ImageDrawPixel: { parameters: ["pointer", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw pixel within an image (Vector version)
-	ImageDrawPixelV: { parameters: ["pointer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	ImageDrawPixelV: { parameters: ["pointer", {"struct":["f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw line within an image
 	ImageDrawLine: { parameters: ["pointer", "i32", "i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw line within an image (Vector version)
-	ImageDrawLineV: { parameters: ["pointer", "buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	ImageDrawLineV: { parameters: ["pointer", {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a filled circle within an image
 	ImageDrawCircle: { parameters: ["pointer", "i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a filled circle within an image (Vector version)
-	ImageDrawCircleV: { parameters: ["pointer", "buffer", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	ImageDrawCircleV: { parameters: ["pointer", {"struct":["f32","f32"]}, "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw circle outline within an image
 	ImageDrawCircleLines: { parameters: ["pointer", "i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw circle outline within an image (Vector version)
-	ImageDrawCircleLinesV: { parameters: ["pointer", "buffer", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	ImageDrawCircleLinesV: { parameters: ["pointer", {"struct":["f32","f32"]}, "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw rectangle within an image
 	ImageDrawRectangle: { parameters: ["pointer", "i32", "i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw rectangle within an image (Vector version)
-	ImageDrawRectangleV: { parameters: ["pointer", "buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	ImageDrawRectangleV: { parameters: ["pointer", {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw rectangle within an image
-	ImageDrawRectangleRec: { parameters: ["pointer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	ImageDrawRectangleRec: { parameters: ["pointer", {"struct":["f32","f32","f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw rectangle lines within an image
-	ImageDrawRectangleLines: { parameters: ["pointer", "buffer", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	ImageDrawRectangleLines: { parameters: ["pointer", {"struct":["f32","f32","f32","f32"]}, "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a source image within a destination image (tint applied to source)
-	ImageDraw: { parameters: ["pointer", "buffer", "buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	ImageDraw: { parameters: ["pointer", {"struct":["pointer","i32","i32","i32","i32"]}, {"struct":["f32","f32","f32","f32"]}, {"struct":["f32","f32","f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw text (using default font) within an image (destination)
 	ImageDrawText: { parameters: ["pointer", "buffer", "i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw text (custom sprite font) within an image (destination)
-	ImageDrawTextEx: { parameters: ["pointer", "buffer", "buffer", "buffer", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	ImageDrawTextEx: { parameters: ["pointer", {"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]}, "buffer", {"struct":["f32","f32"]}, "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Load texture from file into GPU memory (VRAM)
-	LoadTexture: { parameters: ["buffer"], result: "buffer" },
+	LoadTexture: { parameters: ["buffer"], result: {"struct":["u32","i32","i32","i32","i32"]} },
 	// Load texture from image data
-	LoadTextureFromImage: { parameters: ["buffer"], result: "buffer" },
+	LoadTextureFromImage: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}], result: {"struct":["u32","i32","i32","i32","i32"]} },
 	// Load cubemap from image, multiple image cubemap layouts supported
-	LoadTextureCubemap: { parameters: ["buffer", "i32"], result: "buffer" },
+	LoadTextureCubemap: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}, "i32"], result: {"struct":["u32","i32","i32","i32","i32"]} },
 	// Load texture for rendering (framebuffer)
-	LoadRenderTexture: { parameters: ["i32", "i32"], result: "buffer" },
+	LoadRenderTexture: { parameters: ["i32", "i32"], result: {"struct":["u32","u32","i32","i32","i32","i32","u32","i32","i32","i32","i32"]} },
 	// Check if a texture is ready
-	IsTextureReady: { parameters: ["buffer"], result: "u8" },
+	IsTextureReady: { parameters: [{"struct":["u32","i32","i32","i32","i32"]}], result: "u8" },
 	// Unload texture from GPU memory (VRAM)
-	UnloadTexture: { parameters: ["buffer"], result: "void" },
+	UnloadTexture: { parameters: [{"struct":["u32","i32","i32","i32","i32"]}], result: "void" },
 	// Check if a render texture is ready
-	IsRenderTextureReady: { parameters: ["buffer"], result: "u8" },
+	IsRenderTextureReady: { parameters: [{"struct":["u32","u32","i32","i32","i32","i32","u32","i32","i32","i32","i32"]}], result: "u8" },
 	// Unload render texture from GPU memory (VRAM)
-	UnloadRenderTexture: { parameters: ["buffer"], result: "void" },
+	UnloadRenderTexture: { parameters: [{"struct":["u32","u32","i32","i32","i32","i32","u32","i32","i32","i32","i32"]}], result: "void" },
 	// Update GPU texture with new data
-	UpdateTexture: { parameters: ["buffer", "buffer"], result: "void" },
+	UpdateTexture: { parameters: [{"struct":["u32","i32","i32","i32","i32"]}, "buffer"], result: "void" },
 	// Update GPU texture rectangle with new data
-	UpdateTextureRec: { parameters: ["buffer", "buffer", "buffer"], result: "void" },
+	UpdateTextureRec: { parameters: [{"struct":["u32","i32","i32","i32","i32"]}, {"struct":["f32","f32","f32","f32"]}, "buffer"], result: "void" },
 	// Generate GPU mipmaps for a texture
 	GenTextureMipmaps: { parameters: ["pointer"], result: "void" },
 	// Set texture scaling filter mode
-	SetTextureFilter: { parameters: ["buffer", "i32"], result: "void" },
+	SetTextureFilter: { parameters: [{"struct":["u32","i32","i32","i32","i32"]}, "i32"], result: "void" },
 	// Set texture wrapping mode
-	SetTextureWrap: { parameters: ["buffer", "i32"], result: "void" },
+	SetTextureWrap: { parameters: [{"struct":["u32","i32","i32","i32","i32"]}, "i32"], result: "void" },
 	// Draw a Texture2D
-	DrawTexture: { parameters: ["buffer", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawTexture: { parameters: [{"struct":["u32","i32","i32","i32","i32"]}, "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a Texture2D with position defined as Vector2
-	DrawTextureV: { parameters: ["buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawTextureV: { parameters: [{"struct":["u32","i32","i32","i32","i32"]}, {"struct":["f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a Texture2D with extended parameters
-	DrawTextureEx: { parameters: ["buffer", "buffer", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawTextureEx: { parameters: [{"struct":["u32","i32","i32","i32","i32"]}, {"struct":["f32","f32"]}, "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a part of a texture defined by a rectangle
-	DrawTextureRec: { parameters: ["buffer", "buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawTextureRec: { parameters: [{"struct":["u32","i32","i32","i32","i32"]}, {"struct":["f32","f32","f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a part of a texture defined by a rectangle with 'pro' parameters
-	DrawTexturePro: { parameters: ["buffer", "buffer", "buffer", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawTexturePro: { parameters: [{"struct":["u32","i32","i32","i32","i32"]}, {"struct":["f32","f32","f32","f32"]}, {"struct":["f32","f32","f32","f32"]}, {"struct":["f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draws a texture (or part of it) that stretches or shrinks nicely
-	DrawTextureNPatch: { parameters: ["buffer", "buffer", "buffer", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawTextureNPatch: { parameters: [{"struct":["u32","i32","i32","i32","i32"]}, {"struct":["f32","f32","f32","f32","i32","i32","i32","i32","i32"]}, {"struct":["f32","f32","f32","f32"]}, {"struct":["f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Get color with alpha applied, alpha goes from 0.0f to 1.0f
 	Fade: { parameters: [{"struct":["u8","u8","u8","u8"]}, "f32"], result: {"struct":["u8","u8","u8","u8"]} },
 	// Get hexadecimal value for a Color
 	ColorToInt: { parameters: [{"struct":["u8","u8","u8","u8"]}], result: "i32" },
 	// Get Color normalized as float [0..1]
-	ColorNormalize: { parameters: [{"struct":["u8","u8","u8","u8"]}], result: "buffer" },
+	ColorNormalize: { parameters: [{"struct":["u8","u8","u8","u8"]}], result: {"struct":["f32","f32","f32","f32"]} },
 	// Get Color from normalized values [0..1]
-	ColorFromNormalized: { parameters: ["buffer"], result: {"struct":["u8","u8","u8","u8"]} },
+	ColorFromNormalized: { parameters: [{"struct":["f32","f32","f32","f32"]}], result: {"struct":["u8","u8","u8","u8"]} },
 	// Get HSV values for a Color, hue [0..360], saturation/value [0..1]
-	ColorToHSV: { parameters: [{"struct":["u8","u8","u8","u8"]}], result: "buffer" },
+	ColorToHSV: { parameters: [{"struct":["u8","u8","u8","u8"]}], result: {"struct":["f32","f32","f32"]} },
 	// Get a Color from HSV values, hue [0..360], saturation/value [0..1]
 	ColorFromHSV: { parameters: ["f32", "f32", "f32"], result: {"struct":["u8","u8","u8","u8"]} },
 	// Get color multiplied with another color
@@ -770,51 +770,51 @@ export const lib = await dlopen({
 	// Get pixel data size in bytes for certain format
 	GetPixelDataSize: { parameters: ["i32", "i32", "i32"], result: "i32" },
 	// Get the default Font
-	GetFontDefault: { parameters: [], result: "buffer" },
+	GetFontDefault: { parameters: [], result: {"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]} },
 	// Load font from file into GPU memory (VRAM)
-	LoadFont: { parameters: ["buffer"], result: "buffer" },
+	LoadFont: { parameters: ["buffer"], result: {"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]} },
 	// Load font from file with extended parameters, use NULL for codepoints and 0 for codepointCount to load the default character set
-	LoadFontEx: { parameters: ["buffer", "i32", "pointer", "i32"], result: "buffer" },
+	LoadFontEx: { parameters: ["buffer", "i32", "pointer", "i32"], result: {"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]} },
 	// Load font from Image (XNA style)
-	LoadFontFromImage: { parameters: ["buffer", {"struct":["u8","u8","u8","u8"]}, "i32"], result: "buffer" },
+	LoadFontFromImage: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}, {"struct":["u8","u8","u8","u8"]}, "i32"], result: {"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]} },
 	// Load font from memory buffer, fileType refers to extension: i.e. '.ttf'
-	LoadFontFromMemory: { parameters: ["buffer", "buffer", "i32", "i32", "pointer", "i32"], result: "buffer" },
+	LoadFontFromMemory: { parameters: ["buffer", "buffer", "i32", "i32", "pointer", "i32"], result: {"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]} },
 	// Check if a font is ready
-	IsFontReady: { parameters: ["buffer"], result: "u8" },
+	IsFontReady: { parameters: [{"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]}], result: "u8" },
 	// Load font data for further use
 	LoadFontData: { parameters: ["buffer", "i32", "i32", "pointer", "i32", "i32"], result: "pointer" },
 	// Generate image font atlas using chars info
-	GenImageFontAtlas: { parameters: ["pointer", "pointer", "i32", "i32", "i32", "i32"], result: "buffer" },
+	GenImageFontAtlas: { parameters: ["pointer", "pointer", "i32", "i32", "i32", "i32"], result: {"struct":["pointer","i32","i32","i32","i32"]} },
 	// Unload font chars info data (RAM)
 	UnloadFontData: { parameters: ["pointer", "i32"], result: "void" },
 	// Unload font from GPU memory (VRAM)
-	UnloadFont: { parameters: ["buffer"], result: "void" },
+	UnloadFont: { parameters: [{"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]}], result: "void" },
 	// Export font as code file, returns true on success
-	ExportFontAsCode: { parameters: ["buffer", "buffer"], result: "u8" },
+	ExportFontAsCode: { parameters: [{"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]}, "buffer"], result: "u8" },
 	// Draw current FPS
 	DrawFPS: { parameters: ["i32", "i32"], result: "void" },
 	// Draw text (using default font)
 	DrawText: { parameters: ["buffer", "i32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw text using font and additional parameters
-	DrawTextEx: { parameters: ["buffer", "buffer", "buffer", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawTextEx: { parameters: [{"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]}, "buffer", {"struct":["f32","f32"]}, "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw text using Font and pro parameters (rotation)
-	DrawTextPro: { parameters: ["buffer", "buffer", "buffer", "buffer", "f32", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawTextPro: { parameters: [{"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]}, "buffer", {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw one character (codepoint)
-	DrawTextCodepoint: { parameters: ["buffer", "i32", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawTextCodepoint: { parameters: [{"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]}, "i32", {"struct":["f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw multiple character (codepoint)
-	DrawTextCodepoints: { parameters: ["buffer", "pointer", "i32", "buffer", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawTextCodepoints: { parameters: [{"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]}, "pointer", "i32", {"struct":["f32","f32"]}, "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Set vertical line spacing when drawing with line-breaks
 	SetTextLineSpacing: { parameters: ["i32"], result: "void" },
 	// Measure string width for default font
 	MeasureText: { parameters: ["buffer", "i32"], result: "i32" },
 	// Measure string size for Font
-	MeasureTextEx: { parameters: ["buffer", "buffer", "f32", "f32"], result: "buffer" },
+	MeasureTextEx: { parameters: [{"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]}, "buffer", "f32", "f32"], result: {"struct":["f32","f32"]} },
 	// Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found
-	GetGlyphIndex: { parameters: ["buffer", "i32"], result: "i32" },
+	GetGlyphIndex: { parameters: [{"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]}, "i32"], result: "i32" },
 	// Get glyph font info data for a codepoint (unicode character), fallback to '?' if not found
-	GetGlyphInfo: { parameters: ["buffer", "i32"], result: "buffer" },
+	GetGlyphInfo: { parameters: [{"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]}, "i32"], result: {"struct":["i32","i32","i32","i32","pointer","i32","i32","i32","i32"]} },
 	// Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found
-	GetGlyphAtlasRec: { parameters: ["buffer", "i32"], result: "buffer" },
+	GetGlyphAtlasRec: { parameters: [{"struct":["i32","i32","i32","u32","i32","i32","i32","i32","pointer","pointer"]}, "i32"], result: {"struct":["f32","f32","f32","f32"]} },
 	// Load UTF-8 text encoded from codepoints array
 	LoadUTF8: { parameters: ["pointer", "i32"], result: "buffer" },
 	// Unload UTF-8 text encoded from codepoints array
@@ -862,147 +862,147 @@ export const lib = await dlopen({
 	// Get integer value from text (negative values not supported)
 	TextToInteger: { parameters: ["buffer"], result: "i32" },
 	// Draw a line in 3D world space
-	DrawLine3D: { parameters: ["buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawLine3D: { parameters: [{"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a point in 3D space, actually a small line
-	DrawPoint3D: { parameters: ["buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawPoint3D: { parameters: [{"struct":["f32","f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a circle in 3D world space
-	DrawCircle3D: { parameters: ["buffer", "f32", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCircle3D: { parameters: [{"struct":["f32","f32","f32"]}, "f32", {"struct":["f32","f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a color-filled triangle (vertex in counter-clockwise order!)
-	DrawTriangle3D: { parameters: ["buffer", "buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawTriangle3D: { parameters: [{"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a triangle strip defined by points
 	DrawTriangleStrip3D: { parameters: ["pointer", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw cube
-	DrawCube: { parameters: ["buffer", "f32", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCube: { parameters: [{"struct":["f32","f32","f32"]}, "f32", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw cube (Vector version)
-	DrawCubeV: { parameters: ["buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCubeV: { parameters: [{"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw cube wires
-	DrawCubeWires: { parameters: ["buffer", "f32", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCubeWires: { parameters: [{"struct":["f32","f32","f32"]}, "f32", "f32", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw cube wires (Vector version)
-	DrawCubeWiresV: { parameters: ["buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCubeWiresV: { parameters: [{"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw sphere
-	DrawSphere: { parameters: ["buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawSphere: { parameters: [{"struct":["f32","f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw sphere with extended parameters
-	DrawSphereEx: { parameters: ["buffer", "f32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawSphereEx: { parameters: [{"struct":["f32","f32","f32"]}, "f32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw sphere wires
-	DrawSphereWires: { parameters: ["buffer", "f32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawSphereWires: { parameters: [{"struct":["f32","f32","f32"]}, "f32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a cylinder/cone
-	DrawCylinder: { parameters: ["buffer", "f32", "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCylinder: { parameters: [{"struct":["f32","f32","f32"]}, "f32", "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a cylinder with base at startPos and top at endPos
-	DrawCylinderEx: { parameters: ["buffer", "buffer", "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCylinderEx: { parameters: [{"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a cylinder/cone wires
-	DrawCylinderWires: { parameters: ["buffer", "f32", "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCylinderWires: { parameters: [{"struct":["f32","f32","f32"]}, "f32", "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a cylinder wires with base at startPos and top at endPos
-	DrawCylinderWiresEx: { parameters: ["buffer", "buffer", "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCylinderWiresEx: { parameters: [{"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, "f32", "f32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a capsule with the center of its sphere caps at startPos and endPos
-	DrawCapsule: { parameters: ["buffer", "buffer", "f32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCapsule: { parameters: [{"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, "f32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw capsule wireframe with the center of its sphere caps at startPos and endPos
-	DrawCapsuleWires: { parameters: ["buffer", "buffer", "f32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawCapsuleWires: { parameters: [{"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, "f32", "i32", "i32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a plane XZ
-	DrawPlane: { parameters: ["buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawPlane: { parameters: [{"struct":["f32","f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a ray line
-	DrawRay: { parameters: ["buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawRay: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a grid (centered at (0, 0, 0))
 	DrawGrid: { parameters: ["i32", "f32"], result: "void" },
 	// Load model from files (meshes and materials)
-	LoadModel: { parameters: ["buffer"], result: "buffer" },
+	LoadModel: { parameters: ["buffer"], result: {"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32","i32","pointer","pointer","pointer","i32","pointer","pointer"]} },
 	// Load model from generated mesh (default material)
-	LoadModelFromMesh: { parameters: ["buffer"], result: "buffer" },
+	LoadModelFromMesh: { parameters: [{"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]}], result: {"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32","i32","pointer","pointer","pointer","i32","pointer","pointer"]} },
 	// Check if a model is ready
-	IsModelReady: { parameters: ["buffer"], result: "u8" },
+	IsModelReady: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32","i32","pointer","pointer","pointer","i32","pointer","pointer"]}], result: "u8" },
 	// Unload model (including meshes) from memory (RAM and/or VRAM)
-	UnloadModel: { parameters: ["buffer"], result: "void" },
+	UnloadModel: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32","i32","pointer","pointer","pointer","i32","pointer","pointer"]}], result: "void" },
 	// Compute model bounding box limits (considers all meshes)
-	GetModelBoundingBox: { parameters: ["buffer"], result: "buffer" },
+	GetModelBoundingBox: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32","i32","pointer","pointer","pointer","i32","pointer","pointer"]}], result: {"struct":["f32","f32","f32","f32","f32","f32"]} },
 	// Draw a model (with texture if set)
-	DrawModel: { parameters: ["buffer", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawModel: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32","i32","pointer","pointer","pointer","i32","pointer","pointer"]}, {"struct":["f32","f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a model with extended parameters
-	DrawModelEx: { parameters: ["buffer", "buffer", "buffer", "f32", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawModelEx: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32","i32","pointer","pointer","pointer","i32","pointer","pointer"]}, {"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, "f32", {"struct":["f32","f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a model wires (with texture if set)
-	DrawModelWires: { parameters: ["buffer", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawModelWires: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32","i32","pointer","pointer","pointer","i32","pointer","pointer"]}, {"struct":["f32","f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a model wires (with texture if set) with extended parameters
-	DrawModelWiresEx: { parameters: ["buffer", "buffer", "buffer", "f32", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawModelWiresEx: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32","i32","pointer","pointer","pointer","i32","pointer","pointer"]}, {"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, "f32", {"struct":["f32","f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw bounding box (wires)
-	DrawBoundingBox: { parameters: ["buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawBoundingBox: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a billboard texture
-	DrawBillboard: { parameters: ["buffer", "buffer", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawBillboard: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32"]}, {"struct":["u32","i32","i32","i32","i32"]}, {"struct":["f32","f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a billboard texture defined by source
-	DrawBillboardRec: { parameters: ["buffer", "buffer", "buffer", "buffer", "buffer", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawBillboardRec: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32"]}, {"struct":["u32","i32","i32","i32","i32"]}, {"struct":["f32","f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Draw a billboard texture defined by source and rotation
-	DrawBillboardPro: { parameters: ["buffer", "buffer", "buffer", "buffer", "buffer", "buffer", "buffer", "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
+	DrawBillboardPro: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32"]}, {"struct":["u32","i32","i32","i32","i32"]}, {"struct":["f32","f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, {"struct":["f32","f32"]}, {"struct":["f32","f32"]}, "f32", {"struct":["u8","u8","u8","u8"]}], result: "void" },
 	// Upload mesh vertex data in GPU and provide VAO/VBO ids
 	UploadMesh: { parameters: ["pointer", "u8"], result: "void" },
 	// Update mesh vertex data in GPU for a specific buffer index
-	UpdateMeshBuffer: { parameters: ["buffer", "i32", "buffer", "i32", "i32"], result: "void" },
+	UpdateMeshBuffer: { parameters: [{"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]}, "i32", "buffer", "i32", "i32"], result: "void" },
 	// Unload mesh data from CPU and GPU
-	UnloadMesh: { parameters: ["buffer"], result: "void" },
+	UnloadMesh: { parameters: [{"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]}], result: "void" },
 	// Draw a 3d mesh with material and transform
-	DrawMesh: { parameters: ["buffer", "buffer", "buffer"], result: "void" },
+	DrawMesh: { parameters: [{"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]}, {"struct":["u32","pointer","pointer","f32","f32","f32","f32"]}, {"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32"]}], result: "void" },
 	// Draw multiple mesh instances with material and different transforms
-	DrawMeshInstanced: { parameters: ["buffer", "buffer", "buffer", "i32"], result: "void" },
+	DrawMeshInstanced: { parameters: [{"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]}, {"struct":["u32","pointer","pointer","f32","f32","f32","f32"]}, "pointer", "i32"], result: "void" },
 	// Export mesh data to file, returns true on success
-	ExportMesh: { parameters: ["buffer", "buffer"], result: "u8" },
+	ExportMesh: { parameters: [{"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]}, "buffer"], result: "u8" },
 	// Compute mesh bounding box limits
-	GetMeshBoundingBox: { parameters: ["buffer"], result: "buffer" },
+	GetMeshBoundingBox: { parameters: [{"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]}], result: {"struct":["f32","f32","f32","f32","f32","f32"]} },
 	// Compute mesh tangents
 	GenMeshTangents: { parameters: ["pointer"], result: "void" },
 	// Generate polygonal mesh
-	GenMeshPoly: { parameters: ["i32", "f32"], result: "buffer" },
+	GenMeshPoly: { parameters: ["i32", "f32"], result: {"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]} },
 	// Generate plane mesh (with subdivisions)
-	GenMeshPlane: { parameters: ["f32", "f32", "i32", "i32"], result: "buffer" },
+	GenMeshPlane: { parameters: ["f32", "f32", "i32", "i32"], result: {"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]} },
 	// Generate cuboid mesh
-	GenMeshCube: { parameters: ["f32", "f32", "f32"], result: "buffer" },
+	GenMeshCube: { parameters: ["f32", "f32", "f32"], result: {"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]} },
 	// Generate sphere mesh (standard sphere)
-	GenMeshSphere: { parameters: ["f32", "i32", "i32"], result: "buffer" },
+	GenMeshSphere: { parameters: ["f32", "i32", "i32"], result: {"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]} },
 	// Generate half-sphere mesh (no bottom cap)
-	GenMeshHemiSphere: { parameters: ["f32", "i32", "i32"], result: "buffer" },
+	GenMeshHemiSphere: { parameters: ["f32", "i32", "i32"], result: {"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]} },
 	// Generate cylinder mesh
-	GenMeshCylinder: { parameters: ["f32", "f32", "i32"], result: "buffer" },
+	GenMeshCylinder: { parameters: ["f32", "f32", "i32"], result: {"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]} },
 	// Generate cone/pyramid mesh
-	GenMeshCone: { parameters: ["f32", "f32", "i32"], result: "buffer" },
+	GenMeshCone: { parameters: ["f32", "f32", "i32"], result: {"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]} },
 	// Generate torus mesh
-	GenMeshTorus: { parameters: ["f32", "f32", "i32", "i32"], result: "buffer" },
+	GenMeshTorus: { parameters: ["f32", "f32", "i32", "i32"], result: {"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]} },
 	// Generate trefoil knot mesh
-	GenMeshKnot: { parameters: ["f32", "f32", "i32", "i32"], result: "buffer" },
+	GenMeshKnot: { parameters: ["f32", "f32", "i32", "i32"], result: {"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]} },
 	// Generate heightmap mesh from image data
-	GenMeshHeightmap: { parameters: ["buffer", "buffer"], result: "buffer" },
+	GenMeshHeightmap: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}, {"struct":["f32","f32","f32"]}], result: {"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]} },
 	// Generate cubes-based map mesh from image data
-	GenMeshCubicmap: { parameters: ["buffer", "buffer"], result: "buffer" },
+	GenMeshCubicmap: { parameters: [{"struct":["pointer","i32","i32","i32","i32"]}, {"struct":["f32","f32","f32"]}], result: {"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]} },
 	// Load materials from model file
 	LoadMaterials: { parameters: ["buffer", "pointer"], result: "pointer" },
 	// Load default material (Supports: DIFFUSE, SPECULAR, NORMAL maps)
-	LoadMaterialDefault: { parameters: [], result: "buffer" },
+	LoadMaterialDefault: { parameters: [], result: {"struct":["u32","pointer","pointer","f32","f32","f32","f32"]} },
 	// Check if a material is ready
-	IsMaterialReady: { parameters: ["buffer"], result: "u8" },
+	IsMaterialReady: { parameters: [{"struct":["u32","pointer","pointer","f32","f32","f32","f32"]}], result: "u8" },
 	// Unload material from GPU memory (VRAM)
-	UnloadMaterial: { parameters: ["buffer"], result: "void" },
+	UnloadMaterial: { parameters: [{"struct":["u32","pointer","pointer","f32","f32","f32","f32"]}], result: "void" },
 	// Set material for a mesh
 	SetModelMeshMaterial: { parameters: ["pointer", "i32", "i32"], result: "void" },
 	// Load model animations from file
 	LoadModelAnimations: { parameters: ["buffer", "pointer"], result: "pointer" },
 	// Update model animation pose
-	UpdateModelAnimation: { parameters: ["buffer", "buffer", "i32"], result: "void" },
+	UpdateModelAnimation: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32","i32","pointer","pointer","pointer","i32","pointer","pointer"]}, {"struct":["i32","i32","pointer","pointer","u64","u64","u64","u64"]}, "i32"], result: "void" },
 	// Unload animation data
-	UnloadModelAnimation: { parameters: ["buffer"], result: "void" },
+	UnloadModelAnimation: { parameters: [{"struct":["i32","i32","pointer","pointer","u64","u64","u64","u64"]}], result: "void" },
 	// Unload animation array data
 	UnloadModelAnimations: { parameters: ["pointer", "i32"], result: "void" },
 	// Check model animation skeleton match
-	IsModelAnimationValid: { parameters: ["buffer", "buffer"], result: "u8" },
+	IsModelAnimationValid: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","i32","i32","pointer","pointer","pointer","i32","pointer","pointer"]}, {"struct":["i32","i32","pointer","pointer","u64","u64","u64","u64"]}], result: "u8" },
 	// Check collision between two spheres
-	CheckCollisionSpheres: { parameters: ["buffer", "f32", "buffer", "f32"], result: "u8" },
+	CheckCollisionSpheres: { parameters: [{"struct":["f32","f32","f32"]}, "f32", {"struct":["f32","f32","f32"]}, "f32"], result: "u8" },
 	// Check collision between two bounding boxes
-	CheckCollisionBoxes: { parameters: ["buffer", "buffer"], result: "u8" },
+	CheckCollisionBoxes: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32"]}, {"struct":["f32","f32","f32","f32","f32","f32"]}], result: "u8" },
 	// Check collision between box and sphere
-	CheckCollisionBoxSphere: { parameters: ["buffer", "buffer", "f32"], result: "u8" },
+	CheckCollisionBoxSphere: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, "f32"], result: "u8" },
 	// Get collision info between ray and sphere
-	GetRayCollisionSphere: { parameters: ["buffer", "buffer", "f32"], result: "buffer" },
+	GetRayCollisionSphere: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, "f32"], result: {"struct":["u8","f32","f32","f32","f32","f32","f32","f32"]} },
 	// Get collision info between ray and box
-	GetRayCollisionBox: { parameters: ["buffer", "buffer"], result: "buffer" },
+	GetRayCollisionBox: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32"]}, {"struct":["f32","f32","f32","f32","f32","f32"]}], result: {"struct":["u8","f32","f32","f32","f32","f32","f32","f32"]} },
 	// Get collision info between ray and mesh
-	GetRayCollisionMesh: { parameters: ["buffer", "buffer", "buffer"], result: "buffer" },
+	GetRayCollisionMesh: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32"]}, {"struct":["i32","i32","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","pointer","u32","pointer"]}, {"struct":["f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32","f32"]}], result: {"struct":["u8","f32","f32","f32","f32","f32","f32","f32"]} },
 	// Get collision info between ray and triangle
-	GetRayCollisionTriangle: { parameters: ["buffer", "buffer", "buffer", "buffer"], result: "buffer" },
+	GetRayCollisionTriangle: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}], result: {"struct":["u8","f32","f32","f32","f32","f32","f32","f32"]} },
 	// Get collision info between ray and quad
-	GetRayCollisionQuad: { parameters: ["buffer", "buffer", "buffer", "buffer", "buffer"], result: "buffer" },
+	GetRayCollisionQuad: { parameters: [{"struct":["f32","f32","f32","f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}, {"struct":["f32","f32","f32"]}], result: {"struct":["u8","f32","f32","f32","f32","f32","f32","f32"]} },
 	// Initialize audio device and context
 	InitAudioDevice: { parameters: [], result: "void" },
 	// Close the audio device and context
@@ -1014,123 +1014,123 @@ export const lib = await dlopen({
 	// Get master volume (listener)
 	GetMasterVolume: { parameters: [], result: "f32" },
 	// Load wave data from file
-	LoadWave: { parameters: ["buffer"], result: "buffer" },
+	LoadWave: { parameters: ["buffer"], result: {"struct":["u32","u32","u32","u32","pointer"]} },
 	// Load wave from memory buffer, fileType refers to extension: i.e. '.wav'
-	LoadWaveFromMemory: { parameters: ["buffer", "buffer", "i32"], result: "buffer" },
+	LoadWaveFromMemory: { parameters: ["buffer", "buffer", "i32"], result: {"struct":["u32","u32","u32","u32","pointer"]} },
 	// Checks if wave data is ready
-	IsWaveReady: { parameters: ["buffer"], result: "u8" },
+	IsWaveReady: { parameters: [{"struct":["u32","u32","u32","u32","pointer"]}], result: "u8" },
 	// Load sound from file
-	LoadSound: { parameters: ["buffer"], result: "buffer" },
+	LoadSound: { parameters: ["buffer"], result: {"struct":["pointer","pointer","u32","u32","u32","u32"]} },
 	// Load sound from wave data
-	LoadSoundFromWave: { parameters: ["buffer"], result: "buffer" },
+	LoadSoundFromWave: { parameters: [{"struct":["u32","u32","u32","u32","pointer"]}], result: {"struct":["pointer","pointer","u32","u32","u32","u32"]} },
 	// Create a new sound that shares the same sample data as the source sound, does not own the sound data
-	LoadSoundAlias: { parameters: ["buffer"], result: "buffer" },
+	LoadSoundAlias: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32"]}], result: {"struct":["pointer","pointer","u32","u32","u32","u32"]} },
 	// Checks if a sound is ready
-	IsSoundReady: { parameters: ["buffer"], result: "u8" },
+	IsSoundReady: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32"]}], result: "u8" },
 	// Update sound buffer with new data
-	UpdateSound: { parameters: ["buffer", "buffer", "i32"], result: "void" },
+	UpdateSound: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32"]}, "buffer", "i32"], result: "void" },
 	// Unload wave data
-	UnloadWave: { parameters: ["buffer"], result: "void" },
+	UnloadWave: { parameters: [{"struct":["u32","u32","u32","u32","pointer"]}], result: "void" },
 	// Unload sound
-	UnloadSound: { parameters: ["buffer"], result: "void" },
+	UnloadSound: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32"]}], result: "void" },
 	// Unload a sound alias (does not deallocate sample data)
-	UnloadSoundAlias: { parameters: ["buffer"], result: "void" },
+	UnloadSoundAlias: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32"]}], result: "void" },
 	// Export wave data to file, returns true on success
-	ExportWave: { parameters: ["buffer", "buffer"], result: "u8" },
+	ExportWave: { parameters: [{"struct":["u32","u32","u32","u32","pointer"]}, "buffer"], result: "u8" },
 	// Export wave sample data to code (.h), returns true on success
-	ExportWaveAsCode: { parameters: ["buffer", "buffer"], result: "u8" },
+	ExportWaveAsCode: { parameters: [{"struct":["u32","u32","u32","u32","pointer"]}, "buffer"], result: "u8" },
 	// Play a sound
-	PlaySound: { parameters: ["buffer"], result: "void" },
+	PlaySound: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32"]}], result: "void" },
 	// Stop playing a sound
-	StopSound: { parameters: ["buffer"], result: "void" },
+	StopSound: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32"]}], result: "void" },
 	// Pause a sound
-	PauseSound: { parameters: ["buffer"], result: "void" },
+	PauseSound: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32"]}], result: "void" },
 	// Resume a paused sound
-	ResumeSound: { parameters: ["buffer"], result: "void" },
+	ResumeSound: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32"]}], result: "void" },
 	// Check if a sound is currently playing
-	IsSoundPlaying: { parameters: ["buffer"], result: "u8" },
+	IsSoundPlaying: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32"]}], result: "u8" },
 	// Set volume for a sound (1.0 is max level)
-	SetSoundVolume: { parameters: ["buffer", "f32"], result: "void" },
+	SetSoundVolume: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32"]}, "f32"], result: "void" },
 	// Set pitch for a sound (1.0 is base level)
-	SetSoundPitch: { parameters: ["buffer", "f32"], result: "void" },
+	SetSoundPitch: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32"]}, "f32"], result: "void" },
 	// Set pan for a sound (0.5 is center)
-	SetSoundPan: { parameters: ["buffer", "f32"], result: "void" },
+	SetSoundPan: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32"]}, "f32"], result: "void" },
 	// Copy a wave to a new wave
-	WaveCopy: { parameters: ["buffer"], result: "buffer" },
+	WaveCopy: { parameters: [{"struct":["u32","u32","u32","u32","pointer"]}], result: {"struct":["u32","u32","u32","u32","pointer"]} },
 	// Crop a wave to defined samples range
 	WaveCrop: { parameters: ["pointer", "i32", "i32"], result: "void" },
 	// Convert wave data to desired format
 	WaveFormat: { parameters: ["pointer", "i32", "i32", "i32"], result: "void" },
 	// Load samples data from wave as a 32bit float data array
-	LoadWaveSamples: { parameters: ["buffer"], result: "buffer" },
+	LoadWaveSamples: { parameters: [{"struct":["u32","u32","u32","u32","pointer"]}], result: "buffer" },
 	// Unload samples data loaded with LoadWaveSamples()
 	UnloadWaveSamples: { parameters: ["buffer"], result: "void" },
 	// Load music stream from file
-	LoadMusicStream: { parameters: ["buffer"], result: "buffer" },
+	LoadMusicStream: { parameters: ["buffer"], result: {"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]} },
 	// Load music stream from data
-	LoadMusicStreamFromMemory: { parameters: ["buffer", "buffer", "i32"], result: "buffer" },
+	LoadMusicStreamFromMemory: { parameters: ["buffer", "buffer", "i32"], result: {"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]} },
 	// Checks if a music stream is ready
-	IsMusicReady: { parameters: ["buffer"], result: "u8" },
+	IsMusicReady: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]}], result: "u8" },
 	// Unload music stream
-	UnloadMusicStream: { parameters: ["buffer"], result: "void" },
+	UnloadMusicStream: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]}], result: "void" },
 	// Start music playing
-	PlayMusicStream: { parameters: ["buffer"], result: "void" },
+	PlayMusicStream: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]}], result: "void" },
 	// Check if music is playing
-	IsMusicStreamPlaying: { parameters: ["buffer"], result: "u8" },
+	IsMusicStreamPlaying: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]}], result: "u8" },
 	// Updates buffers for music streaming
-	UpdateMusicStream: { parameters: ["buffer"], result: "void" },
+	UpdateMusicStream: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]}], result: "void" },
 	// Stop music playing
-	StopMusicStream: { parameters: ["buffer"], result: "void" },
+	StopMusicStream: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]}], result: "void" },
 	// Pause music playing
-	PauseMusicStream: { parameters: ["buffer"], result: "void" },
+	PauseMusicStream: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]}], result: "void" },
 	// Resume playing paused music
-	ResumeMusicStream: { parameters: ["buffer"], result: "void" },
+	ResumeMusicStream: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]}], result: "void" },
 	// Seek music to a position (in seconds)
-	SeekMusicStream: { parameters: ["buffer", "f32"], result: "void" },
+	SeekMusicStream: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]}, "f32"], result: "void" },
 	// Set volume for music (1.0 is max level)
-	SetMusicVolume: { parameters: ["buffer", "f32"], result: "void" },
+	SetMusicVolume: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]}, "f32"], result: "void" },
 	// Set pitch for a music (1.0 is base level)
-	SetMusicPitch: { parameters: ["buffer", "f32"], result: "void" },
+	SetMusicPitch: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]}, "f32"], result: "void" },
 	// Set pan for a music (0.5 is center)
-	SetMusicPan: { parameters: ["buffer", "f32"], result: "void" },
+	SetMusicPan: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]}, "f32"], result: "void" },
 	// Get music time length (in seconds)
-	GetMusicTimeLength: { parameters: ["buffer"], result: "f32" },
+	GetMusicTimeLength: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]}], result: "f32" },
 	// Get current music time played (in seconds)
-	GetMusicTimePlayed: { parameters: ["buffer"], result: "f32" },
+	GetMusicTimePlayed: { parameters: [{"struct":["pointer","pointer","u32","u32","u32","u32","u8","i32","pointer"]}], result: "f32" },
 	// Load audio stream (to stream raw audio pcm data)
-	LoadAudioStream: { parameters: ["u32", "u32", "u32"], result: "buffer" },
+	LoadAudioStream: { parameters: ["u32", "u32", "u32"], result: {"struct":["pointer","pointer","u32","u32","u32"]} },
 	// Checks if an audio stream is ready
-	IsAudioStreamReady: { parameters: ["buffer"], result: "u8" },
+	IsAudioStreamReady: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}], result: "u8" },
 	// Unload audio stream and free memory
-	UnloadAudioStream: { parameters: ["buffer"], result: "void" },
+	UnloadAudioStream: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}], result: "void" },
 	// Update audio stream buffers with data
-	UpdateAudioStream: { parameters: ["buffer", "buffer", "i32"], result: "void" },
+	UpdateAudioStream: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}, "buffer", "i32"], result: "void" },
 	// Check if any audio stream buffers requires refill
-	IsAudioStreamProcessed: { parameters: ["buffer"], result: "u8" },
+	IsAudioStreamProcessed: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}], result: "u8" },
 	// Play audio stream
-	PlayAudioStream: { parameters: ["buffer"], result: "void" },
+	PlayAudioStream: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}], result: "void" },
 	// Pause audio stream
-	PauseAudioStream: { parameters: ["buffer"], result: "void" },
+	PauseAudioStream: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}], result: "void" },
 	// Resume audio stream
-	ResumeAudioStream: { parameters: ["buffer"], result: "void" },
+	ResumeAudioStream: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}], result: "void" },
 	// Check if audio stream is playing
-	IsAudioStreamPlaying: { parameters: ["buffer"], result: "u8" },
+	IsAudioStreamPlaying: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}], result: "u8" },
 	// Stop audio stream
-	StopAudioStream: { parameters: ["buffer"], result: "void" },
+	StopAudioStream: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}], result: "void" },
 	// Set volume for audio stream (1.0 is max level)
-	SetAudioStreamVolume: { parameters: ["buffer", "f32"], result: "void" },
+	SetAudioStreamVolume: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}, "f32"], result: "void" },
 	// Set pitch for audio stream (1.0 is base level)
-	SetAudioStreamPitch: { parameters: ["buffer", "f32"], result: "void" },
+	SetAudioStreamPitch: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}, "f32"], result: "void" },
 	// Set pan for audio stream (0.5 is centered)
-	SetAudioStreamPan: { parameters: ["buffer", "f32"], result: "void" },
+	SetAudioStreamPan: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}, "f32"], result: "void" },
 	// Default size for new audio streams
 	SetAudioStreamBufferSizeDefault: { parameters: ["i32"], result: "void" },
 	// Audio thread callback to request new data
-	SetAudioStreamCallback: { parameters: ["buffer", "function"], result: "void" },
+	SetAudioStreamCallback: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}, "function"], result: "void" },
 	// Attach audio stream processor to stream, receives the samples as <float>s
-	AttachAudioStreamProcessor: { parameters: ["buffer", "function"], result: "void" },
+	AttachAudioStreamProcessor: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}, "function"], result: "void" },
 	// Detach audio stream processor from stream
-	DetachAudioStreamProcessor: { parameters: ["buffer", "function"], result: "void" },
+	DetachAudioStreamProcessor: { parameters: [{"struct":["pointer","pointer","u32","u32","u32"]}, "function"], result: "void" },
 	// Attach audio stream processor to the entire audio pipeline, receives the samples as <float>s
 	AttachAudioMixedProcessor: { parameters: ["function"], result: "void" },
 	// Detach audio stream processor from the entire audio pipeline

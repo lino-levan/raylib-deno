@@ -395,8 +395,6 @@ const raw_type_map: Record<string, unknown> = {
   "SaveFileTextCallback": "function",
 };
 
-let functions = "// --- functions ---\n";
-
 for (let i = 953; i < 1656; i++) {
   if (!source[i].startsWith("RLAPI")) continue;
   if (source[i].includes("...")) continue;

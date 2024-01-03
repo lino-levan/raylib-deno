@@ -1,14 +1,9 @@
 export * from "./bindings/bindings.ts";
-
 import { lib } from "./bindings/bindings.ts";
 
-export function initWindow(width: number, height: number, title: string) {
-  lib.symbols.InitWindow(width, height, new TextEncoder().encode(title + "\0"));
-}
+// TODO: Check if numbers are correct (integers)
 
-export function windowShouldClose() {
-  return !!lib.symbols.WindowShouldClose();
-}
+export * from "./src/window.ts";
 
 export function beginDrawing() {
   lib.symbols.BeginDrawing();
@@ -36,8 +31,4 @@ export function drawText(
 
 export function endDrawing() {
   lib.symbols.EndDrawing();
-}
-
-export function closeWindow() {
-  lib.symbols.CloseWindow();
 }

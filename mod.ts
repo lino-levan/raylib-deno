@@ -4,6 +4,7 @@ import { lib } from "./bindings/bindings.ts";
 // TODO: Check if numbers are correct (integers)
 
 export * from "./src/window.ts";
+export * from "./src/cursor.ts";
 
 export function beginDrawing() {
   lib.symbols.BeginDrawing();

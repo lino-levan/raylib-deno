@@ -6,34 +6,6 @@ export const RAYLIB_VERSION_MINOR = 0;
 export const RAYLIB_VERSION_PATCH = 0;
 export const RAYLIB_VERSION = "5.0";
 
-// --- Color constants ---
-export const LIGHTGRAY = new Uint8Array([200, 200, 200, 255]);
-export const GRAY = new Uint8Array([130, 130, 130, 255]);
-export const DARKGRAY = new Uint8Array([80, 80, 80, 255]);
-export const YELLOW = new Uint8Array([0, 249, 253, 255]);
-export const GOLD = new Uint8Array([0, 203, 255, 255]);
-export const ORANGE = new Uint8Array([0, 161, 255, 255]);
-export const PINK = new Uint8Array([194, 109, 255, 255]);
-export const RED = new Uint8Array([55, 41, 230, 255]);
-export const MAROON = new Uint8Array([55, 33, 190, 255]);
-export const GREEN = new Uint8Array([48, 228, 0, 255]);
-export const LIME = new Uint8Array([47, 158, 0, 255]);
-export const DARKGREEN = new Uint8Array([44, 117, 0, 255]);
-export const SKYBLUE = new Uint8Array([255, 191, 102, 255]);
-export const BLUE = new Uint8Array([241, 121, 0, 255]);
-export const DARKBLUE = new Uint8Array([172, 82, 0, 255]);
-export const PURPLE = new Uint8Array([255, 122, 200, 255]);
-export const VIOLET = new Uint8Array([190, 60, 135, 255]);
-export const DARKPURPLE = new Uint8Array([126, 31, 112, 255]);
-export const BEIGE = new Uint8Array([131, 176, 211, 255]);
-export const BROWN = new Uint8Array([79, 106, 127, 255]);
-export const DARKBROWN = new Uint8Array([47, 63, 76, 255]);
-export const WHITE = new Uint8Array([255, 255, 255, 255]);
-export const BLACK = new Uint8Array([0, 0, 0, 255]);
-export const BLANK = new Uint8Array([0, 0, 0, 0]);
-export const MAGENTA = new Uint8Array([255, 0, 255, 255]);
-export const RAYWHITE = new Uint8Array([245, 245, 245, 255]);
-
 // --- bindings ---
 import { dlopen } from "https://deno.land/x/plug@1.0.3/mod.ts";
 

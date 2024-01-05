@@ -14,29 +14,6 @@ result += `export const RAYLIB_VERSION_PATCH = ${
 };\n`;
 result += `export const RAYLIB_VERSION = ${source[86].split(" ").pop()};\n\n`;
 
-// Generate the color constants
-result += `// --- Color constants ---\n`;
-
-for (let i = 163; i < 190; i++) {
-  if (source[i].trim() === "") continue;
-  const values = source[i].replaceAll(",", "").split(" ").filter((v) =>
-    v !== ""
-  );
-  const name = values[1];
-  const red = values[3];
-  const green = values[4];
-  const blue = values[5];
-  const alpha = values[6];
-
-  result +=
-    `export const ${name} = new Uint8Array([${blue}, ${green}, ${red}, ${alpha}]);\n`;
-}
-
-result += "\n";
-
-// TODO: Generate struct definitions
-// TODO: Generate enum definitions
-
 // Generate the function definitions
 result += "// --- bindings ---\n";
 result += 'import { dlopen } from "https://deno.land/x/plug@1.0.3/mod.ts";\n\n';

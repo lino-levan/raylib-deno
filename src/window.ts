@@ -243,38 +243,53 @@ export function getMonitorCount() {
 
 /** Get current connected monitor */
 export function getCurrentMonitor() {
-  return lib.symbols.GetCurrentMonitor();
+  return new Monitor(lib.symbols.GetCurrentMonitor());
 }
 
-/** Get specified monitor position */
-export function getMonitorPosition(monitor: number) {
-  const pos = new DataView(lib.symbols.GetMonitorPosition(monitor).buffer);
-  return { x: pos.getFloat32(0), y: pos.getFloat32(4) };
-}
+/** A class to interact with a monitor object */
+export class Monitor {
+  #id: number;
+  /** Do not construct manually if at all possible. */
+  constructor(id: number) {
+    this.#id = id;
+  }
 
-/** Get specified monitor width (current video mode used by monitor) */
-export function getMonitorWidth(monitor: number) {
-  return lib.symbols.GetMonitorWidth(monitor);
-}
+  /** Get monitor position */
+  get position() {
+    const pos = new DataView(lib.symbols.GetMonitorPosition(this.#id).buffer);
+    return { x: pos.getFloat32(0), y: pos.getFloat32(4) };
+  }
 
-/** Get specified monitor height (current video mode used by monitor) */
-export function getMonitorHeight(monitor: number) {
-  return lib.symbols.GetMonitorHeight(monitor);
-}
+  /** Get specified monitor width (current video mode used by monitor) */
+  get width() {
+    return lib.symbols.GetMonitorWidth(this.#id);
+  }
 
-/**  Get specified monitor physical width in millimetres */
-export function getMonitorPhysicalWidth(monitor: number) {
-  return lib.symbols.GetMonitorPhysicalWidth(monitor);
-}
+  /** Get specified monitor height (current video mode used by monitor) */
+  get height() {
+    return lib.symbols.GetMonitorHeight(this.#id);
+  }
 
-/** Get specified monitor physical height in millimetres */
-export function getMonitorPhysicalHeight(monitor: number) {
-  return lib.symbols.GetMonitorPhysicalHeight(monitor);
-}
+  /**  Get specified monitor physical width in millimetres */
+  get physicalWidth() {
+    return lib.symbols.GetMonitorPhysicalWidth(this.#id);
+  }
 
-/** Get specified monitor refresh rate */
-export function getMonitorRefreshRate(monitor: number) {
-  return lib.symbols.GetMonitorRefreshRate(monitor);
+  /** Get specified monitor physical height in millimetres */
+  get physicalHeight() {
+    return lib.symbols.GetMonitorPhysicalHeight(this.#id);
+  }
+
+  /** Get specified monitor refresh rate */
+  get refreshRate() {
+    return lib.symbols.GetMonitorRefreshRate(this.#id);
+  }
+
+  /** Get the human-readable, UTF-8 encoded name of the primary monitor */
+  get name() {
+    return new Deno.UnsafePointerView(lib.symbols.GetMonitorName(this.#id))
+      .getCString();
+  }
 }
 
 /** Get window position XY on monitor */
@@ -287,12 +302,6 @@ export function getWindowPosition() {
 export function getWindowScaleDPI() {
   const pos = new DataView(lib.symbols.getWindowScaleDPI().buffer);
   return { x: pos.getFloat32(0), y: pos.getFloat32(4) };
-}
-
-/** Get the human-readable, UTF-8 encoded name of the primary monitor */
-export function getMonitorName(monitor: number) {
-  return new Deno.UnsafePointerView(lib.symbols.GetMonitorName(monitor))
-    .getCString();
 }
 
 /** Set clipboard text content. TODO(lino-levan): Investigate why this doesn't seem to work */

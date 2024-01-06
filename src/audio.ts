@@ -2,6 +2,7 @@
  * Audio device functions
  * @module
  */
+import { lib } from "../bindings/bindings.ts";
 
 export class AudioDevice {
   /** Initialize audio device and context */

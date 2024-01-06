@@ -51,6 +51,29 @@ export class Vector4 {
   }
 }
 
+export class Rectangle {
+  constructor(
+    public x: number,
+    public y: number,
+    public width: number,
+    public height: number,
+  ) {}
+
+  static fromBuffer(buffer: ArrayBuffer) {
+    const view = new DataView(buffer);
+    return new Rectangle(
+      view.getFloat32(0),
+      view.getFloat32(4),
+      view.getFloat32(8),
+      view.getFloat32(12),
+    );
+  }
+
+  get buffer() {
+    return new Float32Array([this.x, this.y, this.width, this.height]).buffer;
+  }
+}
+
 export class Camera2D {
   /** Camera offset (displacement from target) */
   offset: Vector2;
@@ -73,8 +96,8 @@ export class Camera2D {
       zoom?: number;
     },
   ) {
-    this.offset = options?.offset ?? { x: 0, y: 0 };
-    this.target = options?.target ?? { x: 0, y: 0 };
+    this.offset = options?.offset ?? new Vector2(0, 0);
+    this.target = options?.target ?? new Vector2(0, 0);
     this.rotation = options?.rotation ?? 0;
     this.zoom = options?.zoom ?? 1;
   }
@@ -111,9 +134,9 @@ export class Camera3D {
       type?: "PERSPECTIVE" | "ORTHOGRAPHIC";
     },
   ) {
-    this.position = options?.position ?? { x: 0, y: 0, z: 0 };
-    this.target = options?.target ?? { x: 0, y: 1, z: 0 };
-    this.up = options?.up ?? { x: 0, y: 1, z: 0 };
+    this.position = options?.position ?? new Vector3(0, 0, 0);
+    this.target = options?.target ?? new Vector3(0, 1, 0);
+    this.up = options?.up ?? new Vector3(0, 0, 1);
     this.fovY = options?.fovY ?? 90;
     this.type = options?.type ?? "PERSPECTIVE";
   }

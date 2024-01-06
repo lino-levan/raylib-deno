@@ -21,12 +21,8 @@ export class Color {
 
   /** Unstable: only used internally */
   static fromBuffer(buffer: ArrayBuffer) {
-    return new Color(buffer[0], buffer[1], buffer[2], buffer[3]);
-  }
-
-  /** Get Color structure from hexadecimal value */
-  static fromInt(hexValue: number) {
-    return Color.fromBuffer(lib.symbols.ColorFromInt(hexValue));
+    const view = new Uint8Array(buffer);
+    return new Color(view[0], view[1], view[2], view[3]);
   }
 
   /** Get Color from normalized values [0..1] */

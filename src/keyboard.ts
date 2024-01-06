@@ -148,9 +148,9 @@ export class Keyboard {
     return !!lib.symbols.IsKeyUp(keyboardKey[key]);
   }
 
-  /** Get key pressed, call it multiple times for keys queued, returns null when the queue is empty */
+  /** Get key pressed (keycode), call it multiple times for keys queued, returns null when the queue is empty */
   static getKeyPressed() {
-    return keyboardKey[lib.symbols.GetKeyPressed()] ?? null;
+    return lib.symbols.GetKeyPressed() ?? null;
   }
 
   /** Get char pressed (unicode), call it multiple times for chars queued, returns null when the queue is empty */

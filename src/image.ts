@@ -1,75 +1,696 @@
-// TODO
-// RLAPI Image LoadImage(const char *fileName);                                                             // Load image from file into CPU memory (RAM)
-// RLAPI Image LoadImageRaw(const char *fileName, int width, int height, int format, int headerSize);       // Load image from RAW file data
-// RLAPI Image LoadImageSvg(const char *fileNameOrString, int width, int height);                           // Load image from SVG file data or string with specified size
-// RLAPI Image LoadImageAnim(const char *fileName, int *frames);                                            // Load image sequence from file (frames appended to image.data)
-// RLAPI Image LoadImageFromMemory(const char *fileType, const unsigned char *fileData, int dataSize);      // Load image from memory buffer, fileType refers to extension: i.e. '.png'
-// RLAPI Image LoadImageFromTexture(Texture2D texture);                                                     // Load image from GPU texture data
-// RLAPI Image LoadImageFromScreen(void);                                                                   // Load image from screen buffer and (screenshot)
-// RLAPI bool IsImageReady(Image image);                                                                    // Check if an image is ready
-// RLAPI void UnloadImage(Image image);                                                                     // Unload image from CPU memory (RAM)
-// RLAPI bool ExportImage(Image image, const char *fileName);                                               // Export image data to file, returns true on success
-// RLAPI unsigned char *ExportImageToMemory(Image image, const char *fileType, int *fileSize);              // Export image to memory buffer
-// RLAPI bool ExportImageAsCode(Image image, const char *fileName);                                         // Export image as code file defining an array of bytes, returns true on success
-// RLAPI Image GenImageColor(int width, int height, Color color);                                           // Generate image: plain color
-// RLAPI Image GenImageGradientLinear(int width, int height, int direction, Color start, Color end);        // Generate image: linear gradient, direction in degrees [0..360], 0=Vertical gradient
-// RLAPI Image GenImageGradientRadial(int width, int height, float density, Color inner, Color outer);      // Generate image: radial gradient
-// RLAPI Image GenImageGradientSquare(int width, int height, float density, Color inner, Color outer);      // Generate image: square gradient
-// RLAPI Image GenImageChecked(int width, int height, int checksX, int checksY, Color col1, Color col2);    // Generate image: checked
-// RLAPI Image GenImageWhiteNoise(int width, int height, float factor);                                     // Generate image: white noise
-// RLAPI Image GenImagePerlinNoise(int width, int height, int offsetX, int offsetY, float scale);           // Generate image: perlin noise
-// RLAPI Image GenImageCellular(int width, int height, int tileSize);                                       // Generate image: cellular algorithm, bigger tileSize means bigger cells
-// RLAPI Image GenImageText(int width, int height, const char *text);                                       // Generate image: grayscale image from text data
-// RLAPI Image ImageCopy(Image image);                                                                      // Create an image duplicate (useful for transformations)
-// RLAPI Image ImageFromImage(Image image, Rectangle rec);                                                  // Create an image from another image piece
-// RLAPI Image ImageText(const char *text, int fontSize, Color color);                                      // Create an image from text (default font)
-// RLAPI Image ImageTextEx(Font font, const char *text, float fontSize, float spacing, Color tint);         // Create an image from text (custom sprite font)
-// RLAPI void ImageFormat(Image *image, int newFormat);                                                     // Convert image data to desired format
-// RLAPI void ImageToPOT(Image *image, Color fill);                                                         // Convert image to POT (power-of-two)
-// RLAPI void ImageCrop(Image *image, Rectangle crop);                                                      // Crop an image to a defined rectangle
-// RLAPI void ImageAlphaCrop(Image *image, float threshold);                                                // Crop image depending on alpha value
-// RLAPI void ImageAlphaClear(Image *image, Color color, float threshold);                                  // Clear alpha channel to desired color
-// RLAPI void ImageAlphaMask(Image *image, Image alphaMask);                                                // Apply alpha mask to image
-// RLAPI void ImageAlphaPremultiply(Image *image);                                                          // Premultiply alpha channel
-// RLAPI void ImageBlurGaussian(Image *image, int blurSize);                                                // Apply Gaussian blur using a box blur approximation
-// RLAPI void ImageResize(Image *image, int newWidth, int newHeight);                                       // Resize image (Bicubic scaling algorithm)
-// RLAPI void ImageResizeNN(Image *image, int newWidth,int newHeight);                                      // Resize image (Nearest-Neighbor scaling algorithm)
-// RLAPI void ImageResizeCanvas(Image *image, int newWidth, int newHeight, int offsetX, int offsetY, Color fill);  // Resize canvas and fill with color
-// RLAPI void ImageMipmaps(Image *image);                                                                   // Compute all mipmap levels for a provided image
-// RLAPI void ImageDither(Image *image, int rBpp, int gBpp, int bBpp, int aBpp);                            // Dither image data to 16bpp or lower (Floyd-Steinberg dithering)
-// RLAPI void ImageFlipVertical(Image *image);                                                              // Flip image vertically
-// RLAPI void ImageFlipHorizontal(Image *image);                                                            // Flip image horizontally
-// RLAPI void ImageRotate(Image *image, int degrees);                                                       // Rotate image by input angle in degrees (-359 to 359)
-// RLAPI void ImageRotateCW(Image *image);                                                                  // Rotate image clockwise 90deg
-// RLAPI void ImageRotateCCW(Image *image);                                                                 // Rotate image counter-clockwise 90deg
-// RLAPI void ImageColorTint(Image *image, Color color);                                                    // Modify image color: tint
-// RLAPI void ImageColorInvert(Image *image);                                                               // Modify image color: invert
-// RLAPI void ImageColorGrayscale(Image *image);                                                            // Modify image color: grayscale
-// RLAPI void ImageColorContrast(Image *image, float contrast);                                             // Modify image color: contrast (-100 to 100)
-// RLAPI void ImageColorBrightness(Image *image, int brightness);                                           // Modify image color: brightness (-255 to 255)
-// RLAPI void ImageColorReplace(Image *image, Color color, Color replace);                                  // Modify image color: replace color
-// RLAPI Color *LoadImageColors(Image image);                                                               // Load color data from image as a Color array (RGBA - 32bit)
-// RLAPI Color *LoadImagePalette(Image image, int maxPaletteSize, int *colorCount);                         // Load colors palette from image as a Color array (RGBA - 32bit)
-// RLAPI void UnloadImageColors(Color *colors);                                                             // Unload color data loaded with LoadImageColors()
-// RLAPI void UnloadImagePalette(Color *colors);                                                            // Unload colors palette loaded with LoadImagePalette()
-// RLAPI Rectangle GetImageAlphaBorder(Image image, float threshold);                                       // Get image alpha border rectangle
-// RLAPI Color GetImageColor(Image image, int x, int y);                                                    // Get image pixel color at (x, y) position
+/**
+ * Image utility functions
+ * @module
+ */
+import { lib } from "../bindings/bindings.ts";
+import { Font } from "./font.ts";
+import { Color } from "./color.ts";
+import { Rectangle, Vector2 } from "./_util.ts";
 
-// // Image drawing functions
-// // NOTE: Image software-rendering functions (CPU)
-// RLAPI void ImageClearBackground(Image *dst, Color color);                                                // Clear image background with given color
-// RLAPI void ImageDrawPixel(Image *dst, int posX, int posY, Color color);                                  // Draw pixel within an image
-// RLAPI void ImageDrawPixelV(Image *dst, Vector2 position, Color color);                                   // Draw pixel within an image (Vector version)
-// RLAPI void ImageDrawLine(Image *dst, int startPosX, int startPosY, int endPosX, int endPosY, Color color); // Draw line within an image
-// RLAPI void ImageDrawLineV(Image *dst, Vector2 start, Vector2 end, Color color);                          // Draw line within an image (Vector version)
-// RLAPI void ImageDrawCircle(Image *dst, int centerX, int centerY, int radius, Color color);               // Draw a filled circle within an image
-// RLAPI void ImageDrawCircleV(Image *dst, Vector2 center, int radius, Color color);                        // Draw a filled circle within an image (Vector version)
-// RLAPI void ImageDrawCircleLines(Image *dst, int centerX, int centerY, int radius, Color color);          // Draw circle outline within an image
-// RLAPI void ImageDrawCircleLinesV(Image *dst, Vector2 center, int radius, Color color);                   // Draw circle outline within an image (Vector version)
-// RLAPI void ImageDrawRectangle(Image *dst, int posX, int posY, int width, int height, Color color);       // Draw rectangle within an image
-// RLAPI void ImageDrawRectangleV(Image *dst, Vector2 position, Vector2 size, Color color);                 // Draw rectangle within an image (Vector version)
-// RLAPI void ImageDrawRectangleRec(Image *dst, Rectangle rec, Color color);                                // Draw rectangle within an image
-// RLAPI void ImageDrawRectangleLines(Image *dst, Rectangle rec, int thick, Color color);                   // Draw rectangle lines within an image
-// RLAPI void ImageDraw(Image *dst, Image src, Rectangle srcRec, Rectangle dstRec, Color tint);             // Draw a source image within a destination image (tint applied to source)
-// RLAPI void ImageDrawText(Image *dst, const char *text, int posX, int posY, int fontSize, Color color);   // Draw text (using default font) within an image (destination)
-// RLAPI void ImageDrawTextEx(Image *dst, Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint); // Draw text (custom sprite font) within an image (destination)
+/** Image functions */
+export class Image {
+  #buffer: ArrayBuffer;
+
+  /** Avoid using if possible */
+  constructor(buffer: ArrayBuffer) {
+    this.#buffer = buffer;
+  }
+
+  get buffer() {
+    return this.#buffer;
+  }
+
+  get width() {
+    const view = new DataView(this.#buffer);
+    return view.getInt32(8);
+  }
+
+  get height() {
+    const view = new DataView(this.#buffer);
+    return view.getInt32(12);
+  }
+
+  /** Load image from file into CPU memory (RAM) */
+  static load(fileName: string): Image {
+    const encodedFileName = new TextEncoder().encode(fileName + "\0");
+    return new Image(lib.symbols.LoadImage(encodedFileName));
+  }
+
+  /** Load image from RAW file data */
+  static loadRaw(
+    fileName: string,
+    width: number,
+    height: number,
+    format: number,
+    headerSize: number,
+  ) {
+    const encodedFileName = new TextEncoder().encode(fileName + "\0");
+    return new Image(
+      lib.symbols.LoadImageRaw(
+        encodedFileName,
+        width,
+        height,
+        format,
+        headerSize,
+      ),
+    );
+  }
+
+  /** Load image from SVG file data or string with specified size */
+  static loadSvg(fileNameOrString: string, width: number, height: number) {
+    const encodedFileNameOrString = new TextEncoder().encode(
+      fileNameOrString + "\0",
+    );
+    return new Image(
+      lib.symbols.LoadImageSvg(
+        encodedFileNameOrString,
+        width,
+        height,
+      ),
+    );
+  }
+
+  /** Load image from memory buffer, fileType refers to extension: i.e. '.png' */
+  static loadFromMemory(fileType: string, fileData: Uint8Array): Image {
+    const encodedFileType = new TextEncoder().encode(fileType + "\0");
+    return new Image(
+      lib.symbols.LoadImageFromMemory(
+        encodedFileType,
+        fileData,
+        fileData.length,
+      ),
+    );
+  }
+
+  /** Load image from screen buffer and (screenshot) */
+  static loadFromScreen(): Image {
+    return new Image(lib.symbols.LoadImageFromScreen());
+  }
+
+  /** Check if an image is ready */
+  isReady(): boolean {
+    return !!lib.symbols.IsImageReady(this.#buffer);
+  }
+
+  /** Unload image from CPU memory (RAM) */
+  unload(): void {
+    lib.symbols.UnloadImage(this.#buffer);
+  }
+
+  /** Export image data to file, returns true on success */
+  export(fileName: string): boolean {
+    const encodedFileName = new TextEncoder().encode(fileName + "\0");
+    return !!lib.symbols.ExportImage(this.#buffer, encodedFileName);
+  }
+
+  /** Export image as code file defining an array of bytes, returns true on success */
+  exportAsCode(fileName: string): boolean {
+    const encodedFileName = new TextEncoder().encode(fileName + "\0");
+    return !!lib.symbols.ExportImageAsCode(this.#buffer, encodedFileName);
+  }
+
+  /** Generate image: plain color */
+  static genColor(width: number, height: number, color: Color): Image {
+    return new Image(lib.symbols.GenImageColor(width, height, color.buffer));
+  }
+
+  /** Generate image: linear gradient, direction in degrees [0..360], 0=Vertical gradient */
+  static genGradientLinear(
+    width: number,
+    height: number,
+    direction: number,
+    start: Color,
+    end: Color,
+  ): Image {
+    return new Image(
+      lib.symbols.GenImageGradientLinear(
+        width,
+        height,
+        direction,
+        start.buffer,
+        end.buffer,
+      ),
+    );
+  }
+
+  /** Generate image: radial gradient */
+  static genGradientRadial(
+    width: number,
+    height: number,
+    density: number,
+    inner: Color,
+    outer: Color,
+  ): Image {
+    return new Image(
+      lib.symbols.GenImageGradientRadial(
+        width,
+        height,
+        density,
+        inner.buffer,
+        outer.buffer,
+      ),
+    );
+  }
+
+  /** Generate image: square gradient */
+  static genGradientSquare(
+    width: number,
+    height: number,
+    density: number,
+    inner: Color,
+    outer: Color,
+  ): Image {
+    return new Image(
+      lib.symbols.GenImageGradientSquare(
+        width,
+        height,
+        density,
+        inner.buffer,
+        outer.buffer,
+      ),
+    );
+  }
+
+  /** Generate image: checked */
+  static genChecked(
+    width: number,
+    height: number,
+    checksX: number,
+    checksY: number,
+    col1: Color,
+    col2: Color,
+  ): Image {
+    return new Image(
+      lib.symbols.GenImageChecked(
+        width,
+        height,
+        checksX,
+        checksY,
+        col1.buffer,
+        col2.buffer,
+      ),
+    );
+  }
+
+  /** Generate image: white noise */
+  static genWhiteNoise(width: number, height: number, factor: number): Image {
+    return new Image(lib.symbols.GenImageWhiteNoise(width, height, factor));
+  }
+
+  /** Generate image: perlin noise */
+  static genPerlinNoise(
+    width: number,
+    height: number,
+    offsetX: number,
+    offsetY: number,
+    scale: number,
+  ): Image {
+    return new Image(
+      lib.symbols.GenImagePerlinNoise(width, height, offsetX, offsetY, scale),
+    );
+  }
+
+  /** Generate image: cellular algorithm. Bigger tileSize means bigger cells */
+  static genCellular(width: number, height: number, tileSize: number): Image {
+    return new Image(lib.symbols.GenImageCellular(width, height, tileSize));
+  }
+
+  /** Generate image: grayscale image from text data */
+  static genText(width: number, height: number, text: string): Image {
+    const encodedText = new TextEncoder().encode(text + "\0");
+    return new Image(lib.symbols.GenImageText(width, height, encodedText));
+  }
+
+  /** Create an image duplicate (useful for transformations) */
+  copy(): Image {
+    return new Image(lib.symbols.ImageCopy(this.#buffer));
+  }
+
+  /** Create an image from another image piece */
+  fromImage(rect: Rectangle): Image {
+    return new Image(lib.symbols.ImageFromImage(this.#buffer, rect.buffer));
+  }
+
+  /** Create an image from text (default font) */
+  static text(text: string, fontSize: number, color: Color) {
+    const encodedText = new TextEncoder().encode(text + "\0");
+    return new Image(
+      lib.symbols.ImageText(encodedText, fontSize, color.buffer),
+    );
+  }
+
+  /** Create an image from text (custom sprite font) */
+  static textEx(
+    font: Font,
+    text: string,
+    fontSize: number,
+    spacing: number,
+    tint: Color,
+  ) {
+    const encodedText = new TextEncoder().encode(text + "\0");
+    return new Image(
+      lib.symbols.ImageTextEx(
+        font.buffer,
+        encodedText,
+        fontSize,
+        spacing,
+        tint.buffer,
+      ),
+    );
+  }
+
+  /** Draw a source image within a destination image */
+  format(newFormat: number): void {
+    lib.symbols.ImageFormat(Deno.UnsafePointer.of(this.#buffer), newFormat);
+  }
+
+  /** Convert image to POT (power-of-two) */
+  toPOT(fill: Color): void {
+    lib.symbols.ImageToPOT(Deno.UnsafePointer.of(this.#buffer), fill.buffer);
+  }
+
+  /** Crop an image to a defined rectangle */
+  crop(rect: Rectangle): void {
+    lib.symbols.ImageCrop(Deno.UnsafePointer.of(this.#buffer), rect.buffer);
+  }
+
+  /** Crop image depending on alpha value */
+  alphaCrop(threshold: number): void {
+    lib.symbols.ImageAlphaCrop(Deno.UnsafePointer.of(this.#buffer), threshold);
+  }
+
+  /** Clear alpha channel to desired color */
+  alphaClear(color: Color, threshold: number): void {
+    lib.symbols.ImageAlphaClear(
+      Deno.UnsafePointer.of(this.#buffer),
+      color.buffer,
+      threshold,
+    );
+  }
+
+  /** Apply alpha mask to image */
+  alphaMask(alphaMask: Image): void {
+    lib.symbols.ImageAlphaMask(
+      Deno.UnsafePointer.of(this.#buffer),
+      alphaMask.buffer,
+    );
+  }
+
+  /** Premultiply alpha channel */
+  alphaPremultiply(): void {
+    lib.symbols.ImageAlphaPremultiply(Deno.UnsafePointer.of(this.#buffer));
+  }
+
+  /** Apply Gaussian blur using a box blur approximation */
+  blurGaussian(blurSize: number): void {
+    lib.symbols.ImageBlurGaussian(
+      Deno.UnsafePointer.of(this.#buffer),
+      blurSize,
+    );
+  }
+
+  /** Resize image (Bicubic scaling algorithm) */
+  resize(newWidth: number, newHeight: number): void {
+    lib.symbols.ImageResize(
+      Deno.UnsafePointer.of(this.#buffer),
+      newWidth,
+      newHeight,
+    );
+  }
+
+  /** Resize image (Nearest-Neighbor scaling algorithm) */
+  resizeNN(newWidth: number, newHeight: number): void {
+    lib.symbols.ImageResizeNN(
+      Deno.UnsafePointer.of(this.#buffer),
+      newWidth,
+      newHeight,
+    );
+  }
+
+  /** Resize canvas and fill with color */
+  resizeCanvas(
+    newWidth: number,
+    newHeight: number,
+    offsetX: number,
+    offsetY: number,
+    fill: Color,
+  ): void {
+    lib.symbols.ImageResizeCanvas(
+      Deno.UnsafePointer.of(this.#buffer),
+      newWidth,
+      newHeight,
+      offsetX,
+      offsetY,
+      fill.buffer,
+    );
+  }
+
+  /** Generate all mipmap levels for a provided image */
+  mipmaps(): void {
+    lib.symbols.ImageMipmaps(Deno.UnsafePointer.of(this.#buffer));
+  }
+
+  /** Dither image data to 16bpp or lower (Floyd-Steinberg dithering) */
+  dither(rBpp: number, gBpp: number, bBpp: number, aBpp: number): void {
+    lib.symbols.ImageDither(
+      Deno.UnsafePointer.of(this.#buffer),
+      rBpp,
+      gBpp,
+      bBpp,
+      aBpp,
+    );
+  }
+
+  /** Flip image vertically */
+  flipVertical(): void {
+    lib.symbols.ImageFlipVertical(Deno.UnsafePointer.of(this.#buffer));
+  }
+
+  /** Flip image horizontally */
+  flipHorizontal(): void {
+    lib.symbols.ImageFlipHorizontal(Deno.UnsafePointer.of(this.#buffer));
+  }
+
+  /** Rotate image by input angle in degrees (-359 to 359) */
+  rotate(degrees: number): void {
+    lib.symbols.ImageRotate(Deno.UnsafePointer.of(this.#buffer), degrees);
+  }
+
+  /** Rotate image clockwise 90deg */
+  rotateCW(): void {
+    lib.symbols.ImageRotateCW(Deno.UnsafePointer.of(this.#buffer));
+  }
+
+  /** Rotate image counter-clockwise 90deg */
+  rotateCCW(): void {
+    lib.symbols.ImageRotateCCW(Deno.UnsafePointer.of(this.#buffer));
+  }
+
+  /** Modify image color: tint */
+  colorTint(color: Color): void {
+    lib.symbols.ImageColorTint(
+      Deno.UnsafePointer.of(this.#buffer),
+      color.buffer,
+    );
+  }
+
+  /** Modify image color: invert */
+  colorInvert(): void {
+    lib.symbols.ImageColorInvert(Deno.UnsafePointer.of(this.#buffer));
+  }
+
+  /** Modify image color: grayscale */
+  colorGrayscale(): void {
+    lib.symbols.ImageColorGrayscale(Deno.UnsafePointer.of(this.#buffer));
+  }
+
+  /** Modify image color: contrast (-100 to 100) */
+  colorContrast(contrast: number): void {
+    lib.symbols.ImageColorContrast(
+      Deno.UnsafePointer.of(this.#buffer),
+      contrast,
+    );
+  }
+
+  /** Modify image color: brightness (-255 to 255) */
+  colorBrightness(brightness: number): void {
+    lib.symbols.ImageColorBrightness(
+      Deno.UnsafePointer.of(this.#buffer),
+      brightness,
+    );
+  }
+
+  /** Modify image color: replace color */
+  colorReplace(color: Color, replace: Color): void {
+    lib.symbols.ImageColorReplace(
+      Deno.UnsafePointer.of(this.#buffer),
+      color.buffer,
+      replace.buffer,
+    );
+  }
+
+  /** Load color data from image as a Color array (RGBA - 32bit) */
+  loadColors(): Color[] {
+    const colors = lib.symbols.LoadImageColors(this.#buffer);
+    const colorsView = new Deno.UnsafePointerView(colors!);
+    const result: Color[] = [];
+    for (let i = 0; i < this.width * this.height; i++) {
+      result.push(
+        new Color(
+          colorsView.getUint8(i * 4),
+          colorsView.getUint8(i * 4 + 1),
+          colorsView.getUint8(i * 4 + 2),
+          colorsView.getUint8(i * 4 + 3),
+        ),
+      );
+    }
+    lib.symbols.UnloadImageColors(colors);
+    return result;
+  }
+
+  /** Load colors palette from image as a Color array (RGBA - 32bit) */
+  loadPalette(maxPaletteSize: number): Color[] {
+    let colorCount = new Uint32Array(1);
+    const colors = lib.symbols.LoadImagePalette(
+      this.#buffer,
+      maxPaletteSize,
+      Deno.UnsafePointer.of(colorCount),
+    );
+    const colorsView = new Deno.UnsafePointerView(colors!);
+    const result: Color[] = [];
+    for (let i = 0; i < colorCount[0]; i++) {
+      result.push(
+        new Color(
+          colorsView.getUint8(i * 4),
+          colorsView.getUint8(i * 4 + 1),
+          colorsView.getUint8(i * 4 + 2),
+          colorsView.getUint8(i * 4 + 3),
+        ),
+      );
+    }
+    lib.symbols.UnloadImagePalette(colors);
+    return result;
+  }
+
+  /** Get image alpha border rectangle */
+  getAlphaBorder(threshold: number): Rectangle {
+    return Rectangle.fromBuffer(
+      lib.symbols.GetImageAlphaBorder(this.#buffer, threshold),
+    );
+  }
+
+  /** Get image color at pixel position */
+  getColor(x: number, y: number): Color {
+    return Color.fromBuffer(lib.symbols.GetImageColor(this.#buffer, x, y));
+  }
+
+  /** Clear image background with given color */
+  clearBackground(color: Color): void {
+    lib.symbols.ImageClearBackground(
+      Deno.UnsafePointer.of(this.#buffer),
+      color.buffer,
+    );
+  }
+
+  /** Draw pixel within an image */
+  drawPixel(posX: number, posY: number, color: Color): void {
+    lib.symbols.ImageDrawPixel(
+      Deno.UnsafePointer.of(this.#buffer),
+      posX,
+      posY,
+      color.buffer,
+    );
+  }
+
+  /** Draw pixel within an image (Vector version) */
+  drawPixelV(position: Vector2, color: Color): void {
+    lib.symbols.ImageDrawPixelV(
+      Deno.UnsafePointer.of(this.#buffer),
+      position.buffer,
+      color.buffer,
+    );
+  }
+
+  /** Draw line within an image */
+  drawLine(
+    startPosX: number,
+    startPosY: number,
+    endPosX: number,
+    endPosY: number,
+    color: Color,
+  ): void {
+    lib.symbols.ImageDrawLine(
+      Deno.UnsafePointer.of(this.#buffer),
+      startPosX,
+      startPosY,
+      endPosX,
+      endPosY,
+      color.buffer,
+    );
+  }
+
+  /** Draw line within an image (Vector version) */
+  drawLineV(start: Vector2, end: Vector2, color: Color): void {
+    lib.symbols.ImageDrawLineV(
+      Deno.UnsafePointer.of(this.#buffer),
+      start.buffer,
+      end.buffer,
+      color.buffer,
+    );
+  }
+
+  /** Draw circle within an image */
+  drawCircle(
+    centerX: number,
+    centerY: number,
+    radius: number,
+    color: Color,
+  ): void {
+    lib.symbols.ImageDrawCircle(
+      Deno.UnsafePointer.of(this.#buffer),
+      centerX,
+      centerY,
+      radius,
+      color.buffer,
+    );
+  }
+
+  /** Draw circle within an image (Vector version) */
+  drawCircleV(center: Vector2, radius: number, color: Color): void {
+    lib.symbols.ImageDrawCircleV(
+      Deno.UnsafePointer.of(this.#buffer),
+      center.buffer,
+      radius,
+      color.buffer,
+    );
+  }
+
+  /** Draw circle outline within an image */
+  drawCircleLines(
+    centerX: number,
+    centerY: number,
+    radius: number,
+    color: Color,
+  ): void {
+    lib.symbols.ImageDrawCircleLines(
+      Deno.UnsafePointer.of(this.#buffer),
+      centerX,
+      centerY,
+      radius,
+      color.buffer,
+    );
+  }
+
+  /** Draw circle outline within an image (Vector version) */
+  drawCircleLinesV(center: Vector2, radius: number, color: Color): void {
+    lib.symbols.ImageDrawCircleLinesV(
+      Deno.UnsafePointer.of(this.#buffer),
+      center.buffer,
+      radius,
+      color.buffer,
+    );
+  }
+
+  /** Draw rectangle within an image */
+  drawRectangle(
+    posX: number,
+    posY: number,
+    width: number,
+    height: number,
+    color: Color,
+  ): void {
+    lib.symbols.ImageDrawRectangle(
+      Deno.UnsafePointer.of(this.#buffer),
+      posX,
+      posY,
+      width,
+      height,
+      color.buffer,
+    );
+  }
+
+  /** Draw rectangle within an image (Vector version) */
+  drawRectangleV(position: Vector2, size: Vector2, color: Color): void {
+    lib.symbols.ImageDrawRectangleV(
+      Deno.UnsafePointer.of(this.#buffer),
+      position.buffer,
+      size.buffer,
+      color.buffer,
+    );
+  }
+
+  /** Draw rectangle within an image */
+  drawRectangleRec(rec: Rectangle, color: Color): void {
+    lib.symbols.ImageDrawRectangleRec(
+      Deno.UnsafePointer.of(this.#buffer),
+      rec.buffer,
+      color.buffer,
+    );
+  }
+
+  /** Draw rectangle lines within an image */
+  drawRectangleLines(rec: Rectangle, thick: number, color: Color): void {
+    lib.symbols.ImageDrawRectangleLines(
+      Deno.UnsafePointer.of(this.#buffer),
+      rec.buffer,
+      thick,
+      color.buffer,
+    );
+  }
+
+  /** Draw a source image within a destination image (tint applied to source) */
+  draw(src: Image, srcRec: Rectangle, dstRec: Rectangle, tint: Color): void {
+    lib.symbols.ImageDraw(
+      Deno.UnsafePointer.of(this.#buffer),
+      src.buffer,
+      srcRec.buffer,
+      dstRec.buffer,
+      tint.buffer,
+    );
+  }
+
+  /** Draw text (using default font) within an image (destination) */
+  drawText(
+    text: string,
+    posX: number,
+    posY: number,
+    fontSize: number,
+    color: Color,
+  ): void {
+    const encodedText = new TextEncoder().encode(text + "\0");
+    lib.symbols.ImageDrawText(
+      Deno.UnsafePointer.of(this.#buffer),
+      encodedText,
+      posX,
+      posY,
+      fontSize,
+      color.buffer,
+    );
+  }
+
+  /** Draw text (custom sprite font) within an image (destination) */
+  drawTextEx(
+    font: Font,
+    text: string,
+    position: Vector2,
+    fontSize: number,
+    spacing: number,
+    tint: Color,
+  ): void {
+    const encodedText = new TextEncoder().encode(text + "\0");
+    lib.symbols.ImageDrawTextEx(
+      Deno.UnsafePointer.of(this.#buffer),
+      font.buffer,
+      encodedText,
+      position.buffer,
+      fontSize,
+      spacing,
+      tint.buffer,
+    );
+  }
+}
+
+// TODO
+// RLAPI Image LoadImageAnim(const char *fileName, int *frames);                                            // Load image sequence from file (frames appended to image.data)
+// RLAPI Image LoadImageFromTexture(Texture2D texture);                                                     // Load image from GPU texture data
+// RLAPI unsigned char *ExportImageToMemory(Image image, const char *fileType, int *fileSize);              // Export image to memory buffer

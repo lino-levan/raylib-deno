@@ -320,7 +320,7 @@ export class Monitor {
 
   /** Get the human-readable, UTF-8 encoded name of the primary monitor */
   getName() {
-    return new Deno.UnsafePointerView(lib.symbols.GetMonitorName(this.#id))
+    return new Deno.UnsafePointerView(lib.symbols.GetMonitorName(this.#id)!)
       .getCString();
   }
 }
@@ -330,7 +330,7 @@ export class Monitor {
 export class Clipboard {
   /** Get clipboard text content. */
   static getText() {
-    return new Deno.UnsafePointerView(lib.symbols.GetClipboardText())
+    return new Deno.UnsafePointerView(lib.symbols.GetClipboardText()!)
       .getCString();
   }
 

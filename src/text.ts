@@ -3,6 +3,12 @@ import { lib } from "../bindings/bindings.ts";
 import { Color } from "./color.ts";
 
 export class Text {
+  /** Draw current FPS */
+  static drawFPS(x: number, y: number) {
+    lib.symbols.DrawFPS(x, y);
+  }
+
+  /** Draw text (using default font) */
   static drawText(
     text: string,
     x: number,
@@ -19,7 +25,7 @@ export class Text {
     );
   }
 }
-// RLAPI void DrawFPS(int posX, int posY);                                                     // Draw current FPS
+
 // RLAPI void DrawTextEx(Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint); // Draw text using font and additional parameters
 // RLAPI void DrawTextPro(Font font, const char *text, Vector2 position, Vector2 origin, float rotation, float fontSize, float spacing, Color tint); // Draw text using Font and pro parameters (rotation)
 // RLAPI void DrawTextCodepoint(Font font, int codepoint, Vector2 position, float fontSize, Color tint); // Draw one character (codepoint)

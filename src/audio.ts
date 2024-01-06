@@ -4,6 +4,7 @@
  */
 import { lib } from "../bindings/bindings.ts";
 
+/** Class for interacting with an Audio Device */
 export class AudioDevice {
   /** Initialize audio device and context */
   static init() {

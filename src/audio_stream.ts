@@ -4,6 +4,7 @@
  */
 import { lib } from "../bindings/bindings.ts";
 
+/** Class for interacting with an Audio Stream */
 export class AudioStream {
   #buffer: ArrayBuffer;
 

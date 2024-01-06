@@ -1,4 +1,4 @@
-// TODO: Implement this
+// TODO
 // RLAPI bool IsGamepadAvailable(int gamepad);                   // Check if a gamepad is available
 // RLAPI const char *GetGamepadName(int gamepad);                // Get gamepad internal name id
 // RLAPI bool IsGamepadButtonPressed(int gamepad, int button);   // Check if a gamepad button has been pressed once

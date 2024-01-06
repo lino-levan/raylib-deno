@@ -1,4 +1,4 @@
-// TODO: Implement this
+// TODO
 // RLAPI bool IsMouseButtonPressed(int button);                  // Check if a mouse button has been pressed once
 // RLAPI bool IsMouseButtonDown(int button);                     // Check if a mouse button is being pressed
 // RLAPI bool IsMouseButtonReleased(int button);                 // Check if a mouse button has been released once

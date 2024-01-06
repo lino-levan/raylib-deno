@@ -5,32 +5,35 @@
 
 import { lib } from "../bindings/bindings.ts";
 
-/** Shows cursor */
-export function showCursor() {
-  lib.symbols.ShowCursor();
-}
+/** A simple class for interacting with the cursor */
+export class Cursor {
+  /** Shows cursor */
+  static show() {
+    lib.symbols.ShowCursor();
+  }
 
-/** Hides cursor */
-export function hideCursor() {
-  lib.symbols.HideCursor();
-}
+  /** Hides cursor */
+  static hide() {
+    lib.symbols.HideCursor();
+  }
 
-/** Check if cursor is not visible */
-export function isCursorHidden() {
-  return !!lib.symbols.IsCursorHidden();
-}
+  /** Check if cursor is not visible */
+  static isHidden() {
+    return !!lib.symbols.IsCursorHidden();
+  }
 
-/** Enables cursor (unlock cursor) */
-export function enableCursor() {
-  lib.symbols.EnableCursor();
-}
+  /** Enables cursor (unlock cursor) */
+  static enable() {
+    lib.symbols.EnableCursor();
+  }
 
-/** Disables cursor (lock cursor) */
-export function disableCursor() {
-  lib.symbols.DisableCursor();
-}
+  /** Disables cursor (lock cursor) */
+  static disable() {
+    lib.symbols.DisableCursor();
+  }
 
-/** Check if cursor is on the current screen. */
-export function isCursorOnScreen() {
-  return !!lib.symbols.IsCursorOnScreen();
+  /** Check if cursor is on the current screen. */
+  static isOnScreen() {
+    return !!lib.symbols.IsCursorOnScreen();
+  }
 }

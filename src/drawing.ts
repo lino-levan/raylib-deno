@@ -4,44 +4,48 @@
  */
 
 import { lib } from "../bindings/bindings.ts";
-import { Camera2D, Color } from "./util.ts";
+import { Color } from "./color.ts";
+import { Camera2D, Camera3D } from "./_util.ts";
 
-/** Set background color (framebuffer clear color) */
-export function clearBackground(color: Color) {
-  lib.symbols.ClearBackground(color.buffer);
-}
+export class Drawing {
+  /** Set background color (framebuffer clear color) */
+  static clearBackground(color: Color) {
+    lib.symbols.ClearBackground(color.buffer);
+  }
 
-/** Setup canvas (framebuffer) to start drawing */
-export function beginDrawing() {
-  lib.symbols.BeginDrawing();
-}
+  /** Setup canvas (framebuffer) to start drawing */
+  static beginDrawing() {
+    lib.symbols.BeginDrawing();
+  }
 
-/** End canvas drawing and swap buffers (double buffering) */
-export function endDrawing() {
-  lib.symbols.EndDrawing();
-}
+  /** End canvas drawing and swap buffers (double buffering) */
+  static endDrawing() {
+    lib.symbols.EndDrawing();
+  }
 
-/** Initialize 2D mode with custom camera (2D) */
-export function beginMode2D(camera: Camera2D) {
-  lib.symbols.BeginMode2D(camera.buffer);
-}
+  /** Initialize 2D mode with custom camera (2D) */
+  static beginMode2D(camera: Camera2D) {
+    lib.symbols.BeginMode2D(camera.buffer);
+  }
 
-/** Ends 2D mode with custom camera */
-export function endMode2D() {
-  lib.symbols.EndMode2D();
-}
+  /** Ends 2D mode with custom camera */
+  static endMode2D() {
+    lib.symbols.EndMode2D();
+  }
 
-/** Initializes 3D mode with custom camera (3D) */
-export function beginMode3D(camera: Camera3D) {
-  lib.symbols.BeginMode3D(camera.buffer);
-}
+  /** Initializes 3D mode with custom camera (3D) */
+  static beginMode3D(camera: Camera3D) {
+    lib.symbols.BeginMode3D(camera.buffer);
+  }
 
-/** Ends 3D mode and returns to default 2D orthographic mode */
-export function endMode3D() {
-  lib.symbols.EndMode3D();
+  /** Ends 3D mode and returns to default 2D orthographic mode */
+  static endMode3D() {
+    lib.symbols.EndMode3D();
+  }
 }
 
 // TODO(lino-levan): The rest of these
+// RLAPI void BeginTextureMode(RenderTexture2D target);              // Begin drawing to render texture
 // RLAPI void EndTextureMode(void);                                  // Ends drawing to render texture
 // RLAPI void BeginShaderMode(Shader shader);                        // Begin custom shader drawing
 // RLAPI void EndShaderMode(void);                                   // End custom shader drawing (use default shader)

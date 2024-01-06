@@ -1,22 +1,18 @@
-import {
-  beginDrawing,
-  clearBackground,
-  closeWindow,
-  drawText,
-  endDrawing,
-  initWindow,
-  LIGHTGRAY,
-  RAYWHITE,
-  windowShouldClose,
-} from "raylib";
+import { Drawing, LIGHTGRAY, RAYWHITE, Text, Window } from "raylib";
 
-initWindow(800, 450, "raylib [core] example - basic window");
+Window.init(800, 450, "Raylib - Basic Window");
 
-while (!windowShouldClose()) {
-  beginDrawing();
-  clearBackground(RAYWHITE);
-  drawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-  endDrawing();
+while (!Window.shouldClose()) {
+  Drawing.beginDrawing();
+  Drawing.clearBackground(RAYWHITE);
+  Text.drawText(
+    "Congrats! You created your first window!",
+    190,
+    200,
+    20,
+    LIGHTGRAY,
+  );
+  Drawing.endDrawing();
 }
 
-closeWindow();
+Window.close();

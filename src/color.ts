@@ -1,16 +1,93 @@
+/**
+ * Color-related functions
+ * @module
+ */
+
+import { lib } from "../bindings/bindings.ts";
+
+import { Vector3, Vector4 } from "./_util.ts";
+
+export class Color {
+  #buffer: ArrayBuffer;
+
+  constructor(r: number, g: number, b: number, a: number) {
+    this.#buffer = new Uint8Array([r, g, b, a]).buffer;
+  }
+
+  /** Unstable: only used internally */
+  get buffer() {
+    return this.#buffer;
+  }
+
+  /** Unstable: only used internally */
+  static fromBuffer(buffer: ArrayBuffer) {
+    return new Color(buffer[0], buffer[1], buffer[2], buffer[3]);
+  }
+
+  /** Get Color structure from hexadecimal value */
+  static fromInt(hexValue: number) {
+    return Color.fromBuffer(lib.symbols.ColorFromInt(hexValue));
+  }
+
+  /** Get Color from normalized values [0..1] */
+  static fromNormalized(normalized: Vector4) {
+    return Color.fromBuffer(lib.symbols.ColorFromNormalized(normalized.buffer));
+  }
+
+  /** Get a Color from HSV values, hue [0..360], saturation/value [0..1] */
+  static fromHSV(hue: number, saturation: number, value: number) {
+    return Color.fromBuffer(lib.symbols.ColorFromHSV(hue, saturation, value));
+  }
+
+  /** Get hexadecimal value for a Color */
+  toInt() {
+    return lib.symbols.ColorToInt(this.#buffer);
+  }
+
+  /** Get HSV values for a Color, hue [0..360], saturation/value [0..1] */
+  toHSV() {
+    return Vector3.fromBuffer(lib.symbols.ColorToHSV(this.#buffer));
+  }
+
+  /** Get color with alpha applied, alpha goes from 0.0f to 1.0f */
+  fade(alpha: number) {
+    return Color.fromBuffer(lib.symbols.Fade(this.#buffer, alpha));
+  }
+
+  /** Get Color normalized as float [0..1] */
+  normalize() {
+    return Vector4.fromBuffer(lib.symbols.ColorNormalize(this.#buffer));
+  }
+
+  /** Get color multiplied with another color */
+  tint(tint: Color) {
+    return Color.fromBuffer(lib.symbols.ColorTint(this.#buffer, tint.#buffer));
+  }
+
+  /** Get color with brightness correction, brightness factor goes from -1.0f to 1.0f */
+  brightness(factor: number) {
+    return Color.fromBuffer(lib.symbols.ColorBrightness(this.#buffer, factor));
+  }
+
+  /** Get color with contrast correction, contrast values between -1.0f and 1.0f */
+  contrast(factor: number) {
+    return Color.fromBuffer(lib.symbols.ColorContrast(this.#buffer, factor));
+  }
+
+  /** Get color with alpha applied, alpha goes from 0.0f to 1.0f */
+  alpha(alpha: number) {
+    return Color.fromBuffer(lib.symbols.ColorAlpha(this.#buffer, alpha));
+  }
+
+  /** Get src alpha-blended into dst color with tint */
+  alphaBlend(src: Color, tint: Color) {
+    return Color.fromBuffer(
+      lib.symbols.ColorAlphaBlend(this.#buffer, src.#buffer, tint.#buffer),
+    );
+  }
+}
+
 // TODO
-// RLAPI Color Fade(Color color, float alpha);                                 // Get color with alpha applied, alpha goes from 0.0f to 1.0f
-// RLAPI int ColorToInt(Color color);                                          // Get hexadecimal value for a Color
-// RLAPI Vector4 ColorNormalize(Color color);                                  // Get Color normalized as float [0..1]
-// RLAPI Color ColorFromNormalized(Vector4 normalized);                        // Get Color from normalized values [0..1]
-// RLAPI Vector3 ColorToHSV(Color color);                                      // Get HSV values for a Color, hue [0..360], saturation/value [0..1]
-// RLAPI Color ColorFromHSV(float hue, float saturation, float value);         // Get a Color from HSV values, hue [0..360], saturation/value [0..1]
-// RLAPI Color ColorTint(Color color, Color tint);                             // Get color multiplied with another color
-// RLAPI Color ColorBrightness(Color color, float factor);                     // Get color with brightness correction, brightness factor goes from -1.0f to 1.0f
-// RLAPI Color ColorContrast(Color color, float contrast);                     // Get color with contrast correction, contrast values between -1.0f and 1.0f
-// RLAPI Color ColorAlpha(Color color, float alpha);                           // Get color with alpha applied, alpha goes from 0.0f to 1.0f
-// RLAPI Color ColorAlphaBlend(Color dst, Color src, Color tint);              // Get src alpha-blended into dst color with tint
-// RLAPI Color GetColor(unsigned int hexValue);                                // Get Color structure from hexadecimal value
 // RLAPI Color GetPixelColor(void *srcPtr, int format);                        // Get Color from a source pixel pointer of certain format
 // RLAPI void SetPixelColor(void *dstPtr, Color color, int format);            // Set color formatted into destination pixel pointer
 // RLAPI int GetPixelDataSize(int width, int height, int format);              // Get pixel data size in bytes for certain format

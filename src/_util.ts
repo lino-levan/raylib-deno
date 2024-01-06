@@ -1,23 +1,53 @@
-export interface Vector2 {
-  x: number;
-  y: number;
-}
+export class Vector2 {
+  constructor(public x: number, public y: number) {}
 
-export interface Vector3 {
-  x: number;
-  y: number;
-  z: number;
-}
-
-export class Color {
-  #buffer: Uint8Array;
-
-  constructor(r, g, b, a) {
-    this.#buffer = new Uint8Array([r, g, b, a]).buffer;
+  static fromBuffer(buffer: ArrayBuffer) {
+    const view = new DataView(buffer);
+    return new Vector2(view.getFloat32(0), view.getFloat32(4));
   }
 
   get buffer() {
-    return this.#buffer;
+    return new Float32Array([this.x, this.y]).buffer;
+  }
+}
+
+export class Vector3 {
+  constructor(public x: number, public y: number, public z: number) {}
+
+  static fromBuffer(buffer: ArrayBuffer) {
+    const view = new DataView(buffer);
+    return new Vector3(
+      view.getFloat32(0),
+      view.getFloat32(4),
+      view.getFloat32(8),
+    );
+  }
+
+  get buffer() {
+    return new Float32Array([this.x, this.y, this.z]).buffer;
+  }
+}
+
+export class Vector4 {
+  constructor(
+    public x: number,
+    public y: number,
+    public z: number,
+    public w: number,
+  ) {}
+
+  static fromBuffer(buffer: ArrayBuffer) {
+    const view = new DataView(buffer);
+    return new Vector4(
+      view.getFloat32(0),
+      view.getFloat32(4),
+      view.getFloat32(8),
+      view.getFloat32(12),
+    );
+  }
+
+  get buffer() {
+    return new Float32Array([this.x, this.y, this.z, this.w]).buffer;
   }
 }
 
@@ -66,7 +96,7 @@ export class Camera3D {
   target: Vector3;
   up: Vector3;
   fovY: number;
-  type: number;
+  type: "PERSPECTIVE" | "ORTHOGRAPHIC";
   constructor(
     options?: {
       /** Camera position */

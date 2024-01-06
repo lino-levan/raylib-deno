@@ -5,56 +5,6 @@
 
 import { lib } from "../bindings/bindings.ts";
 
-/** Initialize window and OpenGL context */
-export function initWindow(width: number, height: number, title: string) {
-  lib.symbols.InitWindow(width, height, new TextEncoder().encode(title + "\0"));
-}
-
-/** Close window and unload OpenGL context */
-export function closeWindow() {
-  lib.symbols.CloseWindow();
-}
-
-/** Check if application should close (KEY_ESCAPE pressed or windows close icon clicked) */
-export function windowShouldClose() {
-  return !!lib.symbols.WindowShouldClose();
-}
-
-/** Check if window has been initialized successfully */
-export function isWindowReady() {
-  return !!lib.symbols.IsWindowReady();
-}
-
-/** Check if window is currently fullscreen */
-export function isWindowFullscreen() {
-  return !!lib.symbols.IsWindowFullscreen();
-}
-
-/** Check if window is currently hidden */
-export function isWindowHidden() {
-  return !!lib.symbols.IsWindowHidden();
-}
-
-/** Check if window is currently minimized */
-export function isWindowMinimized() {
-  return !!lib.symbols.IsWindowMinimized();
-}
-
-/** Check if window is currently maximized */
-export function isWindowMaximized() {
-  return !!lib.symbols.IsWindowMaximized();
-}
-
-/** Check if window is currently focused */
-export function isWindowFocused() {
-  return !!lib.symbols.IsWindowFocused();
-}
-
-/** Check if window has been resized last frame */
-export function isWindowResized() {
-  return !!lib.symbols.IsWindowResized();
-}
-
 /** System/Window config flags.  By default all flags are set to false. */
 export interface WindowState {
   /** Set to try enabling V-Sync on GPU */
@@ -110,140 +60,213 @@ const FLAG_BITMASK = {
   interlaced: 0x00010000,
 };
 
-/** Check if one specific window flag is enabled */
-export function isWindowState(flags: Partial<WindowState>) {
-  const flag = Object.keys(flags).reduce((acc, key) => {
-    return acc | FLAG_BITMASK[key as keyof WindowState];
-  }, 0);
-  return !!lib.symbols.IsWindowState(flag);
+/** A class representing a window */
+export class Window {
+  /** Initialize window and OpenGL context */
+  static init(width: number, height: number, title: string) {
+    lib.symbols.InitWindow(
+      width,
+      height,
+      new TextEncoder().encode(title + "\0"),
+    );
+  }
+
+  /** Close window and unload OpenGL context */
+  static close() {
+    lib.symbols.CloseWindow();
+  }
+
+  /** Check if application should close (KEY_ESCAPE pressed or windows close icon clicked) */
+  static shouldClose() {
+    return !!lib.symbols.WindowShouldClose();
+  }
+
+  /** Check if window has been initialized successfully */
+  static isReady() {
+    return !!lib.symbols.IsWindowReady();
+  }
+
+  /** Check if window is currently fullscreen */
+  static isFullscreen() {
+    return !!lib.symbols.IsWindowFullscreen();
+  }
+
+  /** Check if window is currently hidden */
+  static isHidden() {
+    return !!lib.symbols.IsWindowHidden();
+  }
+
+  /** Check if window is currently minimized */
+  static isMinimized() {
+    return !!lib.symbols.IsWindowMinimized();
+  }
+
+  /** Check if window is currently maximized */
+  static isMaximized() {
+    return !!lib.symbols.IsWindowMaximized();
+  }
+
+  /** Check if window is currently focused */
+  static isFocused() {
+    return !!lib.symbols.IsWindowFocused();
+  }
+
+  /** Check if window has been resized last frame */
+  static isResized() {
+    return !!lib.symbols.IsWindowResized();
+  }
+
+  /** Check if one specific window flag is enabled */
+  static isState(flags: Partial<WindowState>) {
+    const flag = Object.keys(flags).reduce((acc, key) => {
+      return acc | FLAG_BITMASK[key as keyof WindowState];
+    }, 0);
+    return !!lib.symbols.IsWindowState(flag);
+  }
+
+  /** Set window configuration state using flags */
+  static setState(flags: Partial<WindowState>) {
+    const flag = Object.keys(flags).reduce((acc, key) => {
+      return acc | FLAG_BITMASK[key as keyof WindowState];
+    }, 0);
+    lib.symbols.SetWindowState(flag);
+  }
+
+  /** Clear window configuration state flags */
+  static clearState(flags: Partial<WindowState>) {
+    const flag = Object.keys(flags).reduce((acc, key) => {
+      return acc | FLAG_BITMASK[key as keyof WindowState];
+    }, 0);
+    lib.symbols.ClearWindowState(flag);
+  }
+
+  /** Toggle window state: fullscreen/windowed */
+  static toggleFullscreen() {
+    lib.symbols.ToggleFullscreen();
+  }
+
+  /** Toggle window state: borderless windowed */
+  static toggleBorderlessWindowed() {
+    lib.symbols.ToggleBorderlessWindowed();
+  }
+
+  /** Set window state: maximized, if resizable */
+  static maximize() {
+    lib.symbols.MaximizeWindow();
+  }
+
+  /** Set window state: minimized, if resizable */
+  static minimize() {
+    lib.symbols.MinimizeWindow();
+  }
+
+  /** Set window state: not minimized/maximized */
+  static restore() {
+    lib.symbols.RestoreWindow();
+  }
+
+  /** Set icon for window (single image, RGBA 32bit) */
+  // TODO: Implement Image
+  // static setIcon(image: Image) {
+  //   lib.symbols.SetWindowIcon(image);
+  // }
+
+  /** Set icon for window (multiple images, RGBA 32bit) */
+  // TODO: Implement Image
+  // static setIcons(image: Image[]) {
+  //   lib.symbols.SetWindowIcons(image);
+  // }
+
+  /** Set title for window */
+  static setTitle(title: string) {
+    lib.symbols.SetWindowTitle(new TextEncoder().encode(title + "\0"));
+  }
+
+  /** Set window position on screen */
+  static setPosition(x: number, y: number) {
+    lib.symbols.SetWindowPosition(x, y);
+  }
+
+  // TODO: Rethink this API
+  /** Set monitor for the current window */
+  static setMonitor(monitor: number) {
+    lib.symbols.SetWindowMonitor(monitor);
+  }
+
+  /** Set window minimum dimensions (for resizable windows) */
+  static setMinSize(width: number, height: number) {
+    lib.symbols.SetWindowMinSize(width, height);
+  }
+
+  /** Set window maximum dimensions (for resizable windows) */
+  static setMaxSize(width: number, height: number) {
+    lib.symbols.SetWindowMaxSize(width, height);
+  }
+
+  /** Set window dimensions */
+  static setSize(width: number, height: number) {
+    lib.symbols.SetWindowSize(width, height);
+  }
+
+  /** Set window opacity [0.0f..1.0f] */
+  static setOpacity(opacity: number) {
+    lib.symbols.SetWindowOpacity(opacity);
+  }
+
+  /** Set window focused */
+  static setFocused() {
+    lib.symbols.SetWindowFocused();
+  }
+
+  /** Get native window handle (DANGEROUS) */
+  static getHandle() {
+    return lib.symbols.GetWindowHandle();
+  }
+
+  /** Get window position XY on monitor */
+  static getPosition() {
+    const pos = new DataView(lib.symbols.GetWindowPosition().buffer);
+    return { x: pos.getFloat32(0), y: pos.getFloat32(4) };
+  }
+
+  /** Get window scale DPI factor */
+  static getScaleDPI() {
+    const pos = new DataView(lib.symbols.GetWindowScaleDPI().buffer);
+    return { x: pos.getFloat32(0), y: pos.getFloat32(4) };
+  }
+
+  /** Enable waiting for events on EndDrawing(), no automatic event polling */
+  static enableEventWaiting() {
+    lib.symbols.EnableEventWaiting();
+  }
+
+  /** Disable waiting for events on EndDrawing(), resume automatic event polling */
+  static disableEventWaiting() {
+    lib.symbols.DisableEventWaiting();
+  }
 }
 
-/** Set window configuration state using flags */
-export function setWindowState(flags: Partial<WindowState>) {
-  const flag = Object.keys(flags).reduce((acc, key) => {
-    return acc | FLAG_BITMASK[key as keyof WindowState];
-  }, 0);
-  lib.symbols.SetWindowState(flag);
-}
+/** A class to interact with the screen */
+export class Screen {
+  /** Get current screen width */
+  static getWidth() {
+    return lib.symbols.GetScreenWidth();
+  }
 
-/** Clear window configuration state flags */
-export function clearWindowState(flags: Partial<WindowState>) {
-  const flag = Object.keys(flags).reduce((acc, key) => {
-    return acc | FLAG_BITMASK[key as keyof WindowState];
-  }, 0);
-  lib.symbols.ClearWindowState(flag);
-}
+  /** Get current screen height */
+  static getHeight() {
+    return lib.symbols.GetScreenHeight();
+  }
 
-/** Toggle window state: fullscreen/windowed */
-export function toggleFullscreen() {
-  lib.symbols.ToggleFullscreen();
-}
+  /** Get current render width (it considers HiDPI) */
+  static getRenderWidth() {
+    return lib.symbols.GetRenderWidth();
+  }
 
-/** Toggle window state: borderless windowed */
-export function toggleBorderlessWindowed() {
-  lib.symbols.ToggleBorderlessWindowed();
-}
-
-/** Set window state: maximized, if resizable */
-export function maximizeWindow() {
-  lib.symbols.MaximizeWindow();
-}
-
-/** Set window state: minimized, if resizable */
-export function minimizeWindow() {
-  lib.symbols.MinimizeWindow();
-}
-
-/** Set window state: not minimized/maximized */
-export function restoreWindow() {
-  lib.symbols.RestoreWindow();
-}
-
-/** Set icon for window (single image, RGBA 32bit) */
-// TODO: Implement Image
-// export function setWindowIcon(image: Image) {
-//   lib.symbols.SetWindowIcon(image);
-// }
-
-/** Set icon for window (multiple images, RGBA 32bit) */
-// TODO: Implement Image
-// export function setWindowIcons(image: Image) {
-//   lib.symbols.SetWindowIcons(image);
-// }
-
-/** Set title for window */
-export function setWindowTitle(title: string) {
-  lib.symbols.SetWindowTitle(new TextEncoder().encode(title + "\0"));
-}
-
-/** Set window position on screen */
-export function setWindowPosition(x: number, y: number) {
-  lib.symbols.SetWindowPosition(x, y);
-}
-
-/** Set monitor for the current window */
-export function setWindowMonitor(monitor: number) {
-  lib.symbols.SetWindowMonitor(monitor);
-}
-
-/** Set window minimum dimensions (for resizable windows) */
-export function setWindowMinSize(width: number, height: number) {
-  lib.symbols.SetWindowMinSize(width, height);
-}
-
-/** Set window maximum dimensions (for resizable windows) */
-export function setWindowMaxSize(width: number, height: number) {
-  lib.symbols.SetWindowMaxSize(width, height);
-}
-
-/** Set window dimensions */
-export function setWindowSize(width: number, height: number) {
-  lib.symbols.SetWindowSize(width, height);
-}
-
-/** Set window opacity [0.0f..1.0f] */
-export function setWindowOpacity(opacity: number) {
-  lib.symbols.SetWindowOpacity(opacity);
-}
-
-/** Set window focused */
-export function setWindowFocused() {
-  lib.symbols.SetWindowFocused();
-}
-
-/** Get native window handle (DANGEROUS) */
-export function getWindowHandle() {
-  return lib.symbols.GetWindowHandle();
-}
-
-/** Get current screen width */
-export function getScreenWidth() {
-  return lib.symbols.GetScreenWidth();
-}
-
-/** Get current screen height */
-export function getScreenHeight() {
-  return lib.symbols.GetScreenHeight();
-}
-
-/** Get current render width (it considers HiDPI) */
-export function getRenderWidth() {
-  return lib.symbols.GetRenderWidth();
-}
-
-/** Get current render height (it considers HiDPI) */
-export function getRenderHeight() {
-  return lib.symbols.GetRenderHeight();
-}
-
-/** Get number of connected monitors */
-export function getMonitorCount() {
-  return lib.symbols.GetMonitorCount();
-}
-
-/** Get current connected monitor */
-export function getCurrentMonitor() {
-  return new Monitor(lib.symbols.GetCurrentMonitor());
+  /** Get current render height (it considers HiDPI) */
+  static getRenderHeight() {
+    return lib.symbols.GetRenderHeight();
+  }
 }
 
 /** A class to interact with a monitor object */
@@ -254,73 +277,65 @@ export class Monitor {
     this.#id = id;
   }
 
+  /** Get number of connected monitors */
+  static getCount() {
+    return lib.symbols.GetMonitorCount();
+  }
+
+  /** Get current connected monitor */
+  static getCurrent() {
+    return new Monitor(lib.symbols.GetCurrentMonitor());
+  }
+
   /** Get monitor position */
-  get position() {
+  getPosition() {
     const pos = new DataView(lib.symbols.GetMonitorPosition(this.#id).buffer);
     return { x: pos.getFloat32(0), y: pos.getFloat32(4) };
   }
 
   /** Get specified monitor width (current video mode used by monitor) */
-  get width() {
+  getWidth() {
     return lib.symbols.GetMonitorWidth(this.#id);
   }
 
   /** Get specified monitor height (current video mode used by monitor) */
-  get height() {
+  getHeight() {
     return lib.symbols.GetMonitorHeight(this.#id);
   }
 
   /**  Get specified monitor physical width in millimetres */
-  get physicalWidth() {
+  getPhysicalWidth() {
     return lib.symbols.GetMonitorPhysicalWidth(this.#id);
   }
 
   /** Get specified monitor physical height in millimetres */
-  get physicalHeight() {
+  getPhysicalHeight() {
     return lib.symbols.GetMonitorPhysicalHeight(this.#id);
   }
 
   /** Get specified monitor refresh rate */
-  get refreshRate() {
+  getRefreshRate() {
     return lib.symbols.GetMonitorRefreshRate(this.#id);
   }
 
   /** Get the human-readable, UTF-8 encoded name of the primary monitor */
-  get name() {
+  getName() {
     return new Deno.UnsafePointerView(lib.symbols.GetMonitorName(this.#id))
       .getCString();
   }
 }
 
-/** Get window position XY on monitor */
-export function getWindowPosition() {
-  const pos = new DataView(lib.symbols.GetWindowPosition().buffer);
-  return { x: pos.getFloat32(0), y: pos.getFloat32(4) };
-}
+// TODO(lino-levan): Investigate why this doesn't seem to work
+/** A class to interact with a clipboard object */
+export class Clipboard {
+  /** Get clipboard text content. */
+  static getText() {
+    return new Deno.UnsafePointerView(lib.symbols.GetClipboardText())
+      .getCString();
+  }
 
-/** Get window scale DPI factor */
-export function getWindowScaleDPI() {
-  const pos = new DataView(lib.symbols.getWindowScaleDPI().buffer);
-  return { x: pos.getFloat32(0), y: pos.getFloat32(4) };
-}
-
-/** Set clipboard text content. TODO(lino-levan): Investigate why this doesn't seem to work */
-export function setClipboardText(text: string) {
-  lib.symbols.SetClipboardText(new TextEncoder().encode(text + "\0"));
-}
-
-/** Get clipboard text content. TODO(lino-levan): Investigate why this doesn't seem to work */
-export function getClipboardText() {
-  return new Deno.UnsafePointerView(lib.symbols.GetClipboardText())
-    .getCString();
-}
-
-/** Enable waiting for events on EndDrawing(), no automatic event polling */
-export function enableEventWaiting() {
-  lib.symbols.EnableEventWaiting();
-}
-
-/** Disable waiting for events on EndDrawing(), resume automatic event polling */
-export function disableEventWaiting() {
-  lib.symbols.DisableEventWaiting();
+  /** Set clipboard text content. */
+  static setText(text: string) {
+    lib.symbols.SetClipboardText(new TextEncoder().encode(text + "\0"));
+  }
 }

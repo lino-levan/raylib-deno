@@ -6,25 +6,27 @@ Deno bindings for [raylib](https://github.com/raysan5/raylib).
 
 ```typescript
 import {
-  beginDrawing,
-  clearBackground,
-  closeWindow,
-  drawText,
-  endDrawing,
-  initWindow,
+  Drawing,
   LIGHTGRAY,
   RAYWHITE,
-  windowShouldClose,
+  Text,
+  Window,
 } from "https://deno.land/x/raylib";
 
-initWindow(800, 450, "raylib [core] example - basic window");
+Window.init(800, 450, "Raylib - Basic Window");
 
-while (!windowShouldClose()) {
-  beginDrawing();
-  clearBackground(RAYWHITE);
-  drawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-  endDrawing();
+while (!Window.shouldClose()) {
+  Drawing.beginDrawing();
+  Drawing.clearBackground(RAYWHITE);
+  Text.drawText(
+    "Congrats! You created your first window!",
+    190,
+    200,
+    20,
+    LIGHTGRAY,
+  );
+  Drawing.endDrawing();
 }
 
-closeWindow();
+Window.close();
 ```

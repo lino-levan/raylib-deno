@@ -1,4 +1,4 @@
-// TODO: Implement this
+// TODO
 // RLAPI bool IsKeyPressed(int key);                             // Check if a key has been pressed once
 // RLAPI bool IsKeyPressedRepeat(int key);                       // Check if a key has been pressed again (Only PLATFORM_DESKTOP)
 // RLAPI bool IsKeyDown(int key);                                // Check if a key is being pressed

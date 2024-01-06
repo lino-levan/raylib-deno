@@ -1,4 +1,24 @@
 // TODO
+import { lib } from "../bindings/bindings.ts";
+import { Color } from "./color.ts";
+
+export class Text {
+  static drawText(
+    text: string,
+    x: number,
+    y: number,
+    fontSize: number,
+    color: Color,
+  ) {
+    lib.symbols.DrawText(
+      new TextEncoder().encode(text + "\0"),
+      x,
+      y,
+      fontSize,
+      color.buffer,
+    );
+  }
+}
 // RLAPI void DrawFPS(int posX, int posY);                                                     // Draw current FPS
 // RLAPI void DrawText(const char *text, int posX, int posY, int fontSize, Color color);       // Draw text (using default font)
 // RLAPI void DrawTextEx(Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint); // Draw text using font and additional parameters

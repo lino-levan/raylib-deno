@@ -1,4 +1,4 @@
-// TODO(lino-levan): Implement this
+// TODO
 // RLAPI AutomationEventList LoadAutomationEventList(const char *fileName);                // Load automation events list from file, NULL for empty list, capacity = MAX_AUTOMATION_EVENTS
 // RLAPI void UnloadAutomationEventList(AutomationEventList *list);                        // Unload automation events list from file
 // RLAPI bool ExportAutomationEventList(AutomationEventList list, const char *fileName);   // Export automation events list as text file

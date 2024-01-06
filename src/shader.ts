@@ -1,4 +1,4 @@
-// TODO(lino-levan): Implement the shader functions
+// TODO
 // RLAPI Shader LoadShader(const char *vsFileName, const char *fsFileName);   // Load shader from files and bind default locations
 // RLAPI Shader LoadShaderFromMemory(const char *vsCode, const char *fsCode); // Load shader from code strings and bind default locations
 // RLAPI bool IsShaderReady(Shader shader);                                   // Check if a shader is ready

@@ -21,7 +21,7 @@ export class Camera3D {
       target?: Vector3;
       /** Camera up vector (rotation over its axis) */
       up?: Vector3;
-      /** Camera field-of-view apperture in Y (degrees) */
+      /** Camera field-of-view aperture in Y (degrees) */
       fovY?: number;
       /** Camera type, defines projection type */
       type?: "PERSPECTIVE" | "ORTHOGRAPHIC";

@@ -1310,6 +1310,20 @@ export const lib = await dlopen({
     }],
     result: "void",
   },
+  // Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...]
+  DrawSplineBezierQuadratic: {
+    parameters: ["pointer", "i32", "f32", {
+      "struct": ["u8", "u8", "u8", "u8"],
+    }],
+    result: "void",
+  },
+  // Draw spline: Cubic Bezier, minimum 4 points (2 control points): [p1, c2, c3, p4, c5, c6...]
+  DrawSplineBezierCubic: {
+    parameters: ["pointer", "i32", "f32", {
+      "struct": ["u8", "u8", "u8", "u8"],
+    }],
+    result: "void",
+  },
   // Draw spline segment: Linear, 2 points
   DrawSplineSegmentLinear: {
     parameters: [
@@ -3648,6 +3662,13 @@ export const lib = await dlopen({
   UnloadMaterial: {
     parameters: [{
       "struct": ["u32", "pointer", "pointer", "f32", "f32", "f32", "f32"],
+    }],
+    result: "void",
+  },
+  // Set texture for a material map type (MATERIAL_MAP_DIFFUSE, MATERIAL_MAP_SPECULAR...)
+  SetMaterialTexture: {
+    parameters: ["pointer", "i32", {
+      "struct": ["u32", "i32", "i32", "i32", "i32"],
     }],
     result: "void",
   },

@@ -374,7 +374,7 @@ const raw_type_map: Record<string, unknown> = {
 
 for (let i = 953; i < 1656; i++) {
   if (!source[i].startsWith("RLAPI")) continue;
-  if (source[i].includes("...")) continue;
+  if (source[i].includes(", ...")) continue;
   const comment = source[i].split("//")[1].trim();
   const { name: functionName, type: returnType } = extract(
     source[i].split("(")[0].split(" ").slice(1).join(" "),

@@ -7,7 +7,7 @@ export * from "./src/_util.ts";
 export * from "./src/audio.ts";
 export * from "./src/audio_stream.ts";
 export * from "./src/automation_events.ts";
-export * from "./src/camera.ts";
+export * from "./src/camera3d.ts";
 export * from "./src/collision.ts";
 export * from "./src/color.ts";
 export * from "./src/cursor.ts";

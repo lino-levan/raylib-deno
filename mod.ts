@@ -21,7 +21,6 @@ export * from "./src/keyboard.ts";
 export * from "./src/material.ts";
 export * from "./src/mesh.ts";
 export * from "./src/model.ts";
-export * from "./src/model.ts";
 export * from "./src/model_animations.ts";
 export * from "./src/mouse.ts";
 export * from "./src/music.ts";

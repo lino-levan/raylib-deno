@@ -19,7 +19,7 @@ export class Collision {
     center1: Vector2,
     radius1: number,
     center2: Vector2,
-    radius2,
+    radius2: number,
   ) {
     return !!lib.symbols.CheckCollisionCircles(
       center1.buffer,
@@ -63,7 +63,7 @@ export class Collision {
     p2: Vector2,
     p3: Vector2,
   ) {
-    return !!lib.symbols.CheckCollisionPointCircle(
+    return !!lib.symbols.CheckCollisionPointTriangle(
       point.buffer,
       p1.buffer,
       p2.buffer,
@@ -74,7 +74,7 @@ export class Collision {
   /** Check if point is within a polygon described by array of vertices */
   static checkPointPoly(point: Vector2, points: Vector2[]) {
     const pointsBuffer = concatVector2s(points);
-    return !!lib.symbols.CheckCollisionPointCircle(
+    return !!lib.symbols.CheckCollisionPointPoly(
       point.buffer,
       Deno.UnsafePointer.of(pointsBuffer),
       points.length,

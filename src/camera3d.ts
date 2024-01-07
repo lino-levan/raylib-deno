@@ -2,7 +2,6 @@
  * 3D Camera related functions
  * @module
  */
-import { lib } from "../bindings/bindings.ts";
 
 /** Automation event functions */
 import { Vector3 } from "./_util.ts";

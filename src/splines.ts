@@ -5,22 +5,13 @@
 import { lib } from "../bindings/bindings.ts";
 import { Color } from "./color.ts";
 import { Vector2 } from "./_util.ts";
-
-function concatVectors(points: Vector2[]): ArrayBuffer {
-  let result = new Float32Array(points.length * 2);
-  for (let i = 0; i < points.length; i++) {
-    const point = points[i];
-    result[i * 2] = point.x;
-    result[i * 2 + 1] = point.y;
-  }
-  return result.buffer;
-}
+import { concatVector2s } from "./_helper.ts";
 
 /** Spline functions */
 export class Spline {
   /** Draw spline: Linear, minimum 2 points */
   static drawLinear(points: Vector2[], thick: number, color: Color) {
-    const pointBuffer = concatVectors(points);
+    const pointBuffer = concatVector2s(points);
     lib.symbols.DrawSplineLinear(
       Deno.UnsafePointer.of(pointBuffer),
       points.length,
@@ -31,7 +22,7 @@ export class Spline {
 
   /** Draw spline: B-Spline, minimum 4 points */
   static drawBasis(points: Vector2[], thick: number, color: Color) {
-    const pointBuffer = concatVectors(points);
+    const pointBuffer = concatVector2s(points);
     lib.symbols.DrawSplineBasis(
       Deno.UnsafePointer.of(pointBuffer),
       points.length,
@@ -42,7 +33,7 @@ export class Spline {
 
   /** Draw spline: Catmull-Rom, minimum 4 points */
   static drawCatmullRom(points: Vector2[], thick: number, color: Color) {
-    const pointBuffer = concatVectors(points);
+    const pointBuffer = concatVector2s(points);
     lib.symbols.DrawSplineCatmullRom(
       Deno.UnsafePointer.of(pointBuffer),
       points.length,
@@ -53,7 +44,7 @@ export class Spline {
 
   /** Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...] */
   static drawBezierQuadratic(points: Vector2[], thick: number, color: Color) {
-    const pointBuffer = concatVectors(points);
+    const pointBuffer = concatVector2s(points);
     lib.symbols.DrawSplineBezierQuadratic(
       Deno.UnsafePointer.of(pointBuffer),
       points.length,
@@ -64,7 +55,7 @@ export class Spline {
 
   /** Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...] */
   static drawBezierCubic(points: Vector2[], thick: number, color: Color) {
-    const pointBuffer = concatVectors(points);
+    const pointBuffer = concatVector2s(points);
     lib.symbols.DrawSplineBezierCubic(
       Deno.UnsafePointer.of(pointBuffer),
       points.length,

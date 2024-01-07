@@ -74,6 +74,60 @@ export class Rectangle {
   }
 }
 
+export class Ray {
+  constructor(public position: Vector3, public direction: Vector3) {}
+
+  static fromBuffer(buffer: ArrayBuffer) {
+    const view = new DataView(buffer);
+    return new Ray(
+      new Vector3(view.getFloat32(0), view.getFloat32(4), view.getFloat32(8)),
+      new Vector3(
+        view.getFloat32(12),
+        view.getFloat32(16),
+        view.getFloat32(24),
+      ),
+    );
+  }
+
+  get buffer() {
+    return new Float32Array([
+      this.position.x,
+      this.position.y,
+      this.position.z,
+      this.direction.x,
+      this.direction.y,
+      this.direction.z,
+    ]).buffer;
+  }
+}
+
+export class BoundingBox {
+  constructor(public min: Vector3, public max: Vector3) {}
+
+  static fromBuffer(buffer: ArrayBuffer) {
+    const view = new DataView(buffer);
+    return new BoundingBox(
+      new Vector3(view.getFloat32(0), view.getFloat32(4), view.getFloat32(8)),
+      new Vector3(
+        view.getFloat32(12),
+        view.getFloat32(16),
+        view.getFloat32(24),
+      ),
+    );
+  }
+
+  get buffer() {
+    return new Float32Array([
+      this.min.x,
+      this.min.y,
+      this.min.z,
+      this.max.x,
+      this.max.y,
+      this.max.z,
+    ]).buffer;
+  }
+}
+
 export class Camera2D {
   /** Camera offset (displacement from target) */
   offset: Vector2;

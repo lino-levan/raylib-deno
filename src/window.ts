@@ -4,6 +4,7 @@
  */
 
 import { lib } from "../bindings/bindings.ts";
+import { Image } from "./image.ts";
 
 /** System/Window config flags.  By default all flags are set to false. */
 export interface WindowState {
@@ -166,16 +167,19 @@ export class Window {
   }
 
   /** Set icon for window (single image, RGBA 32bit) */
-  // TODO: Implement Image
-  // static setIcon(image: Image) {
-  //   lib.symbols.SetWindowIcon(image);
-  // }
+  static setIcon(image: Image) {
+    lib.symbols.SetWindowIcon(image.buffer);
+  }
 
   /** Set icon for window (multiple images, RGBA 32bit) */
-  // TODO: Implement Image
-  // static setIcons(image: Image[]) {
-  //   lib.symbols.SetWindowIcons(image);
-  // }
+  static setIcons(images: Image[]) {
+    const buffer = new Uint8Array(24 * images.length);
+    for (let i = 0; i < images.length; i++) {
+      buffer.set(new Uint8Array(images[i].buffer), 24 * i);
+    }
+
+    lib.symbols.SetWindowIcons(Deno.UnsafePointer.of(buffer), images.length);
+  }
 
   /** Set title for window */
   static setTitle(title: string) {

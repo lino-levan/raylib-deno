@@ -47,9 +47,9 @@ export class Mesh {
 
   /** Draw multiple mesh instances with material and different transforms */
   drawInstanced(material: Material, transforms: Matrix[]) {
-    const buffer = new Float32Array(64 * transforms.length);
+    const buffer = new Float32Array(16 * transforms.length);
     for (let i = 0; i < transforms.length; i++) {
-      buffer.set(new Float32Array(transforms[i].buffer), i * 64);
+      buffer.set(new Float32Array(transforms[i].buffer), i * 16);
     }
     lib.symbols.DrawMeshInstanced(
       this.#buffer,

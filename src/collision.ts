@@ -13,6 +13,7 @@ import {
   Vector3,
 } from "./_util.ts";
 import { concatVector2s } from "./_helper.ts";
+import { Mesh } from "./mesh.ts";
 
 /** A class to simplift collision calculations */
 export class Collision {

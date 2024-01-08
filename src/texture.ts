@@ -104,15 +104,15 @@ export class Texture2D {
 
   /** Update GPU texture with new data */
   update(pixels: ArrayBuffer) {
-    lib.symbols.UpdateTexture(this.#buffer, Deno.UnsafePointer.of(pixels));
+    lib.symbols.UpdateTexture(this.#buffer, pixels);
   }
 
   /** Update GPU texture rectangle with new data */
   updateRectangle(rect: Rectangle, pixels: ArrayBuffer) {
-    lib.symbols.UpdateTexture(
+    lib.symbols.UpdateTextureRec(
       this.#buffer,
       rect.buffer,
-      Deno.UnsafePointer.of(pixels),
+      pixels,
     );
   }
 

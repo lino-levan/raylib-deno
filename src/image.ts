@@ -6,6 +6,7 @@ import { lib } from "../bindings/bindings.ts";
 import { Font } from "./font.ts";
 import { Color } from "./color.ts";
 import { Rectangle, Vector2 } from "./_util.ts";
+import { Texture2D } from "./texture.ts";
 
 /** Image functions */
 export class Image {
@@ -80,6 +81,11 @@ export class Image {
         fileData.length,
       ),
     );
+  }
+
+  /** Load image from GPU texture data */
+  static loadFromTexture(texture: Texture2D) {
+    return new Image(lib.symbols.LoadImageFromTexture(texture.buffer));
   }
 
   /** Load image from screen buffer and (screenshot) */
@@ -692,5 +698,4 @@ export class Image {
 
 // TODO
 // RLAPI Image LoadImageAnim(const char *fileName, int *frames);                                            // Load image sequence from file (frames appended to image.data)
-// RLAPI Image LoadImageFromTexture(Texture2D texture);                                                     // Load image from GPU texture data
 // RLAPI unsigned char *ExportImageToMemory(Image image, const char *fileType, int *fileSize);              // Export image to memory buffer

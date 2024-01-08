@@ -4,7 +4,7 @@
  */
 import { lib } from "../bindings/bindings.ts";
 
-import { Rectangle, Vector2 } from "./_util.ts";
+import { BoundingBox, Rectangle, Vector2, Vector3 } from "./_util.ts";
 import { concatVector2s } from "./_helper.ts";
 
 /** A class to simplift collision calculations */
@@ -126,12 +126,38 @@ export class Collision {
       lib.symbols.GetCollisionRec(rect1.buffer, rect2.buffer),
     );
   }
+
+  /** Check collision between two spheres */
+  static checkSpheres(
+    center1: Vector3,
+    radius1: number,
+    center2: Vector3,
+    radius2: number,
+  ) {
+    return !!lib.symbols.CheckCollisionSpheres(
+      center1.buffer,
+      radius1,
+      center2.buffer,
+      radius2,
+    );
+  }
+
+  /** Check collision between two bounding boxes */
+  static checkBoxes(box1: BoundingBox, box2: BoundingBox) {
+    return !!lib.symbols.CheckCollisionBoxes(box1.buffer, box2.buffer);
+  }
+
+  /** Check collision between box and sphere */
+  static checkBoxSphere(box: BoundingBox, center: Vector3, radius: number) {
+    return !!lib.symbols.CheckCollisionBoxSphere(
+      box.buffer,
+      center.buffer,
+      radius,
+    );
+  }
 }
 
 // TODO
-// RLAPI bool CheckCollisionSpheres(Vector3 center1, float radius1, Vector3 center2, float radius2);   // Check collision between two spheres
-// RLAPI bool CheckCollisionBoxes(BoundingBox box1, BoundingBox box2);                                 // Check collision between two bounding boxes
-// RLAPI bool CheckCollisionBoxSphere(BoundingBox box, Vector3 center, float radius);                  // Check collision between box and sphere
 // RLAPI RayCollision GetRayCollisionSphere(Ray ray, Vector3 center, float radius);                    // Get collision info between ray and sphere
 // RLAPI RayCollision GetRayCollisionBox(Ray ray, BoundingBox box);                                    // Get collision info between ray and box
 // RLAPI RayCollision GetRayCollisionMesh(Ray ray, Mesh mesh, Matrix transform);                       // Get collision info between ray and mesh

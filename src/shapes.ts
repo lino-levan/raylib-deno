@@ -421,7 +421,7 @@ export class Shapes {
     rotation: number,
     color: Color,
   ) {
-    lib.symbols.DrawTriangleLines(
+    lib.symbols.DrawPoly(
       center.buffer,
       sides,
       radius,

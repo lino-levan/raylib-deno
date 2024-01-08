@@ -1,6 +1,7 @@
 # Raylib Deno
 
-Deno bindings for [raylib](https://github.com/raysan5/raylib).
+Deno bindings for [raylib](https://github.com/raysan5/raylib). This is currently
+aligned to raylib v5.0.
 
 ## Usage
 

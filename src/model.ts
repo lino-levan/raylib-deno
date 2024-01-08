@@ -7,6 +7,7 @@ import { BoundingBox, Rectangle, Vector2, Vector3 } from "./_util.ts";
 import { Camera3D } from "./camera3d.ts";
 import { Color } from "./color.ts";
 import { Texture2D } from "./texture.ts";
+import { Mesh } from "./mesh.ts";
 
 /** Class for creating, loading, and drawing models */
 export class Model {
@@ -22,7 +23,7 @@ export class Model {
 
   /** Load model from files (meshes and materials) */
   static load(fileName: string) {
-    const encoded = new TextEncoder().encode(fileName);
+    const encoded = new TextEncoder().encode(fileName + "\0");
     return new Model(lib.symbols.LoadModel(encoded));
   }
 

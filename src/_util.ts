@@ -167,3 +167,67 @@ export class Camera2D {
     ]).buffer;
   }
 }
+
+export class Matrix {
+  constructor(
+    public m0: number,
+    public m1: number,
+    public m2: number,
+    public m3: number,
+    public m4: number,
+    public m5: number,
+    public m6: number,
+    public m7: number,
+    public m8: number,
+    public m9: number,
+    public m10: number,
+    public m11: number,
+    public m12: number,
+    public m13: number,
+    public m14: number,
+    public m15: number,
+  ) {}
+
+  static fromBuffer(buffer: ArrayBuffer) {
+    const view = new DataView(buffer);
+    return new Matrix(
+      view.getFloat32(0),
+      view.getFloat32(4),
+      view.getFloat32(8),
+      view.getFloat32(12),
+      view.getFloat32(16),
+      view.getFloat32(20),
+      view.getFloat32(24),
+      view.getFloat32(28),
+      view.getFloat32(32),
+      view.getFloat32(36),
+      view.getFloat32(40),
+      view.getFloat32(44),
+      view.getFloat32(48),
+      view.getFloat32(52),
+      view.getFloat32(56),
+      view.getFloat32(60),
+    );
+  }
+
+  get buffer() {
+    return new Float32Array([
+      this.m0,
+      this.m1,
+      this.m2,
+      this.m3,
+      this.m4,
+      this.m5,
+      this.m6,
+      this.m7,
+      this.m8,
+      this.m9,
+      this.m10,
+      this.m11,
+      this.m12,
+      this.m13,
+      this.m14,
+      this.m15,
+    ]).buffer;
+  }
+}

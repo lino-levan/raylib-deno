@@ -4,7 +4,14 @@
  */
 import { lib } from "../bindings/bindings.ts";
 
-import { BoundingBox, Rectangle, Vector2, Vector3 } from "./_util.ts";
+import {
+  BoundingBox,
+  Matrix,
+  Ray,
+  Rectangle,
+  Vector2,
+  Vector3,
+} from "./_util.ts";
 import { concatVector2s } from "./_helper.ts";
 
 /** A class to simplift collision calculations */
@@ -155,11 +162,96 @@ export class Collision {
       radius,
     );
   }
+
+  /** Get collision info between ray and sphere */
+  static getRayCollisionSphere(ray: Ray, center: Vector3, radius: number) {
+    return new RayCollision(
+      lib.symbols.GetRayCollisionSphere(ray.buffer, center.buffer, radius),
+    );
+  }
+
+  /** Get collision info between ray and box */
+  static getRayCollisionBox(ray: Ray, box: BoundingBox) {
+    return new RayCollision(
+      lib.symbols.GetRayCollisionBox(ray.buffer, box.buffer),
+    );
+  }
+
+  /** Get collision info between ray and mesh */
+  static getRayCollisionMesh(ray: Ray, mesh: Mesh, transform: Matrix) {
+    return new RayCollision(
+      lib.symbols.GetRayCollisionMesh(
+        ray.buffer,
+        mesh.buffer,
+        transform.buffer,
+      ),
+    );
+  }
+
+  /** Get collision info between ray and triangle */
+  static getRayCollisionTriangle(
+    ray: Ray,
+    p1: Vector3,
+    p2: Vector3,
+    p3: Vector3,
+  ) {
+    return new RayCollision(
+      lib.symbols.GetRayCollisionTriangle(
+        ray.buffer,
+        p1.buffer,
+        p2.buffer,
+        p3.buffer,
+      ),
+    );
+  }
+
+  /** Get collision info between ray and quad */
+  static getRayCollisionQuad(
+    ray: Ray,
+    p1: Vector3,
+    p2: Vector3,
+    p3: Vector3,
+    p4: Vector3,
+  ) {
+    return new RayCollision(
+      lib.symbols.GetRayCollisionQuad(
+        ray.buffer,
+        p1.buffer,
+        p2.buffer,
+        p3.buffer,
+        p4.buffer,
+      ),
+    );
+  }
 }
 
-// TODO
-// RLAPI RayCollision GetRayCollisionSphere(Ray ray, Vector3 center, float radius);                    // Get collision info between ray and sphere
-// RLAPI RayCollision GetRayCollisionBox(Ray ray, BoundingBox box);                                    // Get collision info between ray and box
-// RLAPI RayCollision GetRayCollisionMesh(Ray ray, Mesh mesh, Matrix transform);                       // Get collision info between ray and mesh
-// RLAPI RayCollision GetRayCollisionTriangle(Ray ray, Vector3 p1, Vector3 p2, Vector3 p3);            // Get collision info between ray and triangle
-// RLAPI RayCollision GetRayCollisionQuad(Ray ray, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4);    // Get collision info between ray and quad
+/** The result of a ray collision with something */
+export class RayCollision {
+  #buffer: ArrayBuffer;
+
+  /** Avoid using this constructor directly. */
+  constructor(buffer: ArrayBuffer) {
+    this.#buffer = buffer;
+  }
+
+  get buffer() {
+    return this.#buffer;
+  }
+
+  get hit() {
+    return !!(new Uint8Array(this.#buffer)[0]);
+  }
+
+  get distance() {
+    const view = new DataView(this.#buffer);
+    return view.getFloat32(4);
+  }
+
+  get point() {
+    return Vector3.fromBuffer(this.#buffer.slice(8, 20));
+  }
+
+  get normal() {
+    return Vector3.fromBuffer(this.#buffer.slice(20));
+  }
+}

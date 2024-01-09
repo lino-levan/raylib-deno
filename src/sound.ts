@@ -121,20 +121,95 @@ export class Wave {
   }
 }
 
-// TODO
-// RLAPI Sound LoadSound(const char *fileName);                          // Load sound from file
-// RLAPI Sound LoadSoundFromWave(Wave wave);                             // Load sound from wave data
-// RLAPI Sound LoadSoundAlias(Sound source);                             // Create a new sound that shares the same sample data as the source sound, does not own the sound data
-// RLAPI bool IsSoundReady(Sound sound);                                 // Checks if a sound is ready
-// RLAPI void UpdateSound(Sound sound, const void *data, int sampleCount); // Update sound buffer with new data
-// RLAPI void UnloadSound(Sound sound);                                  // Unload sound
-// RLAPI void UnloadSoundAlias(Sound alias);                             // Unload a sound alias (does not deallocate sample data)
+/** Sound functions */
+export class Sound {
+  #buffer: ArrayBuffer;
+  /** Avoid using if at all possible */
+  constructor(buffer: ArrayBuffer) {
+    this.#buffer = buffer;
+  }
 
-// RLAPI void PlaySound(Sound sound);                                    // Play a sound
-// RLAPI void StopSound(Sound sound);                                    // Stop playing a sound
-// RLAPI void PauseSound(Sound sound);                                   // Pause a sound
-// RLAPI void ResumeSound(Sound sound);                                  // Resume a paused sound
-// RLAPI bool IsSoundPlaying(Sound sound);                               // Check if a sound is currently playing
-// RLAPI void SetSoundVolume(Sound sound, float volume);                 // Set volume for a sound (1.0 is max level)
-// RLAPI void SetSoundPitch(Sound sound, float pitch);                   // Set pitch for a sound (1.0 is base level)
-// RLAPI void SetSoundPan(Sound sound, float pan);                       // Set pan for a sound (0.5 is center)
+  get buffer() {
+    return this.#buffer;
+  }
+
+  /** Load sound from file */
+  static load(filename: string) {
+    const encoded = new TextEncoder().encode(filename + "\0");
+    return new Sound(lib.symbols.LoadSound(encoded));
+  }
+
+  /** Load sound from wave data */
+  static loadFromWave(wave: Wave) {
+    return new Sound(lib.symbols.LoadSoundFromWave(wave.buffer));
+  }
+
+  /** Create a new sound that shares the same sample data as the source sound, does not own the sound data */
+  static loadAlias(source: Sound) {
+    return new Sound(lib.symbols.LoadSoundAlias(source.buffer));
+  }
+
+  /** Checks if a sound is ready */
+  isReady() {
+    return !!lib.symbols.IsSoundReady(this.#buffer);
+  }
+
+  /** Update sound buffer with new data */
+  update(data: Float32Array) {
+    lib.symbols.UpdateSound(
+      this.#buffer,
+      Deno.UnsafePointer.of(data),
+      data.length,
+    );
+  }
+
+  /** Unload sound */
+  unload() {
+    lib.symbols.UnloadSound(this.#buffer);
+  }
+
+  /** Unload a sound alias (does not deallocate sample data) */
+  unloadAlias() {
+    lib.symbols.UnloadSoundAlias(this.#buffer);
+  }
+
+  /** Play a sound */
+  play() {
+    lib.symbols.PlaySound(this.#buffer);
+  }
+
+  /** Stop playing a sound */
+  stop() {
+    lib.symbols.StopSound(this.#buffer);
+  }
+
+  /** Pause a sound */
+  pause() {
+    lib.symbols.PauseSound(this.#buffer);
+  }
+
+  /** Resume a paused sound */
+  resume() {
+    lib.symbols.ResumeSound(this.#buffer);
+  }
+
+  /** Check if a sound is currently playing */
+  isPlaying() {
+    return !!lib.symbols.IsSoundPlaying(this.#buffer);
+  }
+
+  /** Set volume for a sound (1.0 is max level) */
+  setVolume(volume: number) {
+    lib.symbols.SetSoundVolume(this.#buffer, volume);
+  }
+
+  /** Set pitch for a sound (1.0 is base level) */
+  setPitch(pitch: number) {
+    lib.symbols.SetSoundPitch(this.#buffer, pitch);
+  }
+
+  /** Set pan for a sound (0.5 is center) */
+  setPan(pan: number) {
+    lib.symbols.SetSoundPan(this.#buffer, pan);
+  }
+}

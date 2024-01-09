@@ -1,9 +1,14 @@
+import { littleEndian } from "./_helper.ts";
+
 export class Vector2 {
   constructor(public x: number, public y: number) {}
 
   static fromBuffer(buffer: ArrayBuffer) {
     const view = new DataView(buffer);
-    return new Vector2(view.getFloat32(0), view.getFloat32(4));
+    return new Vector2(
+      view.getFloat32(0, littleEndian),
+      view.getFloat32(4, littleEndian),
+    );
   }
 
   get buffer() {
@@ -17,9 +22,9 @@ export class Vector3 {
   static fromBuffer(buffer: ArrayBuffer) {
     const view = new DataView(buffer);
     return new Vector3(
-      view.getFloat32(0),
-      view.getFloat32(4),
-      view.getFloat32(8),
+      view.getFloat32(0, littleEndian),
+      view.getFloat32(4, littleEndian),
+      view.getFloat32(8, littleEndian),
     );
   }
 
@@ -39,10 +44,10 @@ export class Vector4 {
   static fromBuffer(buffer: ArrayBuffer) {
     const view = new DataView(buffer);
     return new Vector4(
-      view.getFloat32(0),
-      view.getFloat32(4),
-      view.getFloat32(8),
-      view.getFloat32(12),
+      view.getFloat32(0, littleEndian),
+      view.getFloat32(4, littleEndian),
+      view.getFloat32(8, littleEndian),
+      view.getFloat32(12, littleEndian),
     );
   }
 
@@ -62,10 +67,10 @@ export class Rectangle {
   static fromBuffer(buffer: ArrayBuffer) {
     const view = new DataView(buffer);
     return new Rectangle(
-      view.getFloat32(0),
-      view.getFloat32(4),
-      view.getFloat32(8),
-      view.getFloat32(12),
+      view.getFloat32(0, littleEndian),
+      view.getFloat32(4, littleEndian),
+      view.getFloat32(8, littleEndian),
+      view.getFloat32(12, littleEndian),
     );
   }
 
@@ -80,11 +85,15 @@ export class Ray {
   static fromBuffer(buffer: ArrayBuffer) {
     const view = new DataView(buffer);
     return new Ray(
-      new Vector3(view.getFloat32(0), view.getFloat32(4), view.getFloat32(8)),
       new Vector3(
-        view.getFloat32(12),
-        view.getFloat32(16),
-        view.getFloat32(24),
+        view.getFloat32(0, littleEndian),
+        view.getFloat32(4, littleEndian),
+        view.getFloat32(8, littleEndian),
+      ),
+      new Vector3(
+        view.getFloat32(12, littleEndian),
+        view.getFloat32(16, littleEndian),
+        view.getFloat32(24, littleEndian),
       ),
     );
   }
@@ -107,11 +116,15 @@ export class BoundingBox {
   static fromBuffer(buffer: ArrayBuffer) {
     const view = new DataView(buffer);
     return new BoundingBox(
-      new Vector3(view.getFloat32(0), view.getFloat32(4), view.getFloat32(8)),
       new Vector3(
-        view.getFloat32(12),
-        view.getFloat32(16),
-        view.getFloat32(24),
+        view.getFloat32(0, littleEndian),
+        view.getFloat32(4, littleEndian),
+        view.getFloat32(8, littleEndian),
+      ),
+      new Vector3(
+        view.getFloat32(12, littleEndian),
+        view.getFloat32(16, littleEndian),
+        view.getFloat32(24, littleEndian),
       ),
     );
   }
@@ -191,22 +204,22 @@ export class Matrix {
   static fromBuffer(buffer: ArrayBuffer) {
     const view = new DataView(buffer);
     return new Matrix(
-      view.getFloat32(0),
-      view.getFloat32(4),
-      view.getFloat32(8),
-      view.getFloat32(12),
-      view.getFloat32(16),
-      view.getFloat32(20),
-      view.getFloat32(24),
-      view.getFloat32(28),
-      view.getFloat32(32),
-      view.getFloat32(36),
-      view.getFloat32(40),
-      view.getFloat32(44),
-      view.getFloat32(48),
-      view.getFloat32(52),
-      view.getFloat32(56),
-      view.getFloat32(60),
+      view.getFloat32(0, littleEndian),
+      view.getFloat32(4, littleEndian),
+      view.getFloat32(8, littleEndian),
+      view.getFloat32(12, littleEndian),
+      view.getFloat32(16, littleEndian),
+      view.getFloat32(20, littleEndian),
+      view.getFloat32(24, littleEndian),
+      view.getFloat32(28, littleEndian),
+      view.getFloat32(32, littleEndian),
+      view.getFloat32(36, littleEndian),
+      view.getFloat32(40, littleEndian),
+      view.getFloat32(44, littleEndian),
+      view.getFloat32(48, littleEndian),
+      view.getFloat32(52, littleEndian),
+      view.getFloat32(56, littleEndian),
+      view.getFloat32(60, littleEndian),
     );
   }
 

@@ -12,7 +12,7 @@ import {
   Vector2,
   Vector3,
 } from "./_util.ts";
-import { concatVector2s } from "./_helper.ts";
+import { concatVector2s, littleEndian } from "./_helper.ts";
 import { Mesh } from "./mesh.ts";
 
 /** A class to simplift collision calculations */
@@ -131,7 +131,7 @@ export class Collision {
   /** Get collision rectangle for two rectangles collision */
   static getRectangle(rect1: Rectangle, rect2: Rectangle) {
     return Rectangle.fromBuffer(
-      lib.symbols.GetCollisionRec(rect1.buffer, rect2.buffer),
+      lib.symbols.GetCollisionRec(rect1.buffer, rect2.buffer).buffer,
     );
   }
 
@@ -245,7 +245,7 @@ export class RayCollision {
 
   get distance() {
     const view = new DataView(this.#buffer);
-    return view.getFloat32(4);
+    return view.getFloat32(4, littleEndian);
   }
 
   get point() {

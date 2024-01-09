@@ -151,7 +151,8 @@ export class Spline {
   /** Get (evaluate) spline point: Linear */
   getPointLinear(startPos: Vector2, endPos: Vector2, t: number) {
     return Vector2.fromBuffer(
-      lib.symbols.GetSplinePointLinear(startPos.buffer, endPos.buffer, t),
+      lib.symbols.GetSplinePointLinear(startPos.buffer, endPos.buffer, t)
+        .buffer,
     );
   }
 
@@ -164,7 +165,7 @@ export class Spline {
         p3.buffer,
         p4.buffer,
         t,
-      ),
+      ).buffer,
     );
   }
 
@@ -183,14 +184,15 @@ export class Spline {
         p3.buffer,
         p4.buffer,
         t,
-      ),
+      ).buffer,
     );
   }
 
   /** Get (evaluate) spline point: Quadratic Bezier */
   getPointBezierQuad(p1: Vector2, c2: Vector2, p3: Vector2, t: number) {
     return Vector2.fromBuffer(
-      lib.symbols.GetSplinePointBezierQuad(p1.buffer, c2.buffer, p3.buffer, t),
+      lib.symbols.GetSplinePointBezierQuad(p1.buffer, c2.buffer, p3.buffer, t)
+        .buffer,
     );
   }
 
@@ -209,7 +211,7 @@ export class Spline {
         c3.buffer,
         p4.buffer,
         t,
-      ),
+      ).buffer,
     );
   }
 }

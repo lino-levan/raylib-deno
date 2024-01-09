@@ -1,4 +1,4 @@
-import { Drawing, LIGHTGRAY, RAYWHITE, Text, Window } from "raylib";
+import { Color, Drawing, LIGHTGRAY, RAYWHITE, Text, Window } from "raylib";
 
 Window.init(800, 450, "Raylib - Basic Window");
 
@@ -12,6 +12,7 @@ while (!Window.shouldClose()) {
     20,
     LIGHTGRAY,
   );
+  console.log(Window.getPosition());
   Drawing.endDrawing();
 }
 

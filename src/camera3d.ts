@@ -4,6 +4,7 @@
  */
 
 /** Automation event functions */
+import { littleEndian } from "./_helper.ts";
 import { Vector3 } from "./_util.ts";
 
 /** A class to interact with a 3D camera */
@@ -36,16 +37,16 @@ export class Camera3D {
 
   get buffer() {
     const view = new DataView(new ArrayBuffer(44));
-    view.setFloat32(0, this.position.x);
-    view.setFloat32(4, this.position.y);
-    view.setFloat32(8, this.position.z);
-    view.setFloat32(12, this.target.x);
-    view.setFloat32(16, this.target.y);
-    view.setFloat32(20, this.target.z);
-    view.setFloat32(24, this.up.x);
-    view.setFloat32(28, this.up.y);
-    view.setFloat32(32, this.up.z);
-    view.setFloat32(36, this.fovY);
+    view.setFloat32(0, this.position.x, littleEndian);
+    view.setFloat32(4, this.position.y, littleEndian);
+    view.setFloat32(8, this.position.z, littleEndian);
+    view.setFloat32(12, this.target.x, littleEndian);
+    view.setFloat32(16, this.target.y, littleEndian);
+    view.setFloat32(20, this.target.z, littleEndian);
+    view.setFloat32(24, this.up.x, littleEndian);
+    view.setFloat32(28, this.up.y, littleEndian);
+    view.setFloat32(32, this.up.z, littleEndian);
+    view.setFloat32(36, this.fovY, littleEndian);
     view.setUint8(40, this.type === "PERSPECTIVE" ? 0 : 1);
 
     return view.buffer;

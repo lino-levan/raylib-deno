@@ -4,6 +4,8 @@
  */
 
 import { lib } from "../bindings/bindings.ts";
+import { littleEndian } from "./_helper.ts";
+import { Vector2 } from "./_util.ts";
 import { Image } from "./image.ts";
 
 /** System/Window config flags.  By default all flags are set to false. */
@@ -229,14 +231,12 @@ export class Window {
 
   /** Get window position XY on monitor */
   static getPosition() {
-    const pos = new DataView(lib.symbols.GetWindowPosition().buffer);
-    return { x: pos.getFloat32(0), y: pos.getFloat32(4) };
+    return Vector2.fromBuffer(lib.symbols.GetWindowPosition().buffer);
   }
 
   /** Get window scale DPI factor */
   static getScaleDPI() {
-    const pos = new DataView(lib.symbols.GetWindowScaleDPI().buffer);
-    return { x: pos.getFloat32(0), y: pos.getFloat32(4) };
+    return Vector2.fromBuffer(lib.symbols.GetWindowScaleDPI().buffer);
   }
 
   /** Enable waiting for events on EndDrawing(), no automatic event polling */

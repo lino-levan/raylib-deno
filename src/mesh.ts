@@ -29,7 +29,7 @@ export class Mesh {
     lib.symbols.UpdateMeshBuffer(
       this.#buffer,
       index,
-      data,
+      Deno.UnsafePointer.of(data),
       data.byteLength,
       offset,
     );
@@ -67,7 +67,9 @@ export class Mesh {
 
   /** Compute mesh bounding box limits */
   getBoundingBox() {
-    return BoundingBox.fromBuffer(lib.symbols.GetMeshBoundingBox(this.#buffer));
+    return BoundingBox.fromBuffer(
+      lib.symbols.GetMeshBoundingBox(this.#buffer).buffer,
+    );
   }
 
   /** Compute mesh tangents */

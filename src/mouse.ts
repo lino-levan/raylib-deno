@@ -55,12 +55,12 @@ export class Mouse {
 
   /** Get mouse position XY */
   static getPosition() {
-    return Vector2.fromBuffer(lib.symbols.GetMousePosition());
+    return Vector2.fromBuffer(lib.symbols.GetMousePosition().buffer);
   }
 
   /** Get mouse delta between frames */
   static getDelta() {
-    return Vector2.fromBuffer(lib.symbols.GetMouseDelta());
+    return Vector2.fromBuffer(lib.symbols.GetMouseDelta().buffer);
   }
 
   /** Set mouse position XY */
@@ -85,7 +85,7 @@ export class Mouse {
 
   /** Get mouse wheel movement for both X and Y */
   static getWheelMoveV() {
-    return Vector2.fromBuffer(lib.symbols.GetMouseWheelMoveV());
+    return Vector2.fromBuffer(lib.symbols.GetMouseWheelMoveV().buffer);
   }
 
   /** Set mouse cursor */

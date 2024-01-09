@@ -3,6 +3,7 @@
  * @module
  */
 import { lib } from "../bindings/bindings.ts";
+import { littleEndian } from "./_helper.ts";
 
 export class FileDrop {
   static isFileDropped() {
@@ -12,8 +13,10 @@ export class FileDrop {
   static loadDroppedFiles() {
     const result = lib.symbols.LoadDroppedFiles();
     const view = new DataView(result.buffer);
-    const length = view.getUint32(4, true);
-    const pointer = Deno.UnsafePointer.create(view.getBigInt64(8, true));
+    const length = view.getUint32(4, littleEndian);
+    const pointer = Deno.UnsafePointer.create(
+      view.getBigInt64(8, littleEndian),
+    );
     const pointerView = new Deno.UnsafePointerView(pointer!);
 
     let list = [];

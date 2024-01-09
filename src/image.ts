@@ -7,6 +7,7 @@ import { Font } from "./font.ts";
 import { Color } from "./color.ts";
 import { Rectangle, Vector2 } from "./_util.ts";
 import { Texture2D } from "./texture.ts";
+import { littleEndian } from "./_helper.ts";
 
 /** Image functions */
 export class Image {
@@ -23,12 +24,12 @@ export class Image {
 
   get width() {
     const view = new DataView(this.#buffer);
-    return view.getInt32(8);
+    return view.getInt32(8, littleEndian);
   }
 
   get height() {
     const view = new DataView(this.#buffer);
-    return view.getInt32(12);
+    return view.getInt32(12, littleEndian);
   }
 
   /** Load image from file into CPU memory (RAM) */
@@ -77,7 +78,7 @@ export class Image {
     return new Image(
       lib.symbols.LoadImageFromMemory(
         encodedFileType,
-        fileData,
+        Deno.UnsafePointer.of(fileData),
         fileData.length,
       ),
     );
@@ -481,13 +482,15 @@ export class Image {
   /** Get image alpha border rectangle */
   getAlphaBorder(threshold: number): Rectangle {
     return Rectangle.fromBuffer(
-      lib.symbols.GetImageAlphaBorder(this.#buffer, threshold),
+      lib.symbols.GetImageAlphaBorder(this.#buffer, threshold).buffer,
     );
   }
 
   /** Get image color at pixel position */
   getColor(x: number, y: number): Color {
-    return Color.fromBuffer(lib.symbols.GetImageColor(this.#buffer, x, y));
+    return Color.fromBuffer(
+      lib.symbols.GetImageColor(this.#buffer, x, y).buffer,
+    );
   }
 
   /** Clear image background with given color */

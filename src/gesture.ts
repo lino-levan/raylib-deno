@@ -80,7 +80,7 @@ export class Gesture {
 
   /** Get gesture drag vector */
   getDragVector() {
-    return Vector2.fromBuffer(lib.symbols.GetGestureDragVector());
+    return Vector2.fromBuffer(lib.symbols.GetGestureDragVector().buffer);
   }
 
   /** Get gesture drag angle */
@@ -90,7 +90,7 @@ export class Gesture {
 
   /** Get gesture pinch delta */
   getPinchVector() {
-    return Vector2.fromBuffer(lib.symbols.GetGesturePinchVector());
+    return Vector2.fromBuffer(lib.symbols.GetGesturePinchVector().buffer);
   }
 
   /** Get gesture pinch angle */

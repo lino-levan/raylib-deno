@@ -19,7 +19,7 @@ export class Touch {
 
   /** Get touch position XY for a touch point index (relative to screen size) */
   static getPosition(index: number) {
-    return Vector2.fromBuffer(lib.symbols.GetTouchPosition(index));
+    return Vector2.fromBuffer(lib.symbols.GetTouchPosition(index).buffer);
   }
 
   /** Get touch point identifier for given index */

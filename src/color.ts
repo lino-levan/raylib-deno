@@ -27,12 +27,16 @@ export class Color {
 
   /** Get Color from normalized values [0..1] */
   static fromNormalized(normalized: Vector4) {
-    return Color.fromBuffer(lib.symbols.ColorFromNormalized(normalized.buffer));
+    return Color.fromBuffer(
+      lib.symbols.ColorFromNormalized(normalized.buffer).buffer,
+    );
   }
 
   /** Get a Color from HSV values, hue [0..360], saturation/value [0..1] */
   static fromHSV(hue: number, saturation: number, value: number) {
-    return Color.fromBuffer(lib.symbols.ColorFromHSV(hue, saturation, value));
+    return Color.fromBuffer(
+      lib.symbols.ColorFromHSV(hue, saturation, value).buffer,
+    );
   }
 
   /** Get hexadecimal value for a Color */
@@ -42,43 +46,50 @@ export class Color {
 
   /** Get HSV values for a Color, hue [0..360], saturation/value [0..1] */
   toHSV() {
-    return Vector3.fromBuffer(lib.symbols.ColorToHSV(this.#buffer));
+    return Vector3.fromBuffer(lib.symbols.ColorToHSV(this.#buffer).buffer);
   }
 
   /** Get color with alpha applied, alpha goes from 0.0f to 1.0f */
   fade(alpha: number) {
-    return Color.fromBuffer(lib.symbols.Fade(this.#buffer, alpha));
+    return Color.fromBuffer(lib.symbols.Fade(this.#buffer, alpha).buffer);
   }
 
   /** Get Color normalized as float [0..1] */
   normalize() {
-    return Vector4.fromBuffer(lib.symbols.ColorNormalize(this.#buffer));
+    return Vector4.fromBuffer(lib.symbols.ColorNormalize(this.#buffer).buffer);
   }
 
   /** Get color multiplied with another color */
   tint(tint: Color) {
-    return Color.fromBuffer(lib.symbols.ColorTint(this.#buffer, tint.#buffer));
+    return Color.fromBuffer(
+      lib.symbols.ColorTint(this.#buffer, tint.#buffer).buffer,
+    );
   }
 
   /** Get color with brightness correction, brightness factor goes from -1.0f to 1.0f */
   brightness(factor: number) {
-    return Color.fromBuffer(lib.symbols.ColorBrightness(this.#buffer, factor));
+    return Color.fromBuffer(
+      lib.symbols.ColorBrightness(this.#buffer, factor).buffer,
+    );
   }
 
   /** Get color with contrast correction, contrast values between -1.0f and 1.0f */
   contrast(factor: number) {
-    return Color.fromBuffer(lib.symbols.ColorContrast(this.#buffer, factor));
+    return Color.fromBuffer(
+      lib.symbols.ColorContrast(this.#buffer, factor).buffer,
+    );
   }
 
   /** Get color with alpha applied, alpha goes from 0.0f to 1.0f */
   alpha(alpha: number) {
-    return Color.fromBuffer(lib.symbols.ColorAlpha(this.#buffer, alpha));
+    return Color.fromBuffer(lib.symbols.ColorAlpha(this.#buffer, alpha).buffer);
   }
 
   /** Get src alpha-blended into dst color with tint */
   alphaBlend(src: Color, tint: Color) {
     return Color.fromBuffer(
-      lib.symbols.ColorAlphaBlend(this.#buffer, src.#buffer, tint.#buffer),
+      lib.symbols.ColorAlphaBlend(this.#buffer, src.#buffer, tint.#buffer)
+        .buffer,
     );
   }
 }

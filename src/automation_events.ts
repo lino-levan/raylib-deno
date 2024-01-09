@@ -3,6 +3,7 @@
  * @module
  */
 import { lib } from "../bindings/bindings.ts";
+import { littleEndian } from "./_helper.ts";
 
 /** Automation event functions */
 export class AutomationEvent {
@@ -34,7 +35,7 @@ export class AutomationEventList {
   // TODO(lino-levan): Validate that this works
   get events() {
     const view = new DataView(this.#buffer);
-    const count = view.getUint32(4);
+    const count = view.getUint32(4, littleEndian);
     const elementView = new Deno.UnsafePointerView(
       Deno.UnsafePointer.create(view.getBigUint64(8)!)!,
     );

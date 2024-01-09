@@ -26,7 +26,11 @@ export class AudioStream {
 
   /** Update audio stream buffers with data */
   update(data: ArrayBuffer, frameCount: number) {
-    lib.symbols.UpdateAudioStream(this.#buffer, data, frameCount);
+    lib.symbols.UpdateAudioStream(
+      this.#buffer,
+      Deno.UnsafePointer.of(data),
+      frameCount,
+    );
   }
 
   /** Check if any audio stream buffers requires refill */

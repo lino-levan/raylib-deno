@@ -99,7 +99,7 @@ export class Text {
         new TextEncoder().encode(text + "\0"),
         fontSize,
         spacing,
-      ),
+      ).buffer,
     );
   }
 }

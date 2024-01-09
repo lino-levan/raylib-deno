@@ -3,6 +3,7 @@
  * @module
  */
 import { lib } from "../bindings/bindings.ts";
+import { littleEndian } from "./_helper.ts";
 import { Rectangle, Vector2 } from "./_util.ts";
 import { Color } from "./color.ts";
 import { Image } from "./image.ts";
@@ -35,15 +36,15 @@ export class NPatchInfo {
 
   get buffer() {
     const view = new DataView(new ArrayBuffer(36));
-    view.setFloat32(0, this.source.x);
-    view.setFloat32(4, this.source.y);
-    view.setFloat32(8, this.source.width);
-    view.setFloat32(12, this.source.height);
-    view.setInt32(16, this.left);
-    view.setInt32(20, this.top);
-    view.setInt32(24, this.right);
-    view.setInt32(28, this.bottom);
-    view.setInt32(32, nPatchLayout[this.layout]);
+    view.setFloat32(0, this.source.x, littleEndian);
+    view.setFloat32(4, this.source.y, littleEndian);
+    view.setFloat32(8, this.source.width, littleEndian);
+    view.setFloat32(12, this.source.height, littleEndian);
+    view.setInt32(16, this.left, littleEndian);
+    view.setInt32(20, this.top, littleEndian);
+    view.setInt32(24, this.right, littleEndian);
+    view.setInt32(28, this.bottom, littleEndian);
+    view.setInt32(32, nPatchLayout[this.layout], littleEndian);
     return view.buffer;
   }
 }
@@ -104,7 +105,7 @@ export class Texture2D {
 
   /** Update GPU texture with new data */
   update(pixels: ArrayBuffer) {
-    lib.symbols.UpdateTexture(this.#buffer, pixels);
+    lib.symbols.UpdateTexture(this.#buffer, Deno.UnsafePointer.of(pixels));
   }
 
   /** Update GPU texture rectangle with new data */
@@ -112,7 +113,7 @@ export class Texture2D {
     lib.symbols.UpdateTextureRec(
       this.#buffer,
       rect.buffer,
-      pixels,
+      Deno.UnsafePointer.of(pixels),
     );
   }
 

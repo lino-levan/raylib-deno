@@ -45,7 +45,7 @@ export class Model {
   /** Compute model bounding box limits (considers all meshes) */
   getBoundingBox() {
     return BoundingBox.fromBuffer(
-      lib.symbols.GetModelBoundingBox(this.#buffer),
+      lib.symbols.GetModelBoundingBox(this.#buffer).buffer,
     );
   }
 

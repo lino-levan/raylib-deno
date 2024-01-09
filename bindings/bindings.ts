@@ -551,7 +551,7 @@ export const lib = await dlopen({
   },
   // Set shader uniform value
   SetShaderValue: {
-    parameters: [{ "struct": ["u32", "pointer"] }, "i32", "buffer", "i32"],
+    parameters: [{ "struct": ["u32", "pointer"] }, "i32", "pointer", "i32"],
     result: "void",
   },
   // Set shader uniform value vector
@@ -559,7 +559,7 @@ export const lib = await dlopen({
     parameters: [
       { "struct": ["u32", "pointer"] },
       "i32",
-      "buffer",
+      "pointer",
       "i32",
       "i32",
     ],
@@ -798,13 +798,13 @@ export const lib = await dlopen({
   // Set custom file text data saver
   SetSaveFileTextCallback: { parameters: ["function"], result: "void" },
   // Load file data as byte array (read)
-  LoadFileData: { parameters: ["buffer", "pointer"], result: "buffer" },
+  LoadFileData: { parameters: ["buffer", "pointer"], result: "pointer" },
   // Unload file data allocated by LoadFileData()
-  UnloadFileData: { parameters: ["buffer"], result: "void" },
+  UnloadFileData: { parameters: ["pointer"], result: "void" },
   // Save data to file from byte array (write), returns true on success
   SaveFileData: { parameters: ["buffer", "pointer", "i32"], result: "u8" },
   // Export data to code (.h), returns true on success
-  ExportDataAsCode: { parameters: ["buffer", "i32", "buffer"], result: "u8" },
+  ExportDataAsCode: { parameters: ["pointer", "i32", "buffer"], result: "u8" },
   // Load text data from file (read), returns a '\0' terminated string
   LoadFileText: { parameters: ["buffer"], result: "buffer" },
   // Unload file text data allocated by LoadFileText()
@@ -867,19 +867,22 @@ export const lib = await dlopen({
   // Get file modification time (last write time)
   GetFileModTime: { parameters: ["buffer"], result: "i64" },
   // Compress data (DEFLATE algorithm), memory must be MemFree()
-  CompressData: { parameters: ["buffer", "i32", "pointer"], result: "buffer" },
+  CompressData: {
+    parameters: ["pointer", "i32", "pointer"],
+    result: "pointer",
+  },
   // Decompress data (DEFLATE algorithm), memory must be MemFree()
   DecompressData: {
-    parameters: ["buffer", "i32", "pointer"],
-    result: "buffer",
+    parameters: ["pointer", "i32", "pointer"],
+    result: "pointer",
   },
   // Encode data to Base64 string, memory must be MemFree()
   EncodeDataBase64: {
-    parameters: ["buffer", "i32", "pointer"],
+    parameters: ["pointer", "i32", "pointer"],
     result: "buffer",
   },
   // Decode Base64 string data, memory must be MemFree()
-  DecodeDataBase64: { parameters: ["buffer", "pointer"], result: "buffer" },
+  DecodeDataBase64: { parameters: ["pointer", "pointer"], result: "pointer" },
   // Load automation events list from file, NULL for empty list, capacity = MAX_AUTOMATION_EVENTS
   LoadAutomationEventList: {
     parameters: ["buffer"],
@@ -1526,7 +1529,7 @@ export const lib = await dlopen({
   },
   // Load image from memory buffer, fileType refers to extension: i.e. '.png'
   LoadImageFromMemory: {
-    parameters: ["buffer", "buffer", "i32"],
+    parameters: ["buffer", "pointer", "i32"],
     result: { "struct": ["pointer", "i32", "i32", "i32", "i32"] },
   },
   // Load image from GPU texture data
@@ -1564,7 +1567,7 @@ export const lib = await dlopen({
       "buffer",
       "pointer",
     ],
-    result: "buffer",
+    result: "pointer",
   },
   // Export image as code file defining an array of bytes, returns true on success
   ExportImageAsCode: {
@@ -1995,14 +1998,14 @@ export const lib = await dlopen({
   },
   // Update GPU texture with new data
   UpdateTexture: {
-    parameters: [{ "struct": ["u32", "i32", "i32", "i32", "i32"] }, "buffer"],
+    parameters: [{ "struct": ["u32", "i32", "i32", "i32", "i32"] }, "pointer"],
     result: "void",
   },
   // Update GPU texture rectangle with new data
   UpdateTextureRec: {
     parameters: [{ "struct": ["u32", "i32", "i32", "i32", "i32"] }, {
       "struct": ["f32", "f32", "f32", "f32"],
-    }, "buffer"],
+    }, "pointer"],
     result: "void",
   },
   // Generate GPU mipmaps for a texture
@@ -2243,7 +2246,7 @@ export const lib = await dlopen({
   },
   // Load font from memory buffer, fileType refers to extension: i.e. '.ttf'
   LoadFontFromMemory: {
-    parameters: ["buffer", "buffer", "i32", "i32", "pointer", "i32"],
+    parameters: ["buffer", "pointer", "i32", "i32", "pointer", "i32"],
     result: {
       "struct": [
         "i32",
@@ -2279,7 +2282,7 @@ export const lib = await dlopen({
   },
   // Load font data for further use
   LoadFontData: {
-    parameters: ["buffer", "i32", "i32", "pointer", "i32", "i32"],
+    parameters: ["pointer", "i32", "i32", "pointer", "i32", "i32"],
     result: "pointer",
   },
   // Generate image font atlas using chars info
@@ -2560,9 +2563,9 @@ export const lib = await dlopen({
   // Insert text in a position (WARNING: memory must be freed!)
   TextInsert: { parameters: ["buffer", "buffer", "i32"], result: "buffer" },
   // Join text strings with delimiter
-  TextJoin: { parameters: ["buffer", "i32", "buffer"], result: "buffer" },
+  TextJoin: { parameters: ["pointer", "i32", "buffer"], result: "buffer" },
   // Split text into multiple strings
-  TextSplit: { parameters: ["buffer", "i8", "pointer"], result: "buffer" },
+  TextSplit: { parameters: ["buffer", "i8", "pointer"], result: "pointer" },
   // Append text at specific position and move cursor!
   TextAppend: { parameters: ["buffer", "buffer", "pointer"], result: "void" },
   // Find first text occurrence within a string
@@ -3230,7 +3233,7 @@ export const lib = await dlopen({
         ],
       },
       "i32",
-      "buffer",
+      "pointer",
       "i32",
       "i32",
     ],
@@ -3920,7 +3923,7 @@ export const lib = await dlopen({
   },
   // Load wave from memory buffer, fileType refers to extension: i.e. '.wav'
   LoadWaveFromMemory: {
-    parameters: ["buffer", "buffer", "i32"],
+    parameters: ["buffer", "pointer", "i32"],
     result: { "struct": ["u32", "u32", "u32", "u32", "pointer"] },
   },
   // Checks if wave data is ready
@@ -3956,7 +3959,7 @@ export const lib = await dlopen({
   UpdateSound: {
     parameters: [
       { "struct": ["pointer", "pointer", "u32", "u32", "u32", "u32"] },
-      "buffer",
+      "pointer",
       "i32",
     ],
     result: "void",
@@ -4064,10 +4067,10 @@ export const lib = await dlopen({
   // Load samples data from wave as a 32bit float data array
   LoadWaveSamples: {
     parameters: [{ "struct": ["u32", "u32", "u32", "u32", "pointer"] }],
-    result: "buffer",
+    result: "pointer",
   },
   // Unload samples data loaded with LoadWaveSamples()
-  UnloadWaveSamples: { parameters: ["buffer"], result: "void" },
+  UnloadWaveSamples: { parameters: ["pointer"], result: "void" },
   // Load music stream from file
   LoadMusicStream: {
     parameters: ["buffer"],
@@ -4087,7 +4090,7 @@ export const lib = await dlopen({
   },
   // Load music stream from data
   LoadMusicStreamFromMemory: {
-    parameters: ["buffer", "buffer", "i32"],
+    parameters: ["buffer", "pointer", "i32"],
     result: {
       "struct": [
         "pointer",
@@ -4359,7 +4362,7 @@ export const lib = await dlopen({
   UpdateAudioStream: {
     parameters: [
       { "struct": ["pointer", "pointer", "u32", "u32", "u32"] },
-      "buffer",
+      "pointer",
       "i32",
     ],
     result: "void",

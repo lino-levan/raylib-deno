@@ -22,7 +22,11 @@ export class Music {
   static loadStreamFromMemory(fileType: string, data: Uint8Array) {
     const encoded = new TextEncoder().encode(fileType + "\0");
     return new Music(
-      lib.symbols.LoadMusicStreamFromMemory(encoded, data, data.length),
+      lib.symbols.LoadMusicStreamFromMemory(
+        encoded,
+        Deno.UnsafePointer.of(data),
+        data.length,
+      ),
     );
   }
 

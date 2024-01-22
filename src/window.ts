@@ -66,7 +66,19 @@ const FLAG_BITMASK = {
 /** A class representing a window */
 export class Window {
   /** Initialize window and OpenGL context */
-  static init(width: number, height: number, title: string) {
+  static init(
+    width: number,
+    height: number,
+    title: string,
+    flags?: WindowState,
+  ) {
+    // Initialize window configuration flags
+    const flag = Object.keys(flags).reduce((acc, key) => {
+      return acc | FLAG_BITMASK[key as keyof WindowState];
+    }, 0);
+    lib.symbols.SetConfigFlags(flag);
+
+    // Initialize window
     lib.symbols.InitWindow(
       width,
       height,

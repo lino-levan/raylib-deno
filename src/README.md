@@ -17,11 +17,11 @@ just be done in Javascript instead of through FFI. They are the following:
 - `SwapScreenBuffer`
 - `PollInputEvents`
 
-## Not clear how to implement
+### Not clear how to implement
 
 - `TraceLog`
 
-## Not idiomatic
+### Not idiomatic
 
 - `WaitTime`
 - `SetRandomSeed`

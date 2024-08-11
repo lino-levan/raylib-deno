@@ -11,10 +11,10 @@ import { littleEndian } from "./_helper.ts";
 
 /** Image functions */
 export class Image {
-  #buffer: ArrayBuffer;
+  #buffer: Uint8Array;
 
   /** Avoid using if possible */
-  constructor(buffer: ArrayBuffer) {
+  constructor(buffer: Uint8Array) {
     this.#buffer = buffer;
   }
 
@@ -23,12 +23,12 @@ export class Image {
   }
 
   get width() {
-    const view = new DataView(this.#buffer);
+    const view = new DataView(this.#buffer.buffer);
     return view.getInt32(8, littleEndian);
   }
 
   get height() {
-    const view = new DataView(this.#buffer);
+    const view = new DataView(this.#buffer.buffer);
     return view.getInt32(12, littleEndian);
   }
 

@@ -11,10 +11,10 @@ import { littleEndian } from "./_helper.ts";
 
 /** Image functions */
 export class Image {
-  #buffer: Uint8Array;
+  #buffer: ArrayBuffer;
 
   /** Avoid using if possible */
-  constructor(buffer: Uint8Array) {
+  constructor(buffer: ArrayBuffer) {
     this.#buffer = buffer;
   }
 
@@ -23,19 +23,19 @@ export class Image {
   }
 
   get width() {
-    const view = new DataView(this.#buffer.buffer);
+    const view = new DataView(this.#buffer);
     return view.getInt32(8, littleEndian);
   }
 
   get height() {
-    const view = new DataView(this.#buffer.buffer);
+    const view = new DataView(this.#buffer);
     return view.getInt32(12, littleEndian);
   }
 
   /** Load image from file into CPU memory (RAM) */
   static load(fileName: string): Image {
     const encodedFileName = new TextEncoder().encode(fileName + "\0");
-    return new Image(lib.symbols.LoadImage(encodedFileName));
+    return new Image(lib.symbols.LoadImage(encodedFileName).buffer);
   }
 
   /** Load image from RAW file data */
@@ -54,7 +54,7 @@ export class Image {
         height,
         format,
         headerSize,
-      ),
+      ).buffer,
     );
   }
 

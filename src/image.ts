@@ -35,7 +35,7 @@ export class Image {
   /** Load image from file into CPU memory (RAM) */
   static load(fileName: string): Image {
     const encodedFileName = new TextEncoder().encode(fileName + "\0");
-    return new Image(lib.symbols.LoadImage(encodedFileName));
+    return new Image(lib.symbols.LoadImage(encodedFileName).buffer);
   }
 
   /** Load image from RAW file data */
@@ -54,7 +54,7 @@ export class Image {
         height,
         format,
         headerSize,
-      ),
+      ).buffer,
     );
   }
 

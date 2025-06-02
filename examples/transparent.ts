@@ -1,13 +1,4 @@
-import {
-  BLACK,
-  BLANK,
-  Drawing,
-  Mouse,
-  Shapes,
-  Timing,
-  Vector2,
-  Window,
-} from "raylib";
+import { BLACK, BLANK, Drawing, Shapes, Timing, Vector2, Window } from "raylib";
 
 Timing.setTargetFPS(60);
 Window.init(100, 100, "Hey", {

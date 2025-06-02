@@ -6,48 +6,48 @@ import { lib } from "../bindings/bindings.ts";
 
 /** Wave functions */
 export class Wave {
-  #buffer: ArrayBuffer;
+  #buffer: Uint8Array<ArrayBuffer>;
   /** Avoid using if at all possible */
-  constructor(buffer: ArrayBuffer) {
+  constructor(buffer: Uint8Array<ArrayBuffer>) {
     this.#buffer = buffer;
   }
 
-  get buffer() {
+  get buffer(): Uint8Array<ArrayBuffer> {
     return this.#buffer;
   }
 
   /** Total number of frames (considering channels) */
-  get frameCount() {
-    const view = new DataView(this.#buffer);
+  get frameCount(): number {
+    const view = new DataView(this.#buffer.buffer);
     return view.getUint32(0, true);
   }
 
   /** Frequency (samples per second) */
-  get sampleRate() {
-    const view = new DataView(this.#buffer);
+  get sampleRate(): number {
+    const view = new DataView(this.#buffer.buffer);
     return view.getUint32(4, true);
   }
 
   /** Bit depth (bits per sample): 8, 16, 32 (24 not supported) */
-  get sampleSize() {
-    const view = new DataView(this.#buffer);
+  get sampleSize(): number {
+    const view = new DataView(this.#buffer.buffer);
     return view.getUint32(8, true);
   }
 
   /** Number of channels (1-mono, 2-stereo, ...) */
-  get channels() {
-    const view = new DataView(this.#buffer);
+  get channels(): number {
+    const view = new DataView(this.#buffer.buffer);
     return view.getUint32(12, true);
   }
 
   /** Load wave data from file */
-  static load(filename: string) {
+  static load(filename: string): Wave {
     const encoded = new TextEncoder().encode(filename + "\0");
     return new Wave(lib.symbols.LoadWave(encoded));
   }
 
   /** Load wave from memory buffer, fileType refers to extension: i.e. '.wav' */
-  static loadFromMemory(fileType: string, fileData: Uint8Array) {
+  static loadFromMemory(fileType: string, fileData: Uint8Array): Wave {
     const encoded = new TextEncoder().encode(fileType + "\0");
     return new Wave(
       lib.symbols.LoadWaveFromMemory(
@@ -59,7 +59,7 @@ export class Wave {
   }
 
   /** Checks if wave data is ready */
-  isReady() {
+  isReady(): boolean {
     return !!lib.symbols.IsWaveReady(this.#buffer);
   }
 
@@ -69,19 +69,19 @@ export class Wave {
   }
 
   /** Export wave data to file, returns true on success */
-  export(filename: string) {
+  export(filename: string): boolean {
     const encoded = new TextEncoder().encode(filename + "\0");
     return !!lib.symbols.ExportWave(this.#buffer, encoded);
   }
 
   /** Export wave sample data to code (.h), returns true on success */
-  exportAsCode(filename: string) {
+  exportAsCode(filename: string): boolean {
     const encoded = new TextEncoder().encode(filename + "\0");
     return !!lib.symbols.ExportWaveAsCode(this.#buffer, encoded);
   }
 
   /** Copy a wave to a new wave */
-  copy() {
+  copy(): Wave {
     return new Wave(lib.symbols.WaveCopy(this.#buffer));
   }
 
@@ -105,7 +105,7 @@ export class Wave {
   }
 
   /** Load samples data from wave as a 32bit float data array  */
-  getSamples() {
+  getSamples(): Float32Array {
     const pointer = lib.symbols.LoadWaveSamples(this.#buffer)!;
     const view = new Deno.UnsafePointerView(pointer);
     const samples = new Float32Array(this.frameCount * this.channels);
@@ -123,34 +123,34 @@ export class Wave {
 
 /** Sound functions */
 export class Sound {
-  #buffer: ArrayBuffer;
+  #buffer: Uint8Array<ArrayBuffer>;
   /** Avoid using if at all possible */
-  constructor(buffer: ArrayBuffer) {
+  constructor(buffer: Uint8Array<ArrayBuffer>) {
     this.#buffer = buffer;
   }
 
-  get buffer() {
+  get buffer(): Uint8Array<ArrayBuffer> {
     return this.#buffer;
   }
 
   /** Load sound from file */
-  static load(filename: string) {
+  static load(filename: string): Sound {
     const encoded = new TextEncoder().encode(filename + "\0");
     return new Sound(lib.symbols.LoadSound(encoded));
   }
 
   /** Load sound from wave data */
-  static loadFromWave(wave: Wave) {
+  static loadFromWave(wave: Wave): Sound {
     return new Sound(lib.symbols.LoadSoundFromWave(wave.buffer));
   }
 
   /** Create a new sound that shares the same sample data as the source sound, does not own the sound data */
-  static loadAlias(source: Sound) {
+  static loadAlias(source: Sound): Sound {
     return new Sound(lib.symbols.LoadSoundAlias(source.buffer));
   }
 
   /** Checks if a sound is ready */
-  isReady() {
+  isReady(): boolean {
     return !!lib.symbols.IsSoundReady(this.#buffer);
   }
 
@@ -194,7 +194,7 @@ export class Sound {
   }
 
   /** Check if a sound is currently playing */
-  isPlaying() {
+  isPlaying(): boolean {
     return !!lib.symbols.IsSoundPlaying(this.#buffer);
   }
 

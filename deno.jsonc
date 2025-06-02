@@ -1,4 +1,7 @@
 {
+  "name": "@lino/raylib",
+  "version": "0.1.0",
+  "exports": "./mod.ts",
   "tasks": {
     "generate": "cd bindings && deno run --allow-read --allow-write generator.ts && deno fmt"
   },

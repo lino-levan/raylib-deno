@@ -7,7 +7,7 @@ export const RAYLIB_VERSION_PATCH = 0;
 export const RAYLIB_VERSION = "5.0";
 
 // --- bindings ---
-import { dlopen } from "https://deno.land/x/plug@1.0.3/mod.ts";
+import { dlopen } from "jsr:@denosaurs/plug@1.0.6";
 
 export const lib = await dlopen({
   name: "raylib",

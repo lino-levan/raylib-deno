@@ -4,9 +4,9 @@
  */
 
 import { lib } from "../bindings/bindings.ts";
-import { Color } from "./color.ts";
-import { Camera3D } from "./camera3d.ts";
-import { Camera2D } from "./_util.ts";
+import type { Color } from "./color.ts";
+import type { Camera3D } from "./camera3d.ts";
+import type { Camera2D } from "./_util.ts";
 
 export class Drawing {
   /** Set background color (framebuffer clear color) */

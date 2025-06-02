@@ -3,37 +3,42 @@
  * @module
  */
 import { lib } from "../bindings/bindings.ts";
-import { BoundingBox, Rectangle, Vector2, Vector3 } from "./_util.ts";
-import { Camera3D } from "./camera3d.ts";
-import { Color } from "./color.ts";
-import { Texture2D } from "./texture.ts";
-import { Mesh } from "./mesh.ts";
+import {
+  BoundingBox,
+  type Rectangle,
+  type Vector2,
+  type Vector3,
+} from "./_util.ts";
+import type { Camera3D } from "./camera3d.ts";
+import type { Color } from "./color.ts";
+import type { Texture2D } from "./texture.ts";
+import type { Mesh } from "./mesh.ts";
 
 /** Class for creating, loading, and drawing models */
 export class Model {
-  #buffer: ArrayBuffer;
+  #buffer: Uint8Array<ArrayBuffer>;
   /** Avoid using if at all possible */
-  constructor(buffer: ArrayBuffer) {
+  constructor(buffer: Uint8Array<ArrayBuffer>) {
     this.#buffer = buffer;
   }
 
-  get buffer() {
+  get buffer(): Uint8Array<ArrayBuffer> {
     return this.#buffer;
   }
 
   /** Load model from files (meshes and materials) */
-  static load(fileName: string) {
+  static load(fileName: string): Model {
     const encoded = new TextEncoder().encode(fileName + "\0");
     return new Model(lib.symbols.LoadModel(encoded));
   }
 
   /** Load model from generated mesh (default material) */
-  static loadFromMesh(mesh: Mesh) {
+  static loadFromMesh(mesh: Mesh): Model {
     return new Model(lib.symbols.LoadModelFromMesh(mesh.buffer));
   }
 
   /** Check if a model is ready */
-  isReady() {
+  isReady(): boolean {
     return !!lib.symbols.IsModelReady(this.#buffer);
   }
 
@@ -43,7 +48,7 @@ export class Model {
   }
 
   /** Compute model bounding box limits (considers all meshes) */
-  getBoundingBox() {
+  getBoundingBox(): BoundingBox {
     return BoundingBox.fromBuffer(
       lib.symbols.GetModelBoundingBox(this.#buffer).buffer,
     );

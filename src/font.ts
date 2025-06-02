@@ -6,14 +6,14 @@ import { lib } from "../bindings/bindings.ts";
 
 /** Font loading/unloading functions */
 export class Font {
-  #buffer: ArrayBuffer;
+  #buffer: Uint8Array<ArrayBuffer>;
 
   /** Avoid using this constructor directly. */
-  constructor(buffer: ArrayBuffer) {
+  constructor(buffer: Uint8Array<ArrayBuffer>) {
     this.#buffer = buffer;
   }
 
-  get buffer() {
+  get buffer(): Uint8Array<ArrayBuffer> {
     return this.#buffer;
   }
 

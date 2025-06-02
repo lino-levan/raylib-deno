@@ -17,7 +17,7 @@ export class AudioDevice {
   }
 
   /** Check if audio device has been initialized successfully */
-  static isReady() {
+  static isReady(): boolean {
     return !!lib.symbols.IsAudioDeviceReady();
   }
 
@@ -27,7 +27,7 @@ export class AudioDevice {
   }
 
   /** Get master volume (listener) */
-  static getMasterVolume() {
+  static getMasterVolume(): number {
     return lib.symbols.GetMasterVolume();
   }
 }

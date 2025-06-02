@@ -18,7 +18,7 @@ export class Cursor {
   }
 
   /** Check if cursor is not visible */
-  static isHidden() {
+  static isHidden(): boolean {
     return !!lib.symbols.IsCursorHidden();
   }
 
@@ -33,7 +33,7 @@ export class Cursor {
   }
 
   /** Check if cursor is on the current screen. */
-  static isOnScreen() {
+  static isOnScreen(): boolean {
     return !!lib.symbols.IsCursorOnScreen();
   }
 }

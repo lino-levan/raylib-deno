@@ -6,11 +6,11 @@ import { lib } from "../bindings/bindings.ts";
 import { littleEndian } from "./_helper.ts";
 
 export class FileDrop {
-  static isFileDropped() {
+  static isFileDropped(): boolean {
     return !!lib.symbols.IsFileDropped();
   }
 
-  static loadDroppedFiles() {
+  static loadDroppedFiles(): string[] {
     const result = lib.symbols.LoadDroppedFiles();
     const view = new DataView(result.buffer);
     const length = view.getUint32(4, littleEndian);
@@ -19,7 +19,7 @@ export class FileDrop {
     );
     const pointerView = new Deno.UnsafePointerView(pointer!);
 
-    let list = [];
+    const list: string[] = [];
     for (let i = 0; i < length; i++) {
       const stringPointer = pointerView.getPointer(i * 8);
       const stringView = new Deno.UnsafePointerView(stringPointer!);

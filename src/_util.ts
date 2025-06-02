@@ -3,7 +3,7 @@ import { littleEndian } from "./_helper.ts";
 export class Vector2 {
   constructor(public x: number, public y: number) {}
 
-  static fromBuffer(buffer: ArrayBuffer) {
+  static fromBuffer(buffer: ArrayBuffer): Vector2 {
     const view = new DataView(buffer);
     return new Vector2(
       view.getFloat32(0, littleEndian),
@@ -11,7 +11,7 @@ export class Vector2 {
     );
   }
 
-  get buffer() {
+  get buffer(): ArrayBuffer {
     return new Float32Array([this.x, this.y]).buffer;
   }
 }
@@ -19,8 +19,8 @@ export class Vector2 {
 export class Vector3 {
   constructor(public x: number, public y: number, public z: number) {}
 
-  static fromBuffer(buffer: ArrayBuffer) {
-    const view = new DataView(buffer);
+  static fromBuffer(buffer: Uint8Array<ArrayBuffer>): Vector3 {
+    const view = new DataView(buffer.buffer);
     return new Vector3(
       view.getFloat32(0, littleEndian),
       view.getFloat32(4, littleEndian),
@@ -28,7 +28,7 @@ export class Vector3 {
     );
   }
 
-  get buffer() {
+  get buffer(): ArrayBuffer {
     return new Float32Array([this.x, this.y, this.z]).buffer;
   }
 }
@@ -41,7 +41,7 @@ export class Vector4 {
     public w: number,
   ) {}
 
-  static fromBuffer(buffer: ArrayBuffer) {
+  static fromBuffer(buffer: ArrayBuffer): Vector4 {
     const view = new DataView(buffer);
     return new Vector4(
       view.getFloat32(0, littleEndian),
@@ -51,7 +51,7 @@ export class Vector4 {
     );
   }
 
-  get buffer() {
+  get buffer(): ArrayBuffer {
     return new Float32Array([this.x, this.y, this.z, this.w]).buffer;
   }
 }
@@ -64,7 +64,7 @@ export class Rectangle {
     public height: number,
   ) {}
 
-  static fromBuffer(buffer: ArrayBuffer) {
+  static fromBuffer(buffer: ArrayBuffer): Rectangle {
     const view = new DataView(buffer);
     return new Rectangle(
       view.getFloat32(0, littleEndian),
@@ -74,7 +74,7 @@ export class Rectangle {
     );
   }
 
-  get buffer() {
+  get buffer(): ArrayBuffer {
     return new Float32Array([this.x, this.y, this.width, this.height]).buffer;
   }
 }
@@ -82,7 +82,7 @@ export class Rectangle {
 export class Ray {
   constructor(public position: Vector3, public direction: Vector3) {}
 
-  static fromBuffer(buffer: ArrayBuffer) {
+  static fromBuffer(buffer: ArrayBuffer): Ray {
     const view = new DataView(buffer);
     return new Ray(
       new Vector3(
@@ -98,7 +98,7 @@ export class Ray {
     );
   }
 
-  get buffer() {
+  get buffer(): ArrayBuffer {
     return new Float32Array([
       this.position.x,
       this.position.y,
@@ -113,7 +113,7 @@ export class Ray {
 export class BoundingBox {
   constructor(public min: Vector3, public max: Vector3) {}
 
-  static fromBuffer(buffer: ArrayBuffer) {
+  static fromBuffer(buffer: ArrayBuffer): BoundingBox {
     const view = new DataView(buffer);
     return new BoundingBox(
       new Vector3(
@@ -129,7 +129,7 @@ export class BoundingBox {
     );
   }
 
-  get buffer() {
+  get buffer(): ArrayBuffer {
     return new Float32Array([
       this.min.x,
       this.min.y,
@@ -169,7 +169,7 @@ export class Camera2D {
     this.zoom = options?.zoom ?? 1;
   }
 
-  get buffer() {
+  get buffer(): ArrayBuffer {
     return new Float32Array([
       this.offset.x,
       this.offset.y,
@@ -201,7 +201,7 @@ export class Matrix {
     public m15: number,
   ) {}
 
-  static fromBuffer(buffer: ArrayBuffer) {
+  static fromBuffer(buffer: ArrayBuffer): Matrix {
     const view = new DataView(buffer);
     return new Matrix(
       view.getFloat32(0, littleEndian),
@@ -223,7 +223,7 @@ export class Matrix {
     );
   }
 
-  get buffer() {
+  get buffer(): ArrayBuffer {
     return new Float32Array([
       this.m0,
       this.m1,

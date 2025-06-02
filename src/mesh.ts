@@ -3,19 +3,19 @@
  * @module
  */
 import { lib } from "../bindings/bindings.ts";
-import { BoundingBox, Matrix, Vector3 } from "./_util.ts";
-import { Image } from "./image.ts";
-import { Material } from "./material.ts";
+import { BoundingBox, type Matrix, type Vector3 } from "./_util.ts";
+import type { Image } from "./image.ts";
+import type { Material } from "./material.ts";
 
 /** Class for creating, loading, and drawing meshes */
 export class Mesh {
-  #buffer: ArrayBuffer;
+  #buffer: Uint8Array<ArrayBuffer>;
   /** Avoid using if at all possible */
-  constructor(buffer: ArrayBuffer) {
+  constructor(buffer: Uint8Array<ArrayBuffer>) {
     this.#buffer = buffer;
   }
 
-  get buffer() {
+  get buffer(): Uint8Array<ArrayBuffer> {
     return this.#buffer;
   }
 
@@ -60,13 +60,13 @@ export class Mesh {
   }
 
   /** Export mesh data to file, returns true on success */
-  export(fileName: string) {
+  export(fileName: string): boolean {
     const encoded = new TextEncoder().encode(fileName + "\0");
     return !!lib.symbols.ExportMesh(this.#buffer, encoded);
   }
 
   /** Compute mesh bounding box limits */
-  getBoundingBox() {
+  getBoundingBox(): BoundingBox {
     return BoundingBox.fromBuffer(
       lib.symbols.GetMeshBoundingBox(this.#buffer).buffer,
     );
@@ -78,59 +78,74 @@ export class Mesh {
   }
 
   /** Generate polygonal mesh */
-  static genPoly(sides: number, radius: number) {
+  static genPoly(sides: number, radius: number): Mesh {
     return new Mesh(lib.symbols.GenMeshPoly(sides, radius));
   }
 
   /** Generate plane mesh (with subdivisions) */
-  static genPlane(width: number, length: number, resX: number, resZ: number) {
+  static genPlane(
+    width: number,
+    length: number,
+    resX: number,
+    resZ: number,
+  ): Mesh {
     return new Mesh(lib.symbols.GenMeshPlane(width, length, resX, resZ));
   }
 
   /** Generate cuboid mesh */
-  static genCube(width: number, height: number, length: number) {
+  static genCube(width: number, height: number, length: number): Mesh {
     return new Mesh(lib.symbols.GenMeshCube(width, height, length));
   }
 
   /** Generate sphere mesh (standard sphere) */
-  static genSphere(radius: number, rings: number, slices: number) {
+  static genSphere(radius: number, rings: number, slices: number): Mesh {
     return new Mesh(lib.symbols.GenMeshSphere(radius, rings, slices));
   }
 
   /** Generate half-sphere mesh (no bottom cap) */
-  static genHemiSphere(radius: number, rings: number, slices: number) {
+  static genHemiSphere(radius: number, rings: number, slices: number): Mesh {
     return new Mesh(lib.symbols.GenMeshHemiSphere(radius, rings, slices));
   }
 
   /** Generate cylinder mesh */
-  static genCylinder(radius: number, height: number, slices: number) {
+  static genCylinder(radius: number, height: number, slices: number): Mesh {
     return new Mesh(lib.symbols.GenMeshCylinder(radius, height, slices));
   }
 
   /** Generate cone/pyramid mesh */
-  static genCone(radius: number, height: number, slices: number) {
+  static genCone(radius: number, height: number, slices: number): Mesh {
     return new Mesh(lib.symbols.GenMeshCone(radius, height, slices));
   }
 
   /** Generate torus mesh */
-  static genTorus(radius: number, size: number, radSeg: number, sides: number) {
+  static genTorus(
+    radius: number,
+    size: number,
+    radSeg: number,
+    sides: number,
+  ): Mesh {
     return new Mesh(lib.symbols.GenMeshTorus(radius, size, radSeg, sides));
   }
 
   /** Generate trefoil knot mesh */
-  static genKnot(radius: number, size: number, radSeg: number, sides: number) {
+  static genKnot(
+    radius: number,
+    size: number,
+    radSeg: number,
+    sides: number,
+  ): Mesh {
     return new Mesh(lib.symbols.GenMeshKnot(radius, size, radSeg, sides));
   }
 
   /** Generate heightmap mesh from image data */
-  static genHeightmap(heightmap: Image, size: Vector3) {
+  static genHeightmap(heightmap: Image, size: Vector3): Mesh {
     return new Mesh(
       lib.symbols.GenMeshHeightmap(heightmap.buffer, size.buffer),
     );
   }
 
   /** Generate cubes-based map mesh from image data */
-  static genCubicmap(cubicmap: Image, cubeSize: Vector3) {
+  static genCubicmap(cubicmap: Image, cubeSize: Vector3): Mesh {
     return new Mesh(
       lib.symbols.GenMeshCubicmap(cubicmap.buffer, cubeSize.buffer),
     );

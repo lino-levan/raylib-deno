@@ -56,7 +56,7 @@ export class Gesture {
   }
 
   /** Check if a gesture have been detected */
-  isDetected(gesture: keyof GestureFlags) {
+  isDetected(gesture: keyof GestureFlags): boolean {
     return !!lib.symbols.IsGestureDetected(gestureFlags[gesture]);
   }
 
@@ -74,27 +74,27 @@ export class Gesture {
   }
 
   /** Get gesture hold time in milliseconds */
-  getHoldDuration() {
+  getHoldDuration(): number {
     return lib.symbols.GetGestureHoldDuration();
   }
 
   /** Get gesture drag vector */
-  getDragVector() {
+  getDragVector(): Vector2 {
     return Vector2.fromBuffer(lib.symbols.GetGestureDragVector().buffer);
   }
 
   /** Get gesture drag angle */
-  getDragAngle() {
+  getDragAngle(): number {
     return lib.symbols.GetGestureDragAngle();
   }
 
   /** Get gesture pinch delta */
-  getPinchVector() {
+  getPinchVector(): Vector2 {
     return Vector2.fromBuffer(lib.symbols.GetGesturePinchVector().buffer);
   }
 
   /** Get gesture pinch angle */
-  getPinchingAngle() {
+  getPinchingAngle(): number {
     return lib.symbols.GetGesturePinchAngle();
   }
 }

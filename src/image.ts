@@ -3,39 +3,39 @@
  * @module
  */
 import { lib } from "../bindings/bindings.ts";
-import { Font } from "./font.ts";
+import type { Font } from "./font.ts";
 import { Color } from "./color.ts";
-import { Rectangle, Vector2 } from "./_util.ts";
-import { Texture2D } from "./texture.ts";
+import { Rectangle, type Vector2 } from "./_util.ts";
+import type { Texture2D } from "./texture.ts";
 import { littleEndian } from "./_helper.ts";
 
 /** Image functions */
 export class Image {
-  #buffer: ArrayBuffer;
+  #buffer: Uint8Array<ArrayBuffer>;
 
   /** Avoid using if possible */
-  constructor(buffer: ArrayBuffer) {
+  constructor(buffer: Uint8Array<ArrayBuffer>) {
     this.#buffer = buffer;
   }
 
-  get buffer() {
+  get buffer(): Uint8Array<ArrayBuffer> {
     return this.#buffer;
   }
 
-  get width() {
-    const view = new DataView(this.#buffer);
+  get width(): number {
+    const view = new DataView(this.#buffer.buffer);
     return view.getInt32(8, littleEndian);
   }
 
-  get height() {
-    const view = new DataView(this.#buffer);
+  get height(): number {
+    const view = new DataView(this.#buffer.buffer);
     return view.getInt32(12, littleEndian);
   }
 
   /** Load image from file into CPU memory (RAM) */
   static load(fileName: string): Image {
     const encodedFileName = new TextEncoder().encode(fileName + "\0");
-    return new Image(lib.symbols.LoadImage(encodedFileName).buffer);
+    return new Image(lib.symbols.LoadImage(encodedFileName));
   }
 
   /** Load image from RAW file data */
@@ -45,7 +45,7 @@ export class Image {
     height: number,
     format: number,
     headerSize: number,
-  ) {
+  ): Image {
     const encodedFileName = new TextEncoder().encode(fileName + "\0");
     return new Image(
       lib.symbols.LoadImageRaw(
@@ -54,12 +54,16 @@ export class Image {
         height,
         format,
         headerSize,
-      ).buffer,
+      ),
     );
   }
 
   /** Load image from SVG file data or string with specified size */
-  static loadSvg(fileNameOrString: string, width: number, height: number) {
+  static loadSvg(
+    fileNameOrString: string,
+    width: number,
+    height: number,
+  ): Image {
     const encodedFileNameOrString = new TextEncoder().encode(
       fileNameOrString + "\0",
     );
@@ -85,7 +89,7 @@ export class Image {
   }
 
   /** Load image from GPU texture data */
-  static loadFromTexture(texture: Texture2D) {
+  static loadFromTexture(texture: Texture2D): Image {
     return new Image(lib.symbols.LoadImageFromTexture(texture.buffer));
   }
 
@@ -239,7 +243,7 @@ export class Image {
   }
 
   /** Create an image from text (default font) */
-  static text(text: string, fontSize: number, color: Color) {
+  static text(text: string, fontSize: number, color: Color): Image {
     const encodedText = new TextEncoder().encode(text + "\0");
     return new Image(
       lib.symbols.ImageText(encodedText, fontSize, color.buffer),
@@ -253,7 +257,7 @@ export class Image {
     fontSize: number,
     spacing: number,
     tint: Color,
-  ) {
+  ): Image {
     const encodedText = new TextEncoder().encode(text + "\0");
     return new Image(
       lib.symbols.ImageTextEx(
@@ -457,7 +461,7 @@ export class Image {
 
   /** Load colors palette from image as a Color array (RGBA - 32bit) */
   loadPalette(maxPaletteSize: number): Color[] {
-    let colorCount = new Uint32Array(1);
+    const colorCount = new Uint32Array(1);
     const colors = lib.symbols.LoadImagePalette(
       this.#buffer,
       maxPaletteSize,
@@ -489,7 +493,7 @@ export class Image {
   /** Get image color at pixel position */
   getColor(x: number, y: number): Color {
     return Color.fromBuffer(
-      lib.symbols.GetImageColor(this.#buffer, x, y).buffer,
+      lib.symbols.GetImageColor(this.#buffer, x, y),
     );
   }
 

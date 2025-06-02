@@ -3,14 +3,14 @@
  * @module
  */
 import { lib } from "../bindings/bindings.ts";
-import { Color } from "./color.ts";
+import type { Color } from "./color.ts";
 import { Vector2 } from "./_util.ts";
 import { concatVector2s } from "./_helper.ts";
 
 /** Spline functions */
 export class Spline {
   /** Draw spline: Linear, minimum 2 points */
-  static drawLinear(points: Vector2[], thick: number, color: Color) {
+  static drawLinear(points: Vector2[], thick: number, color: Color): void {
     const pointBuffer = concatVector2s(points);
     lib.symbols.DrawSplineLinear(
       Deno.UnsafePointer.of(pointBuffer),
@@ -21,7 +21,7 @@ export class Spline {
   }
 
   /** Draw spline: B-Spline, minimum 4 points */
-  static drawBasis(points: Vector2[], thick: number, color: Color) {
+  static drawBasis(points: Vector2[], thick: number, color: Color): void {
     const pointBuffer = concatVector2s(points);
     lib.symbols.DrawSplineBasis(
       Deno.UnsafePointer.of(pointBuffer),
@@ -32,7 +32,7 @@ export class Spline {
   }
 
   /** Draw spline: Catmull-Rom, minimum 4 points */
-  static drawCatmullRom(points: Vector2[], thick: number, color: Color) {
+  static drawCatmullRom(points: Vector2[], thick: number, color: Color): void {
     const pointBuffer = concatVector2s(points);
     lib.symbols.DrawSplineCatmullRom(
       Deno.UnsafePointer.of(pointBuffer),
@@ -43,7 +43,11 @@ export class Spline {
   }
 
   /** Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...] */
-  static drawBezierQuadratic(points: Vector2[], thick: number, color: Color) {
+  static drawBezierQuadratic(
+    points: Vector2[],
+    thick: number,
+    color: Color,
+  ): void {
     const pointBuffer = concatVector2s(points);
     lib.symbols.DrawSplineBezierQuadratic(
       Deno.UnsafePointer.of(pointBuffer),
@@ -54,7 +58,7 @@ export class Spline {
   }
 
   /** Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...] */
-  static drawBezierCubic(points: Vector2[], thick: number, color: Color) {
+  static drawBezierCubic(points: Vector2[], thick: number, color: Color): void {
     const pointBuffer = concatVector2s(points);
     lib.symbols.DrawSplineBezierCubic(
       Deno.UnsafePointer.of(pointBuffer),
@@ -65,7 +69,12 @@ export class Spline {
   }
 
   /** Draw spline segment: Linear, 2 points */
-  drawSegmentLinear(p1: Vector2, p2: Vector2, thick: number, color: Color) {
+  drawSegmentLinear(
+    p1: Vector2,
+    p2: Vector2,
+    thick: number,
+    color: Color,
+  ): void {
     lib.symbols.DrawSplineSegmentLinear(
       p1.buffer,
       p2.buffer,
@@ -82,7 +91,7 @@ export class Spline {
     p4: Vector2,
     thick: number,
     color: Color,
-  ) {
+  ): void {
     lib.symbols.DrawSplineSegmentBasis(
       p1.buffer,
       p2.buffer,
@@ -101,7 +110,7 @@ export class Spline {
     p4: Vector2,
     thick: number,
     color: Color,
-  ) {
+  ): void {
     lib.symbols.DrawSplineSegmentCatmullRom(
       p1.buffer,
       p2.buffer,
@@ -119,7 +128,7 @@ export class Spline {
     p3: Vector2,
     thick: number,
     color: Color,
-  ) {
+  ): void {
     lib.symbols.DrawSplineSegmentBezierQuadratic(
       p1.buffer,
       c2.buffer,
@@ -137,7 +146,7 @@ export class Spline {
     p4: Vector2,
     thick: number,
     color: Color,
-  ) {
+  ): void {
     lib.symbols.DrawSplineSegmentBezierCubic(
       p1.buffer,
       c2.buffer,
@@ -149,7 +158,7 @@ export class Spline {
   }
 
   /** Get (evaluate) spline point: Linear */
-  getPointLinear(startPos: Vector2, endPos: Vector2, t: number) {
+  getPointLinear(startPos: Vector2, endPos: Vector2, t: number): Vector2 {
     return Vector2.fromBuffer(
       lib.symbols.GetSplinePointLinear(startPos.buffer, endPos.buffer, t)
         .buffer,
@@ -157,7 +166,13 @@ export class Spline {
   }
 
   /** Get (evaluate) spline point: B-Spline */
-  getPointBasis(p1: Vector2, p2: Vector2, p3: Vector2, p4: Vector2, t: number) {
+  getPointBasis(
+    p1: Vector2,
+    p2: Vector2,
+    p3: Vector2,
+    p4: Vector2,
+    t: number,
+  ): Vector2 {
     return Vector2.fromBuffer(
       lib.symbols.GetSplinePointBasis(
         p1.buffer,
@@ -176,7 +191,7 @@ export class Spline {
     p3: Vector2,
     p4: Vector2,
     t: number,
-  ) {
+  ): Vector2 {
     return Vector2.fromBuffer(
       lib.symbols.GetSplinePointCatmullRom(
         p1.buffer,
@@ -189,7 +204,12 @@ export class Spline {
   }
 
   /** Get (evaluate) spline point: Quadratic Bezier */
-  getPointBezierQuad(p1: Vector2, c2: Vector2, p3: Vector2, t: number) {
+  getPointBezierQuad(
+    p1: Vector2,
+    c2: Vector2,
+    p3: Vector2,
+    t: number,
+  ): Vector2 {
     return Vector2.fromBuffer(
       lib.symbols.GetSplinePointBezierQuad(p1.buffer, c2.buffer, p3.buffer, t)
         .buffer,
@@ -203,7 +223,7 @@ export class Spline {
     c3: Vector2,
     p4: Vector2,
     t: number,
-  ) {
+  ): Vector2 {
     return Vector2.fromBuffer(
       lib.symbols.GetSplinePointBezierCubic(
         p1.buffer,

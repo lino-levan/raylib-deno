@@ -3,8 +3,8 @@
  * @module
  */
 import { lib } from "../bindings/bindings.ts";
-import { Model } from "./model.ts";
-import { Texture2D } from "./texture.ts";
+import type { Model } from "./model.ts";
+import type { Texture2D } from "./texture.ts";
 
 const materialMapIndex = {
   albedo: 0,
@@ -24,21 +24,21 @@ export type MaterialMapIndex = keyof typeof materialMapIndex;
 
 /** Class for creating, loading, and drawing materials */
 export class Material {
-  #buffer: ArrayBuffer;
+  #buffer: Uint8Array<ArrayBuffer>;
   /** Avoid using if at all possible */
-  constructor(buffer: ArrayBuffer) {
+  constructor(buffer: Uint8Array<ArrayBuffer>) {
     this.#buffer = buffer;
   }
 
-  get buffer() {
+  get buffer(): Uint8Array<ArrayBuffer> {
     return this.#buffer;
   }
 
   /** Load materials from model file */
-  static load(fileName: string) {
+  static load(fileName: string): Material[] {
     const encoded = new TextEncoder().encode(fileName + "\0");
     const count = new Int32Array(1);
-    const pointer = lib.symbols.LoadMaterials(
+    const _pointer = lib.symbols.LoadMaterials(
       encoded,
       Deno.UnsafePointer.of(count),
     );
@@ -50,12 +50,12 @@ export class Material {
   }
 
   /** Load default material (Supports: DIFFUSE, SPECULAR, NORMAL maps) */
-  static loadDefault() {
+  static loadDefault(): Material {
     return new Material(lib.symbols.LoadMaterialDefault());
   }
 
   /** Check if a material is ready */
-  isReady() {
+  isReady(): boolean {
     return !!lib.symbols.IsMaterialReady(this.#buffer);
   }
 

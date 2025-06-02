@@ -35,7 +35,7 @@ export class Camera3D {
     this.type = options?.type ?? "PERSPECTIVE";
   }
 
-  get buffer() {
+  get buffer(): ArrayBuffer {
     const view = new DataView(new ArrayBuffer(44));
     view.setFloat32(0, this.position.x, littleEndian);
     view.setFloat32(4, this.position.y, littleEndian);

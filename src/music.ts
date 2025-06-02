@@ -6,20 +6,23 @@ import { lib } from "../bindings/bindings.ts";
 
 /** A simple class for interacting with music */
 export class Music {
-  #buffer: ArrayBuffer;
+  #buffer: Uint8Array<ArrayBuffer>;
   /** Avoid using if at all possible */
-  constructor(buffer: ArrayBuffer) {
+  constructor(buffer: Uint8Array<ArrayBuffer>) {
     this.#buffer = buffer;
   }
 
   /** Load music stream from file */
-  static loadStream(filename: string) {
+  static loadStream(filename: string): Music {
     const encoded = new TextEncoder().encode(filename + "\0");
     return new Music(lib.symbols.LoadMusicStream(encoded));
   }
 
   /** Load music stream from data */
-  static loadStreamFromMemory(fileType: string, data: Uint8Array) {
+  static loadStreamFromMemory(
+    fileType: string,
+    data: Uint8Array<ArrayBuffer>,
+  ): Music {
     const encoded = new TextEncoder().encode(fileType + "\0");
     return new Music(
       lib.symbols.LoadMusicStreamFromMemory(
@@ -31,7 +34,7 @@ export class Music {
   }
 
   /** Checks if a music stream is ready */
-  isReady() {
+  isReady(): boolean {
     return !!lib.symbols.IsMusicReady(this.#buffer);
   }
 
@@ -46,7 +49,7 @@ export class Music {
   }
 
   /** Check if music is playing */
-  isPlaying() {
+  isPlaying(): boolean {
     return !!lib.symbols.IsMusicStreamPlaying(this.#buffer);
   }
 
@@ -91,12 +94,12 @@ export class Music {
   }
 
   /** Get music time length (in seconds) */
-  getTimeLength() {
+  getTimeLength(): number {
     return lib.symbols.GetMusicTimeLength(this.#buffer);
   }
 
   /** Get current music time played (in seconds) */
-  getTimePlayed() {
+  getTimePlayed(): number {
     return lib.symbols.GetMusicTimePlayed(this.#buffer);
   }
 }

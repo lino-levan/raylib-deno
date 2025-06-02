@@ -15,7 +15,7 @@ export class AudioStream {
   }
 
   /** Checks if an audio stream is ready */
-  isReady() {
+  isReady(): boolean {
     return !!lib.symbols.IsAudioStreamReady(this.#buffer);
   }
 
@@ -34,7 +34,7 @@ export class AudioStream {
   }
 
   /** Check if any audio stream buffers requires refill */
-  isProcessed() {
+  isProcessed(): boolean {
     return !!lib.symbols.IsAudioStreamProcessed(this.#buffer);
   }
 
@@ -54,7 +54,7 @@ export class AudioStream {
   }
 
   /** Check if audio stream is playing */
-  isPlaying() {
+  isPlaying(): boolean {
     return !!lib.symbols.IsAudioStreamPlaying(this.#buffer);
   }
 

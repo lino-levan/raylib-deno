@@ -3,8 +3,8 @@
  * @module
  */
 import { lib } from "../bindings/bindings.ts";
-import { Color } from "./color.ts";
-import { Ray, Vector2, Vector3 } from "./_util.ts";
+import type { Color } from "./color.ts";
+import type { Ray, Vector2, Vector3 } from "./_util.ts";
 
 /** Shape drawing functions */
 export class Shapes3D {

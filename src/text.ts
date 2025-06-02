@@ -3,8 +3,8 @@
  * @module
  */
 import { lib } from "../bindings/bindings.ts";
-import { Color } from "./color.ts";
-import { Font } from "./font.ts";
+import type { Color } from "./color.ts";
+import type { Font } from "./font.ts";
 import { Vector2 } from "./_util.ts";
 
 /** Text-related functions */

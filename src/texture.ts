@@ -4,9 +4,9 @@
  */
 import { lib } from "../bindings/bindings.ts";
 import { littleEndian } from "./_helper.ts";
-import { Rectangle, Vector2 } from "./_util.ts";
-import { Color } from "./color.ts";
-import { Image } from "./image.ts";
+import type { Rectangle, Vector2 } from "./_util.ts";
+import type { Color } from "./color.ts";
+import type { Image } from "./image.ts";
 
 const nPatchLayout = {
   ninePatch: 0,
@@ -34,7 +34,7 @@ export class NPatchInfo {
     public layout: NPatchLayout,
   ) {}
 
-  get buffer() {
+  get buffer(): ArrayBuffer {
     const view = new DataView(new ArrayBuffer(36));
     view.setFloat32(0, this.source.x, littleEndian);
     view.setFloat32(4, this.source.y, littleEndian);
@@ -71,45 +71,45 @@ export type TextureWrap = keyof typeof textureWrap;
 
 /** The class to create and mess with Texture2D instances */
 export class Texture2D {
-  #buffer: ArrayBuffer;
+  #buffer: Uint8Array<ArrayBuffer>;
   /** Avoid using if at all possible */
-  constructor(buffer: ArrayBuffer) {
+  constructor(buffer: Uint8Array<ArrayBuffer>) {
     this.#buffer = buffer;
   }
 
-  get buffer() {
+  get buffer(): Uint8Array<ArrayBuffer> {
     return this.#buffer;
   }
 
   /** Load texture from file into GPU memory (VRAM) */
-  static load(fileName: string) {
+  static load(fileName: string): Texture2D {
     return new Texture2D(
       lib.symbols.LoadTexture(new TextEncoder().encode(fileName + "\0")),
     );
   }
 
   /** Load texture from image data */
-  static loadFromImage(image: Image) {
+  static loadFromImage(image: Image): Texture2D {
     return new Texture2D(lib.symbols.LoadTextureFromImage(image.buffer));
   }
 
   /** Check if a texture is ready */
-  isReady() {
+  isReady(): boolean {
     return !!lib.symbols.IsTextureReady(this.#buffer);
   }
 
   /** Unload texture from GPU memory (VRAM) */
-  unload() {
+  unload(): void {
     lib.symbols.UnloadTexture(this.#buffer);
   }
 
   /** Update GPU texture with new data */
-  update(pixels: ArrayBuffer) {
+  update(pixels: ArrayBuffer): void {
     lib.symbols.UpdateTexture(this.#buffer, Deno.UnsafePointer.of(pixels));
   }
 
   /** Update GPU texture rectangle with new data */
-  updateRectangle(rect: Rectangle, pixels: ArrayBuffer) {
+  updateRectangle(rect: Rectangle, pixels: ArrayBuffer): void {
     lib.symbols.UpdateTextureRec(
       this.#buffer,
       rect.buffer,
@@ -118,32 +118,37 @@ export class Texture2D {
   }
 
   /** Generate GPU mipmaps for a texture */
-  genMipmaps() {
+  genMipmaps(): void {
     lib.symbols.GenTextureMipmaps(Deno.UnsafePointer.of(this.#buffer));
   }
 
   /** Set texture scaling filter mode */
-  setFilter(filter: TextureFilter) {
+  setFilter(filter: TextureFilter): void {
     lib.symbols.SetTextureFilter(this.#buffer, textureFilter[filter]);
   }
 
   /** Set texture wrapping mode */
-  setWrap(wrap: TextureWrap) {
+  setWrap(wrap: TextureWrap): void {
     lib.symbols.SetTextureWrap(this.#buffer, textureWrap[wrap]);
   }
 
   /** Draw a Texture2D */
-  draw(posX: number, posY: number, tint: Color) {
+  draw(posX: number, posY: number, tint: Color): void {
     lib.symbols.DrawTexture(this.#buffer, posX, posY, tint.buffer);
   }
 
   /** Draw a Texture2D with position defined as Vector2 */
-  drawV(position: Vector2, tint: Color) {
+  drawV(position: Vector2, tint: Color): void {
     lib.symbols.DrawTextureV(this.#buffer, position.buffer, tint.buffer);
   }
 
   /** Draw a Texture2D with extended parameters */
-  drawEx(position: Vector2, rotation: number, scale: number, tint: Color) {
+  drawEx(
+    position: Vector2,
+    rotation: number,
+    scale: number,
+    tint: Color,
+  ): void {
     lib.symbols.DrawTextureEx(
       this.#buffer,
       position.buffer,
@@ -154,7 +159,7 @@ export class Texture2D {
   }
 
   /** Draw a part of a texture defined by a rectangle */
-  drawRect(source: Rectangle, position: Vector2, tint: Color) {
+  drawRect(source: Rectangle, position: Vector2, tint: Color): void {
     lib.symbols.DrawTextureRec(
       this.#buffer,
       source.buffer,
@@ -170,7 +175,7 @@ export class Texture2D {
     origin: Vector2,
     rotation: number,
     tint: Color,
-  ) {
+  ): void {
     lib.symbols.DrawTexturePro(
       this.#buffer,
       source.buffer,
@@ -188,7 +193,7 @@ export class Texture2D {
     origin: Vector2,
     rotation: number,
     tint: Color,
-  ) {
+  ): void {
     lib.symbols.DrawTextureNPatch(
       this.#buffer,
       nPatchInfo.buffer,
@@ -213,18 +218,18 @@ export type TextureCubemapLayout = keyof typeof textureCubemapLayout;
 
 /** Class to create TextureCubemap instances */
 export class TextureCubemap {
-  #buffer: ArrayBuffer;
+  #buffer: Uint8Array<ArrayBuffer>;
   /** Avoid using if at all possible */
-  constructor(buffer: ArrayBuffer) {
+  constructor(buffer: Uint8Array<ArrayBuffer>) {
     this.#buffer = buffer;
   }
 
-  get buffer() {
+  get buffer(): Uint8Array<ArrayBuffer> {
     return this.#buffer;
   }
 
   /** Load cubemap from image, multiple image cubemap layouts supported */
-  static load(image: Image, layout: TextureCubemapLayout) {
+  static load(image: Image, layout: TextureCubemapLayout): TextureCubemap {
     return new TextureCubemap(
       lib.symbols.LoadTextureCubemap(
         image.buffer,
@@ -236,28 +241,28 @@ export class TextureCubemap {
 
 /** Class to create RenderTexture2D instances */
 export class RenderTexture2D {
-  #buffer: ArrayBuffer;
+  #buffer: Uint8Array<ArrayBuffer>;
   /** Avoid using if at all possible */
-  constructor(buffer: ArrayBuffer) {
+  constructor(buffer: Uint8Array<ArrayBuffer>) {
     this.#buffer = buffer;
   }
 
-  get buffer() {
+  get buffer(): Uint8Array<ArrayBuffer> {
     return this.#buffer;
   }
 
   /** Load texture for rendering (framebuffer) */
-  static load(width: number, height: number) {
+  static load(width: number, height: number): RenderTexture2D {
     return new RenderTexture2D(lib.symbols.LoadRenderTexture(width, height));
   }
 
   /** Check if a render texture is ready */
-  isReady() {
+  isReady(): boolean {
     return !!lib.symbols.IsRenderTextureReady(this.#buffer);
   }
 
   /** Unload render texture from GPU memory (VRAM) */
-  unload() {
+  unload(): void {
     lib.symbols.UnloadRenderTexture(this.#buffer);
   }
 }

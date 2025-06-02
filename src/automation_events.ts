@@ -20,9 +20,9 @@ export class AutomationEvent {
 
 /** Automation event list functions */
 export class AutomationEventList {
-  #buffer: ArrayBuffer;
+  #buffer: Uint8Array<ArrayBuffer>;
   /** Load automation events list from file (supply nothing for an empty list) */
-  constructor(fileName?: String) {
+  constructor(fileName?: string) {
     if (fileName) {
       this.#buffer = lib.symbols.LoadAutomationEventList(
         new TextEncoder().encode(fileName + "\0"),
@@ -33,8 +33,8 @@ export class AutomationEventList {
   }
 
   // TODO(lino-levan): Validate that this works
-  get events() {
-    const view = new DataView(this.#buffer);
+  get events(): AutomationEvent[] {
+    const view = new DataView(this.#buffer.buffer);
     const count = view.getUint32(4, littleEndian);
     const elementView = new Deno.UnsafePointerView(
       Deno.UnsafePointer.create(view.getBigUint64(8)!)!,
@@ -52,7 +52,7 @@ export class AutomationEventList {
   }
 
   /** Export automation events list as text file. Returns true on success */
-  export(fileName: string) {
+  export(fileName: string): boolean {
     return !!lib.symbols.ExportAutomationEventList(
       this.#buffer,
       new TextEncoder().encode(fileName + "\0"),

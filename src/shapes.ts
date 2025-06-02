@@ -3,8 +3,8 @@
  * @module
  */
 import { lib } from "../bindings/bindings.ts";
-import { Color } from "./color.ts";
-import { Rectangle, Vector2 } from "./_util.ts";
+import type { Color } from "./color.ts";
+import type { Rectangle, Vector2 } from "./_util.ts";
 import { concatVector2s } from "./_helper.ts";
 
 /** Shape drawing functions */

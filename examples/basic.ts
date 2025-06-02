@@ -1,4 +1,4 @@
-import { Color, Drawing, LIGHTGRAY, RAYWHITE, Text, Window } from "raylib";
+import { Drawing, LIGHTGRAY, RAYWHITE, Text, Window } from "raylib";
 
 Window.init(800, 450, "Raylib - Basic Window");
 

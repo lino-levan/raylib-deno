@@ -124,37 +124,37 @@ export type KeyboardKey = keyof typeof keyboardKey;
 /** A simple class for interacting with the keyboard */
 export class Keyboard {
   /** Check if a key has been pressed once */
-  static isKeyPressed(key: KeyboardKey) {
+  static isKeyPressed(key: KeyboardKey): boolean {
     return !!lib.symbols.IsKeyPressed(keyboardKey[key]);
   }
 
   /** Check if a key has been pressed again */
-  static isKeyPressedRepeat(key: KeyboardKey) {
+  static isKeyPressedRepeat(key: KeyboardKey): boolean {
     return !!lib.symbols.IsKeyPressedRepeat(keyboardKey[key]);
   }
 
   /** Check if a key is being pressed */
-  static isKeyDown(key: KeyboardKey) {
+  static isKeyDown(key: KeyboardKey): boolean {
     return !!lib.symbols.IsKeyDown(keyboardKey[key]);
   }
 
   /** Check if a key has been released once */
-  static isKeyReleased(key: KeyboardKey) {
+  static isKeyReleased(key: KeyboardKey): boolean {
     return !!lib.symbols.IsKeyReleased(keyboardKey[key]);
   }
 
   /** Check if a key is NOT being pressed */
-  static isKeyUp(key: KeyboardKey) {
+  static isKeyUp(key: KeyboardKey): boolean {
     return !!lib.symbols.IsKeyUp(keyboardKey[key]);
   }
 
   /** Get key pressed (keycode), call it multiple times for keys queued, returns null when the queue is empty */
-  static getKeyPressed() {
+  static getKeyPressed(): number | null {
     return lib.symbols.GetKeyPressed() ?? null;
   }
 
   /** Get char pressed (unicode), call it multiple times for chars queued, returns null when the queue is empty */
-  static getCharPressed() {
+  static getCharPressed(): number | null {
     return lib.symbols.GetCharPressed() ?? null;
   }
 

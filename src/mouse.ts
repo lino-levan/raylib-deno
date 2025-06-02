@@ -24,42 +24,42 @@ export type CursorShape = keyof typeof cursorShapes;
 /** A simple class for interacting with the mouse */
 export class Mouse {
   /** Check if a mouse button has been pressed once */
-  static isButtonPressed(button: number) {
+  static isButtonPressed(button: number): boolean {
     return !!lib.symbols.IsMouseButtonPressed(button);
   }
 
   /** Check if a mouse button is being pressed */
-  static isButtonDown(button: number) {
+  static isButtonDown(button: number): boolean {
     return !!lib.symbols.IsMouseButtonDown(button);
   }
 
   /** Check if a mouse button has been released once */
-  static isButtonReleased(button: number) {
+  static isButtonReleased(button: number): boolean {
     return !!lib.symbols.IsMouseButtonReleased(button);
   }
 
   /** Check if a mouse button is NOT being pressed */
-  static isButtonUp(button: number) {
+  static isButtonUp(button: number): boolean {
     return !!lib.symbols.IsMouseButtonUp(button);
   }
 
   /** Get mouse position X */
-  static getX() {
+  static getX(): number {
     return lib.symbols.GetMouseX();
   }
 
   /** Get mouse position Y */
-  static getY() {
+  static getY(): number {
     return lib.symbols.GetMouseY();
   }
 
   /** Get mouse position XY */
-  static getPosition() {
+  static getPosition(): Vector2 {
     return Vector2.fromBuffer(lib.symbols.GetMousePosition().buffer);
   }
 
   /** Get mouse delta between frames */
-  static getDelta() {
+  static getDelta(): Vector2 {
     return Vector2.fromBuffer(lib.symbols.GetMouseDelta().buffer);
   }
 
@@ -79,12 +79,12 @@ export class Mouse {
   }
 
   /** Get mouse wheel movement for X or Y, whichever is larger */
-  static getWheelMove() {
+  static getWheelMove(): number {
     return lib.symbols.GetMouseWheelMove();
   }
 
   /** Get mouse wheel movement for both X and Y */
-  static getWheelMoveV() {
+  static getWheelMoveV(): Vector2 {
     return Vector2.fromBuffer(lib.symbols.GetMouseWheelMoveV().buffer);
   }
 
